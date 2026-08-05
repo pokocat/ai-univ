@@ -1,0 +1,144 @@
+.row-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.mb12 { margin-bottom: 24px; }
+.mb14 { margin-bottom: 28px; }
+.mt13 { margin-top: 26px; }
+
+.jump {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font: 600 24px/1 var(--f-sans);
+  color: var(--purple);
+}
+
+/* --- 漏斗 --------------------------------------------------------------- */
+.funnel {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.fn__row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.fn__n {
+  font: 500 23px/1 var(--f-sans);
+  color: var(--slate);
+}
+
+.fn__v {
+  font: 600 24px/1 var(--f-mono);
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+/* 掉得最狠的那一层用琥珀标出来 */
+.fn__n--amber,
+.fn__v--amber {
+  color: var(--amber);
+}
+
+/* --- 机器人日志 --------------------------------------------------------- */
+.bot__head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.live {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.live__dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 1998px;
+  background: var(--green);
+}
+
+.live__t {
+  font: 600 21px/1 var(--f-sans);
+  color: var(--green);
+}
+
+.log {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.log__row {
+  display: flex;
+  gap: 20px;
+}
+
+.log__t {
+  width: 68px;
+  flex-shrink: 0;
+  font: 500 20px/1.5 var(--f-mono);
+  color: var(--grey);
+}
+
+.log__s {
+  flex: 1;
+  font: 400 23px/1.5 var(--f-sans);
+  color: var(--slate);
+}
+
+.act__flex {
+  flex: 1;
+}
+
+/* --- 扫码入口 ----------------------------------------------------------- */
+.entries {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+.entry {
+  background: var(--soft);
+  border-radius: 24px;
+  padding: 22px;
+}
+
+.entry__top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.entry__n {
+  font: 600 23px/1.3 var(--f-sans);
+  color: var(--ink);
+}
+
+.entry__v {
+  font: 600 30px/1 var(--f-mono);
+  color: var(--purple);
+  margin-top: 16px;
+  font-variant-numeric: tabular-nums;
+}
+
+.entry__v--amber {
+  color: var(--amber);
+}
+
+.entry__u {
+  font: 400 19px/1 var(--f-sans);
+  color: var(--grey);
+  margin-top: 10px;
+}

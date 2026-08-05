@@ -1,0 +1,5 @@
+/* flex-shrink:0 必须写在 :host 上：flex 项是宿主节点，不是内层 view。
+   内层那条 inline flex-shrink 保不住宿主，宿主被压窄时内层会溢出，
+   表现是图标叠到旁边文字上、间距看起来不对。图标/插画永远不该被压缩。 */
+:host { display: inline-flex; line-height: 0; flex-shrink: 0; }
+.ico { display: block; }

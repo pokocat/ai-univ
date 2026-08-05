@@ -1,13 +1,15 @@
 # 温泉
 
-温泉酒店 AI 超级应用的可预览原生微信小程序前端工程。源码从 `/Users/donis/dev/ai-business/miniprogram` 提取。
+温泉酒店 AI 超级应用的设计协作工程。根目录保留原生小程序源码，`h5/` 是按原 WXML、WXSS、组件、演示数据与图片转换出的浏览器预览工程。
 
 ## 预览
 
-在仓库根目录执行：
+无需微信开发者工具：
 
 ```bash
-./scripts/open-wechat-preview.sh 温泉
+cd h5
+npm install
+npm run dev
 ```
 
-或在微信开发者工具中导入本目录。`project.config.json` 已将当前目录设为小程序根目录，并配置了各设计演示页面作为编译入口。
+浏览器会显示手机外壳；窄屏设备上自动使用全屏模式。八个页面及其本地演示数据来自原小程序工程。

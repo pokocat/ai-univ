@@ -1,0 +1,25 @@
+/* 课程与直播。间距/字重工具类在 app.wxss，本页只写自己的东西。 */
+
+.course-cell {
+  position: relative;
+  padding: 26px 0;
+  border-bottom: 1px solid var(--line-soft);
+  transition: opacity 180ms ease;
+}
+.course-cell:last-child { border-bottom: none; }
+.course-cell:active { opacity: 0.6; }
+
+/* 直播中：左侧朱砂竖标。整行换底色会让「正在发生」和「已结束」抢同一层注意力 */
+.course-cell--live::before {
+  content: "";
+  position: absolute; left: -32px; top: 26px; bottom: 26px;
+  width: 5px; border-radius: 0 3px 3px 0;
+  background: var(--signal-600);
+}
+
+.course-row { gap: 22px; align-items: flex-start; }
+.status-wrap { gap: 8px; flex-shrink: 0; margin-left: 16px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .course-cell { transition: none; }
+}

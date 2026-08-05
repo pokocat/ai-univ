@@ -1,0 +1,36 @@
+export default {
+  pages: [
+    'pages/mainline/index',
+    'pages/diagnosis/index',
+    'pages/studio/index',
+    'pages/produce/index',
+    'pages/assets/index',
+    'pages/crowd/index',
+    'pages/member/index',
+    'pages/ledger/index',
+  ],
+  window: {
+    navigationStyle: 'custom',
+    backgroundColor: '#E9ECEF',
+    backgroundColorTop: '#F4F6F7',
+    backgroundTextStyle: 'dark',
+  },
+  tabBar: {
+    custom: true,
+    color: '#8B959C',
+    selectedColor: '#7A5C9B',
+    backgroundColor: '#FFFFFF',
+    borderStyle: 'white',
+    list: [
+      { pagePath: 'pages/mainline/index', text: '主线' },
+      { pagePath: 'pages/studio/index', text: '出片' },
+      { pagePath: 'pages/assets/index', text: '资产' },
+      { pagePath: 'pages/crowd/index', text: '社群' },
+      { pagePath: 'pages/ledger/index', text: '我的' },
+    ],
+  },
+  renderer: 'webview',
+  style: 'v2',
+  lazyCodeLoading: 'requiredComponents',
+  sitemapLocation: 'sitemap.json',
+}

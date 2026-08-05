@@ -1,0 +1,170 @@
+/**
+ * 完善资料 / 完成注册弹层：常规注册表排版。
+ *
+ * 结构就一组「左标签 + 右值」的行 + 一句说明 + 一个提交按钮。
+ * 上一版给每个字段各配了一种容器（洗底盒 / 裸区块 / 描边大卡）、各挂一句说明、
+ * 各带一枚必填选填标记，三个字段摞出七八种视觉元素，所以显得乱。
+ *
+ * 组件 styleIsolation 是 shared（见 index.json），能吃到 app.wxss 的 .btn / .mono 与全部 token。
+ *
+ * 两条硬约束：
+ * · 字号下限 22rpx（微信设计指南要求辅助文字不小于 20rpx/10px）。
+ * · 行高与行内按钮都按最小点击区给：行 ≥100rpx，行内按钮 ≥76rpx。
+ */
+:host {
+  display: block;
+  width: 100%;
+}
+
+.pe-sub {
+  max-width: 620px;
+  margin-top: 12px;
+  color: var(--ink-600);
+  font-size: var(--fs-meta);
+  line-height: 1.7;
+}
+
+/* ── 表单列表 ─────────────────────────────── */
+.pe-form {
+  margin-top: 30px;
+  padding: 0 26px;
+  border-radius: var(--r-card);
+  background: var(--sunk);
+  border: 1px solid var(--line);
+}
+
+.pe-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  min-height: 100px;
+  padding: 14px 0;
+  box-sizing: border-box;
+  border-bottom: 1px solid var(--line);
+}
+.pe-row:last-child { border-bottom: none; }
+/* 头像行是原生 button：抹平默认样式，让它和其它行一模一样 */
+.pe-row--btn {
+  width: 100%;
+  margin: 0;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--line);
+  border-radius: 0;
+  line-height: 1.4;
+  text-align: left;
+  font-size: var(--fs-body);
+  font-weight: 400;
+  transition: opacity 180ms ease;
+}
+.pe-row--btn::after { border: none; }
+.pe-row--pressed { opacity: 0.6; }
+
+.pe-label {
+  flex-shrink: 0;
+  color: var(--ink-900);
+  font-size: 28px;
+  font-weight: 500;
+}
+.pe-value {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 16px;
+}
+.pe-opt { color: var(--ink-600); font-size: var(--fs-meta); flex-shrink: 0; }
+
+/* 头像缩略图 */
+.pe-avatar {
+  width: 76px;
+  height: 76px;
+  border-radius: 20px;
+  flex-shrink: 0;
+  display: block;
+  background: var(--line-soft);
+}
+.pe-avatar--fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--sunk-3);
+  color: var(--signal-800);
+  font-family: var(--font-zh);
+  font-size: 34px;
+  font-weight: 600;
+}
+/* 纯 CSS 右向箭头：头像行是 open-type 按钮，内部不能放自定义组件（会抢点击命中） */
+.pe-arrow {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  border-right: 3px solid var(--ink-600);
+  border-bottom: 3px solid var(--ink-600);
+  transform: rotate(-45deg);
+}
+
+/* 昵称输入：右对齐，和另外两行的值对齐在同一条竖线上 */
+.pe-input {
+  flex: 1;
+  min-width: 0;
+  height: 72px;
+  color: var(--ink-900);
+  font-size: 28px;
+  text-align: right;
+}
+
+.pe-phone { color: var(--ink-900); font-size: 28px; font-weight: 500; }
+.pe-state { color: var(--ink-600); font-size: var(--fs-sec); }
+
+/* 行内按钮：右侧的「微信绑定 / 同意隐私指引」 */
+.pe-inline-btn {
+  margin: 0;
+  min-height: 76px;
+  padding: 0 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--r-ctl);
+  border: 1px solid var(--line-signal);
+  background: var(--paper);
+  color: var(--signal-800);
+  font-size: var(--fs-sec);
+  font-weight: 600;
+  line-height: 1.4;
+  transition: transform 180ms ease, background 180ms ease;
+}
+.pe-inline-btn::after { border: none; }
+.pe-inline-btn:active { background: var(--sunk-3); transform: scale(0.97); }
+.pe-inline-btn--primary {
+  border-color: var(--signal-600);
+  background: var(--signal-600);
+  color: var(--on-signal);
+}
+.pe-inline-btn--primary:active { background: var(--signal-700); }
+
+/* ── 说明：全部字段的解释只在这一处 ─────────── */
+.pe-note {
+  margin-top: 18px;
+  padding: 0 6px;
+  color: var(--ink-600);
+  font-size: var(--fs-meta);
+  line-height: 1.7;
+}
+.pe-note-err { color: var(--danger); }
+.pe-link { color: var(--signal-800); font-weight: 600; }
+
+/* ── 提交 ─────────────────────────────────── */
+.pe-save {
+  display: flex;
+  width: 100%;
+  min-height: 96px;
+  margin: 34px 0 0;
+  font-size: 29px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pe-row--btn, .pe-inline-btn { transition: none; }
+}

@@ -1,0 +1,10 @@
+/* 开通成功页版式。 */
+.suc-hero { padding: 28px 28px 32px; overflow: hidden; }
+.suc-title { font-size: 70px; letter-spacing: 3px; }
+.suc-class { position: relative; overflow: hidden; }
+.suc-class-name { font-size: 45px; font-weight: 700; }
+.tl-t { display: block; font-size: var(--fs-h3); font-weight: 700; color: var(--ink-900); }
+.ghost-action { display: flex; align-items: center; gap: 18px; padding: 24px; }
+.ga-t { display: block; font-size: var(--fs-body); font-weight: 700; color: var(--ink-900); }
+.ga-d { display: block; font-size: var(--fs-tiny); color: var(--ink-600); margin-top: 5px; }
+.block { display: block; }

@@ -1,0 +1,241 @@
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.nav__back {
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: -12px;
+}
+
+.row-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.mb9 { margin-bottom: 18px; }
+.mb11 { margin-bottom: 22px; }
+.mb12 { margin-bottom: 24px; }
+.mt12 { margin-top: 24px; }
+.mt13 { margin-top: 26px; }
+
+/* --- 三步指示器 --------------------------------------------------------- */
+.steps3 {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.s3 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.s3__n {
+  width: 36px;
+  height: 36px;
+  border-radius: 1998px;
+  background: var(--chip);
+  color: var(--grey);
+  font: 600 18px/36px var(--f-mono);
+  text-align: center;
+}
+
+.s3.is-on .s3__n {
+  background: var(--purple);
+  color: #fff;
+}
+
+.s3__t {
+  font: 500 22px/1 var(--f-sans);
+  color: var(--grey);
+}
+
+.s3.is-on .s3__t {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.s3__seg {
+  flex: 1;
+  height: 3px;
+  background: var(--line);
+  margin: 0 14px;
+}
+
+.s3__seg.is-on {
+  background: var(--purple);
+}
+
+/* --- 换进来的人 --------------------------------------------------------- */
+.faces {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+/* 设计稿是 3:4。三列 ~103px 宽 → 137px 高，头像不会被裁掉头顶 */
+.face {
+  position: relative;
+  height: 274px;
+  border-radius: 22px;
+  overflow: hidden;
+  background: repeating-linear-gradient(135deg, #E4E8EA 0 8px, #EEF1F3 8px 16px);
+}
+
+.face__img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.face__cap {
+  position: absolute;
+  left: 16px;
+  bottom: 16px;
+  font: 500 17px/1.2 var(--f-mono);
+  color: #fff;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.55);
+}
+
+.face--add {
+  border: 3px dashed #CFD6DA;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+}
+
+.face__addt {
+  font: 500 18px/1 var(--f-sans);
+  color: var(--grey);
+}
+
+/* --- 正在出片 ----------------------------------------------------------- */
+.prog__n {
+  font: 600 23px/1 var(--f-mono);
+  color: var(--purple);
+  font-variant-numeric: tabular-nums;
+}
+
+.prog__hint {
+  font: 600 23px/1 var(--f-sans);
+  color: var(--purple);
+}
+
+.clips {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+/* 设计稿 9:16。四列 ~76px 宽 → 135px 高 */
+.clip {
+  display: block;
+  width: 100%;
+  height: 270px;
+  border-radius: 18px;
+  background: repeating-linear-gradient(135deg, #E4E8EA 0 8px, #EEF1F3 8px 16px);
+}
+
+.clip--wip {
+  background: var(--soft);
+  border: 2px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.clip__pct {
+  font: 500 18px/1 var(--f-mono);
+  color: var(--muted);
+}
+
+/* --- 分发渠道 ----------------------------------------------------------- */
+.chans {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.chan {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.chan__dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.chan__dot--purple { background: var(--purple); }
+.chan__dot--teal { background: var(--teal); }
+
+.chan__n {
+  flex: 1;
+  font: 500 24px/1 var(--f-sans);
+  color: var(--ink);
+}
+
+/* --- 游客自助出片 ------------------------------------------------------- */
+.selfserve {
+  background: var(--tint-t);
+  border: 2px solid var(--teal-edge);
+  border-radius: 32px;
+  padding: 28px 30px;
+}
+
+.ss__t {
+  font: 700 26px/1 var(--f-sans);
+  color: var(--teal-deep);
+}
+
+.ss__b {
+  font: 400 23px/1.5 var(--f-sans);
+  color: var(--teal-text);
+}
+
+.ss__b--b {
+  font-weight: 700;
+}
+
+.ss__sw {
+  transform: scale(0.72);
+  transform-origin: right center;
+  flex-shrink: 0;
+}
+
+.ss__off {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 28px 30px;
+}
+
+.ss__offbody {
+  flex: 1;
+}
+
+.ss__offt {
+  font: 700 25px/1.3 var(--f-sans);
+  color: var(--grey);
+}
+
+.ss__offb {
+  font: 400 22px/1.45 var(--f-sans);
+  color: var(--muted);
+  margin-top: 10px;
+}

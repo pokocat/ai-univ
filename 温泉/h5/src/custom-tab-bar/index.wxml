@@ -1,0 +1,5 @@
+<!-- 框架 tabBar 是覆盖在页面上的，所以这里固定到底部；
+     tab 页用 .tabpad 留出等高的空白。02/04/07 直接把 <tabbar> 放进 flex 流里，不走这条。 -->
+<view class="tabfix">
+  <tabbar selected="{{selected}}" />
+</view>

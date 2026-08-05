@@ -1,0 +1,32 @@
+/* 任务页。间距/字重工具类在 app.wxss，本页只写自己的东西。 */
+
+/* 头区进度：完成数是大号等宽数字，分母与说明退到次级 */
+.prog-row { margin-top: 18px; }
+.prog-count { gap: 10px; align-items: baseline; }
+.prog-num { font-size: 46px; font-weight: 650; color: var(--ink-900); line-height: 1; }
+.prog-total { font-size: var(--fs-sec); color: var(--ink-600); }
+
+/* 列表单元：细线分隔，最后一行不留线 */
+.task-cell {
+  padding: 26px 0;
+  border-bottom: 1px solid var(--line-soft);
+  transition: opacity 180ms ease;
+}
+.task-cell:last-child { border-bottom: none; }
+.task-cell:active { opacity: 0.6; }
+/* 已完成：整行降权后退，但不隐藏——用户要能看见今天做了什么 */
+.task-cell--done { opacity: 0.55; }
+
+.task-row { gap: 22px; align-items: flex-start; }
+.task-check { margin-top: 2px; }
+.task-check--urgent { border-color: var(--danger); }
+.task-check--done { border-color: var(--ok); background: var(--ok); }
+
+.task-title { font-size: 28px; font-weight: 600; color: var(--ink-900); }
+.task-title--done { color: var(--ink-600); text-decoration: line-through; }
+.task-meta { gap: 16px; margin-top: 14px; flex-wrap: wrap; }
+.meta-clock { gap: 8px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .task-cell { transition: none; }
+}

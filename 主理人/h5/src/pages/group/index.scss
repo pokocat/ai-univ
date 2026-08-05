@@ -1,0 +1,63 @@
+/* 班级社群页版式。共享原语在 app.wxss。 */
+
+.class-hero { padding: 24px 24px 28px; overflow: hidden; }
+.class-name {
+  font-size: 49px; font-weight: 700;
+  max-width: 380px;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.class-count { display: block; font-size: 35px; font-weight: 700; color: var(--ink-900); margin-top: 4px; }
+.mini-t { display: block; font-size: var(--fs-sec); font-weight: 700; color: var(--ink-900); }
+.mini-d { display: block; font-size: var(--fs-tiny); color: var(--ink-600); margin-top: 2px; }
+
+/* 两个并排大动作 */
+.big-action {
+  position: relative; border-radius: var(--r-card); padding: 28px 24px;
+  min-height: 160px; display: flex; flex-direction: column; gap: 18px;
+  box-sizing: border-box;
+}
+.big-action--grad {
+  background: var(--grad-primary-d);
+  border: 1px solid var(--line-signal);
+  box-shadow: var(--sh-signal-sm);
+}
+.big-action--ghost {
+  background: rgba(255, 247, 236, 0.9);
+  border: 1px solid rgba(247, 182, 92, 0.4);
+}
+.ba-t { display: block; font-size: 30px; font-weight: 700; color: var(--ink-900); }
+.ba-d { display: block; font-size: var(--fs-tiny); color: var(--ink-700); margin-top: 5px; }
+.ba-t--on { color: var(--on-signal); }
+.ba-d--on { color: var(--on-signal-2); }
+
+/* 成员名单：横向滚动，不换行——换行会让卡片高度随人数跳动 */
+.roster { display: flex; gap: 24px; overflow-x: auto; padding-bottom: 8px; }
+.roster-i { flex: 0 0 auto; width: 96px; text-align: center; }
+.roster-n {
+  display: block; margin-top: 9px; font-size: var(--fs-tiny); color: var(--ink-900);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.me-pill {
+  display: inline-block; margin-top: 5px;
+  font-size: var(--fs-micro); color: var(--signal-600);
+  padding: 2px 12px; border-radius: 9px;
+  background: rgba(124, 58, 237, 0.12); border: 1px solid var(--line-brand);
+}
+
+/* 任务行 */
+.task-t { display: block; font-size: var(--fs-body); font-weight: 600; color: var(--ink-900); }
+.task-st { font-size: var(--fs-meta); font-weight: 700; }
+.block { display: block; }
+
+/* 活动 */
+.act-thumb {
+  position: relative; flex: 0 0 175px; height: 147px; border-radius: 18px;
+  padding: 18px; box-sizing: border-box;
+  display: flex; align-items: flex-end;
+  background: var(--grad-thumb); border: 1px solid var(--line-strong);
+}
+.act-badge { position: absolute; left: 10px; top: 10px; }
+.act-cover { font-size: var(--fs-meta); font-weight: 700; color: var(--signal-800); line-height: 1.3; }
+.act-t { display: block; font-size: var(--fs-h4); font-weight: 700; color: var(--ink-900); }
+.act-side { flex: 0 0 150px; }
+.act-cd { display: block; font-size: var(--fs-sec); font-weight: 700; color: var(--ink-900); margin: 4px 0 12px; }

@@ -1,0 +1,6 @@
+export default {
+  navigationBarTitleText: '我的',
+  enablePullDownRefresh: true,
+  backgroundTextStyle: 'dark',
+  backgroundColor: '#FFF7EC',
+}

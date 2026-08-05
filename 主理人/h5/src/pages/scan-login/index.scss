@@ -1,0 +1,23 @@
+/* 确认登录管理台。间距/字重工具类与 .notice / .empty-card 在 app.wxss。
+   这一页在上一次视觉基线切换时被漏掉，仍停在冷灰体系（#EAEAEA / #F7F6F3 / 纯白面板）。 */
+
+.card-head { gap: 22px; }
+.head-icon { width: 68px; height: 68px; }
+
+/* 身份块：头像 + 昵称 + 会员号，让用户确认前看清「用哪个号登录」 */
+.who {
+  margin-top: 26px; padding: 24px;
+  background: var(--paper); border: 1px solid var(--line); border-radius: var(--r-ctl);
+  display: flex; align-items: center; gap: 22px;
+}
+.who-text { flex: 1; min-width: 0; }
+.who-edit { font-size: var(--fs-sec); color: var(--signal-800); flex-shrink: 0; }
+
+/* 附属行（选填项 / 补设入口）：与主按钮明确分层，避免看着像必填步骤 */
+.side-row {
+  margin-top: 20px;
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+}
+.side-link { font-size: var(--fs-sec); color: var(--signal-800); flex-shrink: 0; }
+/* .btn--mini 在 app.wxss，这里只去掉 .btn 的块级外边距，让它能待在一行里 */
+.side-row .btn--mini { flex: none; margin: 0; }

@@ -1,0 +1,54 @@
+/* 课程详情 / 回放页版式。 */
+.cs-card { padding: 0; overflow: hidden; }
+.cs-thumb {
+  position: relative; height: 350px;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  background: var(--grad-thumb);
+}
+.cs-badge { position: absolute; top: 21px; left: 21px; }
+.cs-play {
+  position: absolute; top: 42%; left: 50%; transform: translate(-50%, -50%);
+  width: 101px; height: 101px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(109, 40, 217, 0.35); border: 3px solid rgba(168, 85, 247, 0.5);
+}
+.cs-cap { position: relative; z-index: 1; padding: 24px 28px; }
+.cs-title { display: block; font-size: 33px; font-weight: 700; color: var(--ink-900); }
+.cs-meta { display: block; margin-top: 10px; font-size: var(--fs-meta); color: var(--ink-700); }
+
+.vstat {
+  display: grid; grid-template-columns: 1fr 1fr 1fr;
+  padding: 21px 10px; margin: 0 18px 21px;
+  border-radius: var(--r-box);
+  background: rgba(255, 252, 246, 0.8); border: 1px solid var(--line);
+}
+.vstat-i { display: flex; align-items: center; gap: 12px; justify-content: center; position: relative; }
+.vstat-i + .vstat-i::before {
+  content: ""; position: absolute; left: 0; top: 4px; bottom: 4px; width: 1px; background: var(--track);
+}
+.vs-t { display: block; font-size: var(--fs-meta); color: var(--ink-900); font-weight: 600; }
+.vs-d { display: block; margin-top: 4px; font-size: var(--fs-micro); color: var(--ink-600); }
+
+.chap-row {
+  display: flex; align-items: center; gap: 19px;
+  padding: 19px 18px; border-radius: var(--r-box); margin-bottom: 10px;
+  background: var(--sunk); border: 1px solid transparent;
+}
+.chap-row--cur { background: var(--sunk-3); border-color: var(--line-signal); }
+.chap-ico {
+  width: 63px; height: 63px; flex: 0 0 63px; border-radius: 16px;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--sunk-3); border: 1px solid var(--line-brand);
+}
+.chap-t { display: block; font-size: var(--fs-h4); color: var(--ink-900); }
+.play-circle, .dl-circle {
+  width: 49px; height: 49px; flex: 0 0 49px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  border: 3px solid var(--line-signal); box-sizing: border-box;
+}
+.mat-tile {
+  display: flex; align-items: center; gap: 18px; padding: 21px;
+  border-radius: var(--r-box); background: var(--sunk); border: 1px solid var(--line);
+}
+.mat-t { display: block; font-size: var(--fs-sec); font-weight: 700; color: var(--ink-900); }
+.block { display: block; }

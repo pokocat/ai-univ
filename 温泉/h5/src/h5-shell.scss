@@ -1,0 +1,74 @@
+/* H5 只增加预览容器；页面内部仍使用原小程序转换出的结构与样式。 */
+html,
+body {
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+}
+
+html {
+  font-size: 125% !important;
+}
+
+#app,
+#app * {
+  box-sizing: border-box;
+}
+
+#app .screen {
+  height: 100%;
+}
+
+body {
+  background: #d9dddf;
+}
+
+@media (min-width: 520px) {
+  body {
+    min-height: 100dvh;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    background:
+      radial-gradient(circle at 50% 18%, rgba(255, 255, 255, 0.92), transparent 34%),
+      #d9dddf;
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    z-index: 20;
+    top: calc(50% - min(852px, 46dvh) + 36px);
+    left: 50%;
+    width: 224px;
+    height: 56px;
+    transform: translateX(-50%);
+    border-radius: 999px;
+    background: #111;
+    pointer-events: none;
+  }
+
+  #app {
+    position: relative;
+    width: min(786px, calc(100vw - 80px));
+    height: min(1704px, calc(100dvh - 96px));
+    overflow: hidden;
+    border: 18px solid #171a1b;
+    border-radius: 96px;
+    background: var(--bg, #f4f6f7);
+    box-shadow: 0 64px 144px rgba(47, 60, 64, 0.28);
+    box-sizing: border-box;
+  }
+
+  #app .taro_page,
+  #app .screen {
+    height: 100%;
+    min-height: 100%;
+  }
+}
+
+@media (max-width: 519px) {
+  #app {
+    min-height: 100dvh;
+  }
+}

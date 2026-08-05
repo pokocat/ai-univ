@@ -1,0 +1,12 @@
+/* 预约详情页版式。 */
+.br-title { font-size: 59px; letter-spacing: 2px; }
+.br-report { display: flex; align-items: center; gap: 18px; padding: 24px; }
+.br-report-t { display: block; font-size: var(--fs-h4); font-weight: 700; color: var(--on-signal); }
+.br-report-d { display: block; font-size: var(--fs-tiny); color: var(--on-signal-2); margin-top: 5px; }
+.br-report-btn {
+  flex-shrink: 0; display: flex; align-items: center; gap: 8px;
+  height: 58px; padding: 0 24px; border-radius: var(--r-pill);
+  background: var(--on-signal-wash); color: var(--on-signal);
+  font-size: var(--fs-sec); font-weight: 700;
+}
+.block { display: block; }

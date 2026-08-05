@@ -1,0 +1,180 @@
+.mb13 {
+  margin-bottom: 26px;
+}
+
+.catbar {
+  width: 100%;
+  white-space: nowrap;
+}
+
+/* --- 短剧大卡 ----------------------------------------------------------- */
+.cover {
+  position: relative;
+  height: 300px;
+  background: repeating-linear-gradient(135deg, #E4E8EA 0 10px, #EEF1F3 10px 20px);
+}
+
+.cover__img {
+  display: block;
+  width: 100%;
+  height: 300px;
+}
+
+.cover__badge {
+  position: absolute;
+  top: 22px;
+  left: 22px;
+  background: var(--ink);
+  color: #fff;
+  border-radius: 1998px;
+  padding: 10px 20px;
+  font: 600 20px/1 var(--f-sans);
+}
+
+.cover__play {
+  position: absolute;
+  right: 24px;
+  bottom: 24px;
+  width: 72px;
+  height: 72px;
+  border-radius: 1998px;
+  background: rgba(25, 29, 33, 0.42);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cover__foot {
+  padding: 28px 30px 30px;
+}
+
+.drama__t {
+  font: 700 30px/1.3 var(--f-sans);
+  color: var(--ink);
+}
+
+.drama__b {
+  font: 400 24px/1.55 var(--f-sans);
+  color: var(--slate);
+  margin-top: 16px;
+}
+
+.drama__row {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  margin-top: 24px;
+}
+
+.drama__go {
+  margin-left: auto;
+  border-radius: 20px;
+  padding: 18px 30px;
+  font-size: 25px;
+}
+
+/* --- 单条模板 ----------------------------------------------------------- */
+.duo {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+}
+
+.duo .card {
+  border-radius: 30px;
+}
+
+.tpl__img {
+  display: block;
+  width: 100%;
+  height: 208px;
+  background: repeating-linear-gradient(135deg, #E4E8EA 0 10px, #EEF1F3 10px 20px);
+}
+
+.tpl__foot {
+  padding: 22px 24px 24px;
+}
+
+.tpl__t {
+  font: 700 25px/1.35 var(--f-sans);
+  color: var(--ink);
+}
+
+.tpl__n {
+  font: 400 21px/1.4 var(--f-sans);
+  color: var(--grey);
+  margin-top: 10px;
+}
+
+.tpl__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 18px;
+}
+
+.tpl__cost {
+  font: 600 21px/1 var(--f-mono);
+  color: var(--purple);
+  font-variant-numeric: tabular-nums;
+}
+
+/* --- 明星背书 ----------------------------------------------------------- */
+.star {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.star__img {
+  width: 104px;
+  height: 104px;
+  border-radius: 26px;
+  flex-shrink: 0;
+  background: repeating-linear-gradient(135deg, #E4E8EA 0 8px, #EEF1F3 8px 16px);
+}
+
+.star__body {
+  flex: 1;
+}
+
+.star__head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.star__head .pill {
+  padding: 6px 16px;
+  font-size: 19px;
+}
+
+.star__b {
+  font: 400 22px/1.45 var(--f-sans);
+  color: var(--slate);
+  margin-top: 12px;
+}
+
+/* --- 从零开剧 ----------------------------------------------------------- */
+.scratch {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  border-radius: 32px;
+  padding: 28px 30px;
+}
+
+.scratch__body {
+  flex: 1;
+}
+
+.scratch__t {
+  font: 700 26px/1.3 var(--f-sans);
+  color: #fff;
+}
+
+.scratch__b {
+  font: 400 22px/1.45 var(--f-sans);
+  color: #9BA6AE;
+  margin-top: 10px;
+}

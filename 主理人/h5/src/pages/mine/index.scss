@@ -1,0 +1,53 @@
+/* 我的（设计稿 11 设置中心）版式。 */
+
+.profile { display: flex; align-items: center; gap: 24px; padding: 28px; }
+.profile-main { min-width: 0; }
+.profile-name { font-size: 42px; font-weight: 700; color: var(--ink-900); }
+.profile-tier { font-size: var(--fs-sec); font-weight: 700; color: var(--signal-800); }
+.mc-role {
+  display: inline-block; margin-top: 10px;
+  font-size: var(--fs-meta); color: var(--signal-800);
+  padding: 5px 21px; border-radius: var(--r-pill);
+  background: rgba(255, 255, 255, 0.5); border: 1px solid var(--line-strong);
+}
+
+/* 三格读数：一块面板 + 竖线分隔，不用三张独立小卡
+   （三张小卡读起来是三个不相干的东西，一块面板才是「一组数据」） */
+.stat-row { display: flex; }
+.stat-cell {
+  flex: 1; min-width: 0; padding: 28px 14px; text-align: center;
+  border-left: 1px solid var(--line-soft);
+}
+.stat-cell:first-child { border-left: none; }
+.stat-v { display: block; font-size: 40px; font-weight: 700; color: var(--ink-900); line-height: 1.1; }
+.stat-l { display: block; margin-top: 9px; font-size: var(--fs-tiny); color: var(--ink-600); }
+
+.upsell { display: flex; align-items: center; gap: 14px; padding: 18px 24px; }
+.upsell-t { display: block; font-size: var(--fs-h4); font-weight: 700; color: var(--on-signal); }
+.upsell-d { display: block; font-size: var(--fs-tiny); color: var(--on-signal-2); margin-top: 5px; }
+.upsell-btn {
+  flex-shrink: 0; display: flex; align-items: center; gap: 8px;
+  height: 58px; padding: 0 24px; border-radius: var(--r-pill);
+  background: var(--on-signal-wash);
+  color: var(--on-signal); font-size: var(--fs-sec); font-weight: 700;
+}
+
+.rows { display: flex; flex-direction: column; gap: 14px; }
+.row-t { font-size: var(--fs-h3); font-weight: 700; color: var(--ink-900); }
+.block { display: block; }
+
+.contact { display: flex; align-items: center; gap: 18px; padding: 24px; }
+.contact-t { font-size: var(--fs-h4); font-weight: 700; color: var(--on-signal); }
+.contact-d { display: block; font-size: var(--fs-tiny); color: var(--on-signal-2); margin-top: 5px; }
+.contact-btn {
+  flex-shrink: 0; height: 58px; padding: 0 24px; border-radius: var(--r-pill);
+  display: flex; align-items: center;
+  background: var(--on-signal-wash);
+  color: var(--on-signal); font-size: var(--fs-sec); font-weight: 700;
+}
+
+.logout {
+  display: flex; align-items: center; justify-content: center; gap: 14px;
+  padding: 28px;
+}
+.logout-t { font-size: var(--fs-h4); color: var(--ink-900); }

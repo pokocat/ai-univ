@@ -1,0 +1,65 @@
+/* 设置。间距/字重工具类在 app.wxss，本页只写自己的东西。
+   这一页在上一次视觉基线切换时被漏掉，仍停在冷灰体系（#2F3437 / #F0EFEC / 纯白面板）。 */
+/* 本页的行外层（.card--list > .row）已经给了左右内距，所以这里去掉 .set-row 自带的
+   左右 26rpx，避免双重内距。**这条必须留在页面级**：它原来写在 app.wxss 的兼容层里，
+   没有限定选择器，把设计体系版 `.set-row` 整条覆盖了，
+   结果「我的」页 `.card set-row` 的图标贴着卡片边框（2026-08-03 修）。 */
+.set-row { gap: 18px; padding-left: 0; padding-right: 0; }
+.set-val { gap: 12px; }
+
+/* button 版列表行：抹平原生按钮默认样式，让它与 .row 视觉一致 */
+.row--btn {
+  display: flex; justify-content: space-between; align-items: center;
+  width: 100%; box-sizing: border-box;
+  padding: 26px 0; margin: 0;
+  background: transparent; border: none; border-bottom: 1px solid var(--line-soft);
+  font-size: var(--fs-body); font-weight: 400; line-height: 1.6; color: var(--ink-700);
+}
+.row--btn::after { border: none; }
+.row--btn:last-child { border-bottom: none; }
+
+.del-pending { padding: 8px 0; }
+
+.notify-intro {
+  padding-bottom: 22px;
+  border-bottom: 1px solid var(--line-soft);
+}
+.notify-setting {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 24px 0;
+}
+.notify-setting--line { border-bottom: 1px solid var(--line-soft); }
+.notify-status--on {
+  color: var(--ok);
+  font-size: var(--fs-meta);
+  white-space: nowrap;
+}
+.notify-unconfigured {
+  padding-top: 18px;
+  border-top: 1px solid var(--line-soft);
+}
+
+/* ─── 后端环境（联调用；正式版不会渲染） ─── */
+.env-bar {
+  display: flex; align-items: center; gap: 12px;
+  margin: 8px var(--gutter) 0; padding: 18px 22px;
+  border-radius: var(--r-ctl);
+  background: var(--warn-wash); border: 1px solid var(--warn-line);
+}
+.env-bar-t { font-size: var(--fs-meta); color: var(--warn); flex: 1; }
+
+.env-item {
+  margin-top: 20px; padding: 22px;
+  border-radius: var(--r-ctl);
+  border: 1px solid var(--line); background: var(--paper);
+}
+.env-item--on { border-color: var(--signal-600); background: var(--sunk-3); }
+.env-item-sub { margin-top: 8px; }
+
+.env-radio {
+  width: 28px; height: 28px; border-radius: 50%;
+  border: 2px solid var(--line); box-sizing: border-box; flex-shrink: 0;
+}
+.env-radio--on { border-color: var(--signal-600); border-width: 9px; }

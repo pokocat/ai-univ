@@ -1,0 +1,123 @@
+/**
+ * 登录页（设计稿 01「注册入会」的暖色开场）。
+ *
+ * 设计稿画的是一张含手机号/身份/城市/推荐人/社群方向的注册表单。**这里刻意不照抄**：
+ * 真实注册是「微信授权 + 协议勾选」两步，身份由运营经审批授予（护栏 18）、
+ * 城市与社群方向系统里没有采集口，摆出来只会收集一堆无处可去的输入。
+ * 照抄过来的是**视觉**：整幅暖色 hero、渐变标题、贴底操作坞；
+ * 手机号与昵称在登录成功后由 profile-edit 弹层就地补齐（与设计稿的信息量一致，顺序更合理）。
+ */
+page { background: var(--bg-base); }
+
+.login {
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+  box-sizing: border-box;
+}
+
+/* 可滚动的开场区 */
+.stage { flex: 1; min-height: 0; overflow-y: auto; }
+
+/* 整幅 hero：插画铺底、文字压在上面 */
+.hero {
+  position: relative; height: 540px; overflow: hidden;
+  border-radius: 0 0 40px 40px;
+  border-bottom: 1px solid var(--line-strong);
+  box-shadow: 0 20px 70px rgba(126, 92, 150, 0.15);
+}
+/* 铺底插画：位图（本地资源，零网络）。素材已按 750:540 预裁，
+   仍留 aspectFill 兜底——万一以后换图比例不同，宁可裁掉边缘也不要压扁人物。 */
+.hero-art { position: absolute; left: 0; top: 0; width: 750px; height: 540px; }
+.hero-img { width: 750px; height: 540px; display: block; }
+.hero-text { position: relative; z-index: 1; padding: 120px 42px 0; }
+.hero-title { font-size: 80px; line-height: 1.05; letter-spacing: 5px; }
+.hero-sub {
+  display: block; margin-top: 14px;
+  font-size: 26px; color: var(--ink-800); letter-spacing: 7px;
+}
+.hero-tags {
+  display: block; margin-top: 38px;
+  font-size: 23px; color: var(--signal-600); letter-spacing: 5px;
+}
+
+.stage-inner { padding: 40px 42px 24px; }
+
+.brand-word { margin-bottom: 18px; }
+.brand-word-l {
+  display: block; font-size: 56px; font-weight: 700; line-height: 1.25;
+  color: var(--ink-900); letter-spacing: -1px;
+}
+.brand-accent { color: var(--signal-800); }
+.brand-slogan { margin-bottom: 34px; }
+.brand-slogan-l { display: block; font-size: 25px; color: var(--ink-700); line-height: 1.7; }
+
+.proof { display: flex; flex-direction: column; gap: 24px; }
+.proof-row {
+  display: flex; align-items: flex-start; gap: 18px;
+  padding: 21px 24px; border-radius: var(--r-box);
+  background: var(--card-bg); border: 1px solid var(--line);
+}
+.proof-ico {
+  width: 63px; height: 63px; flex: 0 0 63px; border-radius: 18px;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--sunk-3); border: 1px solid var(--line-brand);
+}
+.proof-t { display: block; font-size: var(--fs-h4); font-weight: 700; color: var(--ink-900); }
+.proof-d { display: block; margin-top: 6px; font-size: var(--fs-meta); color: var(--ink-600); line-height: 1.6; }
+
+/* 贴底操作坞：协议勾选与登录按钮永远在拇指区，任何机型都不需要先滚动才能登录 */
+.dock {
+  flex: 0 0 auto;
+  padding: 28px 42px calc(32px + env(safe-area-inset-bottom));
+  background: linear-gradient(180deg, rgba(255, 247, 236, 0), rgba(255, 247, 236, 0.96) 30%, #F9E6D3);
+  border-top: 1px solid var(--line);
+}
+
+.agree { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 24px; }
+/* 勾选热区独立成 88rpx 见方（微信设计指南的最小点击区），视觉方框只有 36rpx */
+.agree-hit {
+  width: 88px; height: 88px; margin: -26px 0 -26px -26px;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.agree-box {
+  width: 36px; height: 36px; border-radius: 10px;
+  border: 3px solid var(--ink-500); box-sizing: border-box;
+  display: flex; align-items: center; justify-content: center;
+}
+.agree-box--on { background: var(--signal-600); border-color: var(--signal-600); }
+.agree-tick {
+  width: 16px; height: 9px;
+  border-left: 3px solid var(--on-signal); border-bottom: 3px solid var(--on-signal);
+  transform: rotate(-45deg) translate(1px, -2px);
+}
+.agree-text { flex: 1; min-width: 0; font-size: var(--fs-meta); color: var(--ink-700); line-height: 1.7; }
+.agree-link { color: var(--signal-800); }
+.agree--shake { animation: agree-shake 420ms ease; }
+@keyframes agree-shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-8px); }
+  75% { transform: translateX(8px); }
+}
+
+/* 不做 disabled：置灰按钮点下去没有任何反馈，用户不知道自己漏了哪一步 */
+.login-btn {
+  width: 100%; height: 101px; border: none;
+  border-radius: var(--r-pill);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 31px; font-weight: 700; letter-spacing: 3px;
+  color: var(--on-signal); background: var(--grad-primary);
+  box-shadow: var(--sh-signal), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+.login-btn::after { border: none; }
+.login-btn:active { transform: scale(0.985); }
+
+.dock-note {
+  margin-top: 20px; text-align: center;
+  font-size: var(--fs-tiny); color: var(--ink-600); line-height: 1.6;
+}
+.mt-6 { margin-top: 10px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .agree--shake { animation: none; }
+  .login-btn:active { transform: none; }
+}

@@ -1,0 +1,15 @@
+/* 退款申请页版式。 */
+.rf-title { font-size: 59px; letter-spacing: 3px; }
+.rf-order {
+  display: flex; align-items: center; gap: 21px;
+  padding: 21px 18px; border-radius: var(--r-box); margin-bottom: 14px;
+  background: var(--sunk); border: 1px solid var(--line);
+}
+.rf-order:last-child { margin-bottom: 0; }
+.rf-order--on { border-color: var(--signal-600); background: var(--sunk-3); }
+.rf-plan { display: block; font-size: var(--fs-h4); font-weight: 700; color: var(--ink-900); }
+.pick-t { font-size: var(--fs-tiny); }
+.flow-t { font-size: var(--fs-sec); font-weight: 700; color: var(--ink-900); }
+.flow-d { margin-top: 7px; font-size: var(--fs-micro); color: var(--ink-600); line-height: 1.45; }
+.block { display: block; }
+.cta--busy { opacity: 0.72; }

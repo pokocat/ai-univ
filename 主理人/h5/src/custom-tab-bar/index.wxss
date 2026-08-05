@@ -1,0 +1,87 @@
+/**
+ * 自定义 TabBar 样式。
+ *
+ * ⚠ 本文件**不用 var(--token)**，栏体颜色全写字面值。原因见 index.js 文件头：
+ * 自定义 tabBar 由框架单独实例化，不保证挂在 page 元素之下，
+ * app.wxss 声明在 `page {}` 上的 CSS 变量未必继承得到——赌错的代价是整条栏没背景没文字色。
+ *
+ * 图标不在这里：它们由 index.js 用共享的 utils/icons 现算 data-URI 后经 style 下发，
+ * 所以**这里只剩 5 个颜色需要与 app.wxss 对齐**：
+ *   --ink-500 #A9906F（未选中文字）/ --signal-600 #6D28D9（选中文字）
+ *   --pulse-50 #FFF7EC（栏底，带透明）/ 线 rgba(120,86,150,0.14) / --signal-500 #7C3AED（角标）
+ */
+.tabbar {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  z-index: 90;
+  display: flex; align-items: flex-start;
+  /*
+   * box-sizing 必须写：WXSS **没有** `* { box-sizing: border-box }` 那样的全局重置
+   * （设计仓 styles.css 第 27 行有，所以那边 84px 是含内边距的总高），
+   * 默认 content-box 会让下面这行 height 里的 env() 与 padding 里的 env() **各算一次**，
+   * 栏体在有 Home 指示条的机型上凭空高出 59rpx（=34px），
+   * 且 align-items: flex-start 让这段空白全落在文字下方 —— 看起来就是「底边菜单特别高」。
+   * 顺带把 .screen--tab 的让位也顶穿：内容会被栏体压掉一截。
+   */
+  box-sizing: border-box;
+  /*
+   * 90rpx 是**内容高**（图标 + 文字那一叠），底部安全区另加：
+   *   18 上留白 + 42 图标 + 7 间距 + 23 文字行高 = 90rpx（设计稿 10+24+4+13 = 51px × 1.744）
+   * 设计稿 `.tabbar` 写的是 height 84px，但那 84px 里已经含着 Home 指示条的位置
+   * （画布 430×932 就是 iPhone 14 Pro Max，指示条画在画布内），照抄成 146rpx 再加安全区
+   * 等于把指示条那 34px 算了两遍：栏体 118px 而原生 tabBar 只有 83pt，文字下方多出一条空带。
+   * 现在栏体总高 = 90rpx + 安全区 ≈ 81px，与原生一致，文字底边正好落在安全区上沿。
+   */
+  height: calc(90rpx + env(safe-area-inset-bottom));
+  padding: 0 14rpx env(safe-area-inset-bottom);
+  background: rgba(255, 247, 236, 0.96);
+  border-top: 1rpx solid rgba(120, 86, 150, 0.14);
+}
+.tab {
+  flex: 1; padding-top: 18rpx;
+  display: flex; flex-direction: column; align-items: center; gap: 7rpx;
+  font-size: 19rpx; color: #A9906F;
+  transition: transform 180ms ease;
+}
+.tab:active { transform: scale(0.94); }
+.tab--on .tab-label { color: #6D28D9; font-weight: 600; }
+.tab-ico-box { position: relative; width: 42rpx; height: 42rpx; }
+.tab-ico {
+  width: 42rpx; height: 42rpx;
+  background-size: 100% 100%; background-repeat: no-repeat;
+}
+/* line-height 必须写死：page{} 上是 1.5，19rpx 文字会占 28.5rpx 行高，
+   比设计稿的 13px（23rpx）高出 5rpx —— 五格文字连同栏体一起被顶高，且不报错 */
+.tab-label { font-size: 19rpx; line-height: 23rpx; }
+
+/*
+ * 中间抬起的宝石钮：落点是会员卡页，不是点不动的装饰。
+ *
+ * 这一格的上留白与间距**与其余四格逐字相同**，差别只在图标盒里装的是一个溢出的圆：
+ * 占位盒 42rpx（= .tab-ico-box），圆钮绝对定位、底边对齐占位盒，直径 98rpx 的余量
+ * 全部向上溢出到栏体之外——于是「会员」与另外四个词自然落在同一条基线上。
+ * 上一版靠 margin 凑（先 +2rpx 后 -3rpx），实测仍差 2px：rpx→px 有取整，
+ * 三个负 margin 叠起来的误差不是算得出来的。
+ */
+.tab--center { padding-top: 18rpx; }
+.tab-knob-box { width: 98rpx; height: 42rpx; position: relative; }
+.tab-knob {
+  position: absolute; left: 0; bottom: 0;
+  width: 98rpx; height: 98rpx; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  background: linear-gradient(150deg, #A98BF5, #6D28D9 80%);
+  box-shadow: 0 14rpx 46rpx rgba(109, 40, 217, 0.35), inset 0 1rpx 0 rgba(255, 255, 255, 0.3);
+}
+.tab--center .tab-ico { width: 46rpx; height: 46rpx; }
+
+.tab-badge {
+  position: absolute; top: -10rpx; right: -18rpx;
+  min-width: 30rpx; height: 30rpx; padding: 0 8rpx;
+  border-radius: 999rpx; background: #7C3AED; color: #FFF7EC;
+  font-size: 18rpx; font-weight: 700; line-height: 30rpx; text-align: center;
+  box-sizing: border-box;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tab { transition: none; }
+}

@@ -1,0 +1,8 @@
+/* 服务工单页版式。 */
+.tk-hero { padding: 24px 28px 28px; overflow: hidden; }
+.tk-title { font-size: 45px; font-weight: 700; margin: 12px 0 10px; }
+.type-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+.pick-t { font-size: var(--fs-tiny); text-align: center; }
+.tk-t { font-size: var(--fs-h4); font-weight: 700; color: var(--ink-900); }
+.block { display: block; }
+.cta--busy { opacity: 0.72; }

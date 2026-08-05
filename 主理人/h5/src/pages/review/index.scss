@@ -1,0 +1,9 @@
+/* 服务评价页版式。 */
+.rv-title { font-size: 56px; letter-spacing: 2px; }
+.rv-teacher { gap: 21px; padding-bottom: 21px; border-bottom: 1px solid var(--line-soft); }
+.rv-info-v { display: block; margin-top: 9px; font-size: var(--fs-meta); font-weight: 600; color: var(--ink-900); }
+.rv-stars { display: flex; justify-content: center; gap: 21px; }
+.rv-star { padding: 8px; }
+.rv-label { font-size: var(--fs-sec); font-weight: 700; color: var(--pulse-600); }
+.block { display: block; }
+.cta--busy { opacity: 0.72; }

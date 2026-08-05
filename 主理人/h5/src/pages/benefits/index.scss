@@ -1,0 +1,23 @@
+/* 权益中心页版式。 */
+.ben-hero { padding: 28px 28px 0; overflow: hidden; }
+.ben-title { font-size: 52px; font-weight: 700; margin: 18px 0 10px; }
+.stat-3 { margin: 24px -28px 0; }
+
+.ben-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.ben-tile {
+  padding: 21px 19px 18px; border-radius: var(--r-box); box-sizing: border-box;
+  background: var(--sunk); border: 1px solid var(--line);
+}
+.ben-tile--lock { background: var(--track); border-color: var(--line-soft); }
+.ben-ico { height: 52px; display: flex; align-items: center; }
+.bt-t { display: block; margin-top: 12px; font-size: var(--fs-h4); font-weight: 700; color: var(--ink-900); }
+.bt-d { display: block; margin-top: 5px; font-size: var(--fs-tiny); color: var(--ink-600); line-height: 1.35; }
+.ben-st {
+  display: inline-flex; align-items: center; gap: 6px; margin-top: 14px;
+  font-size: var(--fs-micro); color: var(--ok);
+}
+.ben-st--lock { color: var(--ink-500); }
+
+.flow-t { font-size: var(--fs-sec); font-weight: 700; color: var(--ink-900); }
+.flow-d { margin-top: 7px; font-size: var(--fs-micro); color: var(--ink-600); line-height: 1.45; }
+.block { display: block; }

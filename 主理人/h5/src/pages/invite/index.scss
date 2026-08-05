@@ -1,0 +1,18 @@
+/* 邀请推荐页版式。 */
+.iv-hero { padding: 28px; overflow: hidden; }
+.iv-title { font-size: 37px; font-weight: 700; color: var(--ink-900); }
+.iv-stat { padding: 24px 10px; }
+.iv-code { font-size: 49px; font-weight: 700; color: var(--ink-900); letter-spacing: 2px; }
+.iv-qr { padding: 14px; border-width: 1px; box-shadow: none; }
+/* 宽度要与已加载态**逐像素相等**，否则码到位的一瞬间整张卡横向跳一下。
+   已加载态 = 180rpx 图 + .iv-qr 的 14rpx padding ×2 + 1rpx 边框 ×2 = 210rpx；
+   这里必须 border-box，content-box 会让 208 + 28 + 2 = 238rpx。 */
+.iv-qr-empty {
+  width: 210px; box-sizing: border-box;
+  padding: 28px 14px; border-radius: 24px; text-align: center;
+  background: var(--sunk); border: 1px dashed var(--line-strong);
+  display: flex; flex-direction: column; align-items: center;
+}
+.iv-name { font-size: var(--fs-h4); font-weight: 700; color: var(--ink-900); }
+.iv-st { font-size: var(--fs-meta); font-weight: 700; }
+.block { display: block; }

@@ -1,0 +1,27 @@
+/* 续费页版式。 */
+.rn-hero { padding: 28px; overflow: hidden; }
+.rn-title { font-size: 45px; font-weight: 700; margin: 10px 0; }
+.rn-expiry { display: block; font-size: 33px; font-weight: 700; color: var(--ink-900); margin-top: 4px; }
+.mcard-pro {
+  font-family: var(--font-mono); font-weight: 700; font-size: var(--fs-tiny);
+  color: var(--on-signal); padding: 4px 16px; border-radius: 12px;
+  background: linear-gradient(120deg, #7C3AED, #6D28D9);
+}
+.rn-plan {
+  display: flex; align-items: center; gap: 21px;
+  padding: 21px 18px; border-radius: var(--r-box); margin-bottom: 14px;
+  background: var(--sunk); border: 1px solid var(--line);
+}
+.rn-plan:last-child { margin-bottom: 0; }
+.rn-plan--on { border-color: var(--signal-600); background: var(--sunk-3); }
+.save { display: block; margin-top: 4px; font-size: var(--fs-tiny); color: var(--pulse-600); }
+.keep-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.keep-tile { text-align: center; }
+.keep-ico {
+  width: 73px; height: 73px; margin: 0 auto; border-radius: 21px;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--sunk-3); border: 1px solid var(--line-brand);
+}
+.keep-t { display: block; margin-top: 10px; font-size: var(--fs-meta); font-weight: 700; color: var(--ink-900); }
+.keep-d { display: block; margin-top: 4px; font-size: var(--fs-micro); color: var(--ink-600); }
+.block { display: block; }
