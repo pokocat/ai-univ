@@ -1,0 +1,183 @@
+<view class="screen screen--tab">
+  <view class="ambience" />
+  <view class="layer">
+    <ui-apphead pro="{{me.hasPaidEntitlement}}" gem="{{true}}" sub="连接主理人 · 共创新商业" />
+
+    <ui-errbar wx:if="{{err}}" msg="{{err}}" retrying="{{retrying}}" bind:retry="load" />
+
+    <!-- 骨架：首屏还没拿到数据时给出形状，而不是空白 -->
+    <block wx:if="{{loading}}">
+      <view class="card card-pad">
+        <view class="skeleton skeleton-line skeleton-line--title" />
+        <view class="skeleton skeleton-line skeleton-line--body" />
+      </view>
+      <view class="card card-pad gap"><view class="skeleton skeleton-block" /></view>
+    </block>
+
+    <block wx:else>
+      <!-- ① 今日洞察 -->
+      <view class="card card--hero">
+        <swiper
+          class="insight-swiper"
+          autoplay="{{insights.length > 1}}"
+          interval="6000"
+          circular="{{insights.length > 1}}"
+          bindchange="onInsightChange"
+        >
+          <swiper-item wx:for="{{insights}}" wx:key="title">
+            <view class="insight">
+              <view class="eyebrow">
+                <ui-icon name="sparkle" size="{{26}}" color="signal" />
+                <text>{{item.eyebrow}}</text>
+              </view>
+              <view class="insight-body">
+                <view class="f-1">
+                  <view class="title-grad insight-title">{{item.title}}</view>
+                  <text class="lead insight-text">{{item.body}}</text>
+                  <view class="ghost-pill mt-12" data-url="{{item.url}}" bind:tap="go">
+                    <text>{{item.actionText}}</text>
+                    <ui-icon name="arrow" size="{{26}}" color="signal" />
+                  </view>
+                </view>
+                <ui-art kind="aicube" w="{{210}}" extStyle="margin-top:-8rpx;" />
+              </view>
+            </view>
+          </swiper-item>
+        </swiper>
+        <view wx:if="{{insights.length > 1}}" class="dots mt-8">
+          <view
+            wx:for="{{insights}}"
+            wx:key="title"
+            class="dots-i {{insightIdx === index ? 'dots-i--on' : ''}}"
+          />
+        </view>
+      </view>
+
+      <!-- ② 会员成长进度 -->
+      <view wx:if="{{growth}}" class="card card-pad gap">
+        <view class="f-between">
+          <text class="col-h">会员成长进度</text>
+          <view class="link-trail" data-url="/pages/points/index" bind:tap="go">
+            <text>成长值明细</text>
+            <ui-icon name="chev" size="{{24}}" color="ink-800" />
+          </view>
+        </view>
+        <view class="growth mt-10">
+          <ui-art kind="medallion" w="{{92}}" glyph="{{growth.glyph}}" variant="lv" />
+          <view class="f-1">
+            <view class="f" style="gap:14rpx;">
+              <text class="title-grad growth-lv mono">{{growth.levelText}}</text>
+              <text class="t-h3">{{growth.levelName || '等级未配置'}}</text>
+            </view>
+            <view class="prog-track mt-10"><view class="prog-fill" style="{{growth.pctStyle}}" /></view>
+            <view class="f-between mt-10">
+              <text class="t-sec">成长值 <text class="mono fw-700 t-ink">{{growth.growthText}}</text><text wx:if="{{growth.nextText}}"> / {{growth.nextText}}</text></text>
+              <view wx:if="{{!growth.topLevel}}" class="ta-r">
+                <text class="t-tiny">距升级还差</text>
+                <text class="t-tiny mono t-pulse"> {{growth.remainText}}</text>
+              </view>
+              <text wx:else class="t-tiny t-ok">已达最高等级</text>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <!-- ③ 快捷入口 -->
+      <view class="two-col gap">
+        <view
+          wx:for="{{quick}}"
+          wx:key="title"
+          class="card quick"
+          data-url="{{item.url}}"
+          data-tab="{{item.tab}}"
+          bind:tap="go"
+        >
+          <view class="f-1">
+            <text class="quick-t">{{item.title}}</text>
+            <text class="quick-d">{{item.desc}}</text>
+          </view>
+          <view class="f" style="gap:8rpx;">
+            <ui-icon name="{{item.icon}}" size="{{45}}" color="{{item.color}}" />
+            <ui-icon name="chev" size="{{26}}" color="ink-800" />
+          </view>
+        </view>
+      </view>
+
+      <!-- ④ 近期课程 / 服务提醒 -->
+      <view class="two-col gap">
+        <view class="card card-pad col">
+          <view class="f-between">
+            <text class="col-h">近期课程</text>
+            <view class="link-trail" data-url="/pages/training/index" bind:tap="go">
+              <text class="t-tiny">全部</text>
+              <ui-icon name="chev" size="{{22}}" color="ink-800" />
+            </view>
+          </view>
+          <block wx:if="{{course}}">
+            <view class="mt-10">
+              <view class="f-wrap f" style="gap:8rpx;">
+                <view wx:if="{{course.live}}" class="tag tag--pink">
+                  <view class="live-dot" /><text>直播中</text>
+                </view>
+                <text class="course-t">{{course.title}}</text>
+              </view>
+              <text class="t-tiny mt-6 block">{{course.speaker}}{{course.speaker_title ? ' · ' + course.speaker_title : ''}}</text>
+              <text class="t-tiny mono mt-2 block">{{course.whenText}}</text>
+            </view>
+            <view class="hr mt-10" />
+            <view class="f-between mt-10">
+              <text wx:if="{{course.countdown}}" class="t-tiny">距开始 <text class="mono t-ok fw-700">{{course.countdown}}</text></text>
+              <text wx:else class="t-tiny">{{course.status}}</text>
+              <view class="btn-sm" data-url="/pages/course/index?id={{course.id}}" bind:tap="go">{{course.actionText}}</view>
+            </view>
+          </block>
+          <view wx:else class="blank">
+            <view class="blank-mark"><ui-icon name="cap" size="{{45}}" color="signal" /></view>
+            <text class="blank-title">还没有排期课程</text>
+            <text class="blank-hint">开课后会在这里提醒你，也可以先看看培训服务里的往期回放。</text>
+          </view>
+        </view>
+
+        <view class="card card-pad col">
+          <view class="f-between">
+            <text class="col-h">服务提醒</text>
+            <view class="link-trail" data-url="/pages/notifications/index" data-tab="{{true}}" bind:tap="go">
+              <text class="t-tiny">全部</text>
+              <ui-icon name="chev" size="{{22}}" color="ink-800" />
+            </view>
+          </view>
+          <block wx:if="{{reminder}}">
+            <view class="f-start mt-10" style="gap:14rpx;">
+              <ui-icon name="alarm" size="{{45}}" color="pulse" extStyle="margin-top:4rpx;" />
+              <view class="f-1">
+                <text class="reminder-t">{{reminder.title}}</text>
+                <text class="t-tiny mt-6 block">{{reminder.desc}}</text>
+              </view>
+            </view>
+            <view class="reminder-cta">
+              <view class="btn-grad btn-grad--full" data-url="{{reminder.url}}" bind:tap="go">{{reminder.actionText}}</view>
+            </view>
+          </block>
+          <view wx:else class="mt-10">
+            <view class="skeleton skeleton-line" />
+            <view class="skeleton skeleton-line skeleton-line--body" />
+          </view>
+        </view>
+      </view>
+
+      <!-- ⑤ 邀请横幅 -->
+      <view class="card card--signal invite gap" data-url="/pages/invite/index" bind:tap="go">
+        <ui-art kind="trophy" w="{{80}}" />
+        <view class="f-1">
+          <text class="invite-t">邀请好友 · 共创价值</text>
+          <text wx:if="{{inviteAward}}" class="invite-d">邀请 1 位好友可得 <text class="mono invite-num">{{inviteAward}}</text> 成长值</text>
+          <text wx:else class="invite-d">邀请好友加入，一起链接资源、共创价值</text>
+        </view>
+        <view class="invite-btn">
+          <text>立即邀请</text>
+          <ui-icon name="arrow" size="{{24}}" color="on-signal" />
+        </view>
+      </view>
+    </block>
+  </view>
+</view>

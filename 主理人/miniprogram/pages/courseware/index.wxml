@@ -1,0 +1,91 @@
+<view class="screen screen--bar">
+  <view class="ambience" />
+  <view class="layer">
+    <ui-subhead title="课件下载" home="/pages/training/index" />
+
+    <ui-errbar wx:if="{{err}}" msg="{{err}}" retrying="{{retrying}}" bind:retry="load" />
+    <view wx:if="{{loading}}" class="card card-pad"><view class="skeleton skeleton-block" /></view>
+
+    <block wx:else>
+      <view class="card card--hero cw-hero">
+        <view class="f-start" style="gap:8rpx;">
+          <view class="f-1">
+            <view class="title-grad cw-title">课件下载</view>
+            <text class="lead mt-8">课程资料、清单与模板统一领取</text>
+            <view class="f f-wrap mt-12" style="gap:10rpx;">
+              <view class="pill-outline"><ui-icon name="crown" size="{{21}}" color="signal" /><text>会员专属</text></view>
+              <view class="pill-outline"><ui-icon name="refresh" size="{{21}}" color="signal-600" /><text>资料同步</text></view>
+            </view>
+          </view>
+          <ui-art kind="gem" w="{{210}}" icon="doc" variant="cw" />
+        </view>
+      </view>
+
+      <view class="card card-pad gap">
+        <view class="f-between mb-10">
+          <text class="col-h">{{courseTitle || '本节课件'}}</text>
+          <text class="t-tiny">{{materials.length}} 项</text>
+        </view>
+        <block wx:if="{{materials.length}}">
+          <view wx:for="{{materials}}" wx:key="id" class="file-row">
+            <text class="file-ext">{{item.file_ext}}</text>
+            <view class="f-1">
+              <text class="file-t">{{item.name}}</text>
+              <text wx:if="{{item.description}}" class="t-tiny mt-4 block">{{item.description}}</text>
+            </view>
+            <view class="ta-r">
+              <text class="t-tiny mono block">{{item.sizeText}}</text>
+              <text class="t-micro block" style="color:var(--{{item.downloaded ? 'ok' : 'ink-600'}});">{{item.downloaded ? '已下载' : '未下载'}}</text>
+            </view>
+            <view class="dl-circle" data-id="{{item.id}}" data-url="{{item.url}}" bind:tap="download">
+              <ui-icon name="download" size="{{28}}" color="signal" />
+            </view>
+          </view>
+          <view class="dl-stat">
+            <view class="dl-stat-i">
+              <ui-ring pct="{{downloadedPct}}" size="{{64}}" color="signal-600" label="{{downloadedPct}}%" labelSize="{{11}}" labelColor="ink" />
+              <view>
+                <text class="vs-t">已下载</text>
+                <text class="vs-d mono">{{downloadedCount}} / {{materials.length}} 项</text>
+              </view>
+            </view>
+            <view class="dl-stat-i">
+              <ui-icon name="clock" size="{{42}}" color="signal" />
+              <view>
+                <text class="vs-t">最近更新</text>
+                <text class="vs-d mono">{{updatedText}}</text>
+              </view>
+            </view>
+          </view>
+        </block>
+        <view wx:else class="blank">
+          <view class="blank-mark"><ui-icon name="folder" size="{{52}}" color="signal" /></view>
+          <text class="blank-title">这节课还没有课件</text>
+          <text class="blank-hint">课件由课程组在课后上传，上传后会在站内消息通知你。</text>
+        </view>
+      </view>
+
+      <view class="box box--sunk gap">
+        <view class="f" style="gap:12rpx;">
+          <ui-icon name="shield" size="{{28}}" color="signal" />
+          <text class="t-sec fw-600">下载与使用说明</text>
+        </view>
+        <text class="t-tiny mt-6 block">
+          点击下载会复制文件地址并记录下载状态，在微信内置浏览器或系统浏览器中打开即可保存。
+          资料仅限会员本人使用，请勿外传或用于商业用途。
+        </text>
+      </view>
+    </block>
+  </view>
+
+  <view class="action-bar">
+    <view class="action-row">
+      <view class="cta cta--primary" bind:tap="downloadAll">
+        <ui-icon name="download" size="{{32}}" color="on-signal" /><text>复制全部链接</text>
+      </view>
+      <view class="cta cta--ghost" data-url="/pages/course/index?id={{courseId}}" bind:tap="go">
+        <ui-icon name="play" size="{{30}}" color="signal" /><text>返回课程</text>
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,9 @@
+<view class="subhead" style="{{navPad}}">
+  <view class="subbar" style="padding-right:{{capsuleW}}rpx;">
+    <view class="subbar-back" bind:tap="onBack">
+      <ui-icon name="chev-left" size="{{38}}" color="ink-800" />
+    </view>
+    <text class="subbar-title">{{title}}</text>
+    <view class="subbar-slot"><slot /></view>
+  </view>
+</view>

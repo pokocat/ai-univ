@@ -1,0 +1,46 @@
+/* 首页专属版式。共享原语（card / tag / prog / dots / blank / btn-*）在 app.wxss，这里不重复定义。 */
+
+/* 洞察轮播：swiper 必须给定高，内容溢出会被裁掉且没有报错 */
+.insight-swiper { height: 380rpx; }
+.insight { padding: 23rpx 24rpx 4rpx; }
+.insight-body { display: flex; gap: 10rpx; align-items: flex-start; margin-top: 9rpx; }
+.insight-title {
+  font-size: var(--fs-h1); line-height: 1.15; letter-spacing: 2rpx;
+  /* 两行封顶：洞察标题长度不可控，三行会把插画挤出卡片 */
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+.insight-text {
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+  margin-top: 12rpx;
+}
+
+/* 成长进度 */
+.growth { display: flex; align-items: center; gap: 21rpx; }
+.growth-lv { font-size: var(--fs-h2); font-weight: 700; }
+
+/* 快捷入口瓦片 */
+.quick {
+  display: flex; align-items: center; justify-content: space-between; gap: 14rpx;
+  padding: 18rpx 23rpx; min-height: 92rpx;
+}
+.quick-t { display: block; font-size: var(--fs-h4); font-weight: 700; color: var(--ink-900); }
+.quick-d { display: block; font-size: var(--fs-meta); color: var(--ink-600); margin-top: 5rpx; }
+
+/* 两列卡：等高，底部动作贴底 */
+.col { display: flex; flex-direction: column; }
+.course-t { font-size: var(--fs-meta); font-weight: 700; color: var(--ink-900); line-height: 1.35; }
+.block { display: block; }
+.reminder-t { display: block; font-size: var(--fs-sec); font-weight: 700; color: var(--ink-900); }
+.reminder-cta { margin-top: auto; padding-top: 16rpx; }
+
+/* 邀请横幅：紫底，文字一律暖白 */
+.invite { display: flex; align-items: center; gap: 18rpx; padding: 18rpx 24rpx; }
+.invite-t { display: block; font-size: var(--fs-h4); font-weight: 700; color: var(--on-signal); }
+.invite-d { display: block; font-size: var(--fs-tiny); color: var(--on-signal-2); margin-top: 5rpx; }
+.invite-num { color: var(--pulse-300); font-weight: 700; }
+.invite-btn {
+  flex-shrink: 0; display: flex; align-items: center; gap: 8rpx;
+  height: 62rpx; padding: 0 26rpx; border-radius: var(--r-pill);
+  background: var(--on-signal-wash);
+  color: var(--on-signal); font-size: var(--fs-sec); font-weight: 700;
+}

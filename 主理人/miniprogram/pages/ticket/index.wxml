@@ -1,0 +1,137 @@
+<view class="screen screen--bar">
+  <view class="ambience" />
+  <view class="layer">
+    <ui-subhead title="服务工单" home="/pages/mine/index" />
+
+    <ui-errbar wx:if="{{err}}" msg="{{err}}" retrying="{{retrying}}" bind:retry="load" />
+
+    <view class="topseg">
+      <view class="topseg-item {{tab === 'new' ? 'topseg-item--on' : ''}}" data-tab="new" bind:tap="switchTab">提交工单</view>
+      <view class="topseg-item {{tab === 'mine' ? 'topseg-item--on' : ''}}" data-tab="mine" bind:tap="switchTab">
+        <text>我的工单</text>
+        <text wx:if="{{openCount}}" class="seg-badge">{{openCount}}</text>
+      </view>
+    </view>
+
+    <!-- ───────── 提交工单 ───────── -->
+    <block wx:if="{{tab === 'new'}}">
+      <view class="card card--hero tk-hero">
+        <view class="f-start" style="gap:8rpx;">
+          <view class="f-1">
+            <view class="eyebrow"><ui-icon name="shield" size="{{26}}" color="signal" /><text>专属服务支持</text></view>
+            <view class="title-grad tk-title">快速响应 · 专业服务</view>
+            <text class="lead">选择问题类型并描述清楚，我们会在承诺时限内响应</text>
+          </view>
+          <ui-art kind="gem" w="{{215}}" icon="headset" variant="tk" />
+        </view>
+      </view>
+
+      <!-- 问题类型：来自 ticket_type_rule，含真实 SLA -->
+      <view class="card card-pad gap">
+        <view class="f-between mb-12">
+          <text class="col-h">问题类型</text>
+          <text class="req">必填</text>
+        </view>
+        <view wx:if="{{types.length}}" class="type-grid">
+          <view
+            wx:for="{{types}}"
+            wx:key="type_code"
+            class="pick {{picked === item.type_code ? 'pick--on' : ''}}"
+            data-code="{{item.type_code}}"
+            bind:tap="pickType"
+          >
+            <view wx:if="{{picked === item.type_code}}" class="tile-check"><ui-icon name="check" size="{{20}}" color="on-signal" /></view>
+            <ui-icon name="{{item.icon}}" size="{{38}}" color="{{picked === item.type_code ? 'signal' : 'ink-800'}}" />
+            <text class="pick-t">{{item.type_code}}</text>
+          </view>
+        </view>
+        <view wx:else class="blank">
+          <view class="blank-mark"><ui-icon name="warn" size="{{45}}" color="warn" /></view>
+          <text class="blank-title">工单类型未配置</text>
+          <text class="blank-hint">运营还没有配置可选的问题类型，可以先联系服务老师。</text>
+        </view>
+        <view wx:if="{{pickedRule}}" class="box box--sunk mt-14">
+          <view class="f-between">
+            <text class="t-sec fw-600">预计响应时间</text>
+            <text class="t-sec mono t-signal">{{pickedRule.sla_hours}} 小时内</text>
+          </view>
+          <text class="t-tiny mt-6 block">这是该类问题的承诺时限，工作时间内优先处理。</text>
+        </view>
+      </view>
+
+      <!-- 描述 -->
+      <view class="card card-pad gap">
+        <view class="f-between mb-10">
+          <text class="col-h">描述问题</text>
+          <text class="req">必填</text>
+        </view>
+        <textarea
+          class="textarea"
+          value="{{description}}"
+          placeholder="请描述遇到的问题：什么场景、什么操作、看到什么提示。写清楚能让我们一次定位。"
+          maxlength="500"
+          bindinput="onInput"
+        />
+        <view class="ta-r mt-6"><text class="t-micro mono">{{description.length}}/500</text></view>
+      </view>
+
+      <view class="box box--sunk gap">
+        <view class="f" style="gap:12rpx;">
+          <ui-icon name="info" size="{{28}}" color="signal" />
+          <text class="t-sec fw-600">关于截图</text>
+        </view>
+        <text class="t-tiny mt-6 block">
+          目前会员端还没有开放图片上传通道，需要截图时服务老师会在企微里向你索取。
+          描述里写清报错原文同样有效。
+        </text>
+      </view>
+    </block>
+
+    <!-- ───────── 我的工单 ───────── -->
+    <block wx:else>
+      <view wx:if="{{loading}}" class="card card-pad"><view class="skeleton skeleton-block" /></view>
+      <view wx:elif="{{tickets.length}}" class="card card-pad">
+        <view
+          wx:for="{{tickets}}"
+          wx:key="ticket_no"
+          class="row-item"
+          data-url="/pages/ticket-result/index?ticketNo={{item.ticket_no}}"
+          bind:tap="go"
+        >
+          <view class="row-ico row-ico--lg"><ui-icon name="{{item.icon}}" size="{{38}}" color="signal" /></view>
+          <view class="f-1">
+            <view class="f" style="gap:10rpx;">
+              <text class="tk-t f-1 truncate">{{item.ticket_type}}</text>
+              <text class="tag tag--{{item.tagColor}}">{{item.status}}</text>
+            </view>
+            <text class="t-meta mt-6 clamp-2 block">{{item.description}}</text>
+            <view class="f mt-6" style="gap:18rpx;">
+              <text class="t-micro mono">{{item.ticket_no}}</text>
+              <text class="t-micro mono">{{item.createdText}}</text>
+            </view>
+          </view>
+          <ui-icon name="chev" size="{{28}}" color="ink-800" extStyle="align-self:center;" />
+        </view>
+      </view>
+      <view wx:else class="card card-pad">
+        <view class="blank">
+          <view class="blank-mark"><ui-icon name="headset" size="{{52}}" color="signal" /></view>
+          <text class="blank-title">还没有提交过工单</text>
+          <text class="blank-hint">遇到问题时在「提交工单」页描述清楚，我们会在承诺时限内响应。</text>
+          <view class="btn-sm mt-16" data-tab="new" bind:tap="switchTab">去提交</view>
+        </view>
+      </view>
+    </block>
+  </view>
+
+  <view wx:if="{{tab === 'new' && types.length}}" class="action-bar">
+    <view class="cta cta--primary {{submitting ? 'cta--busy' : ''}}" bind:tap="submit">
+      <text>{{submitting ? '提交中…' : '提交工单'}}</text>
+      <view wx:if="{{!submitting}}" class="cta-arrow"><ui-icon name="arrow" size="{{30}}" color="on-signal" /></view>
+    </view>
+    <view class="f-center mt-12" style="gap:10rpx;">
+      <ui-icon name="shield" size="{{24}}" color="ink-600" />
+      <text class="t-micro">提交即表示同意《用户协议》与《隐私政策》</text>
+    </view>
+  </view>
+</view>

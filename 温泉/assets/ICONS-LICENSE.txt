@@ -1,0 +1,42 @@
+图标来源 / Icon attribution
+===========================================================================
+
+本项目 miniprogram/styles/icons.wxss 中内联的全部图标来自 Remix Icon。
+
+  Remix Icon 4.x
+  https://github.com/Remix-Design/RemixIcon
+  Licensed under the Apache License, Version 2.0
+
+图标以 base64 data-URI 的形式内联在 icons.wxss 里（每个图标已按设计稿配色
+预先着色），通过 Iconify 的公开 API 取得原始 SVG：
+  https://api.iconify.design/ri/<name>.svg?color=<hex>
+
+重新生成：
+  python3 scripts/build_icons.py
+
+不要手改 icons.wxss —— 它是生成文件。要增删图标请改 scripts/build_icons.py
+里的 ICONS 表后重新生成。
+
+---------------------------------------------------------------------------
+Apache License 2.0 摘要
+---------------------------------------------------------------------------
+Copyright 2024 Remix-Design
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use these files except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+---------------------------------------------------------------------------
+图片素材 / Imagery
+---------------------------------------------------------------------------
+miniprogram/assets/img/ 下的图片由 codex CLI 的 imagegen skill 生成
+（scripts/gen_images.sh + scripts/imgjobs.tsv），全部为 AI 生成的虚构场景
+与虚构人物，仅用于演示。不含任何真实人物肖像、真实品牌标识或第三方版权素材。

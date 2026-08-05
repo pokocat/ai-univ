@@ -1,0 +1,109 @@
+<view class="screen screen--tab">
+  <view class="ambience" />
+  <view class="layer">
+    <ui-apphead sub="连接主理人 · 共创新商业" />
+
+    <ui-errbar wx:if="{{err}}" msg="{{err}}" retrying="{{retrying}}" bind:retry="load" />
+
+    <view wx:if="{{loading}}" class="card card-pad"><view class="skeleton skeleton-block" /></view>
+
+    <block wx:else>
+      <!-- 个人 hero -->
+      <view class="card card--hero profile" bind:tap="editProfile">
+        <ui-avatar name="{{me.name}}" path="{{me.avatarPath}}" size="{{115}}" ring="{{true}}" />
+        <view class="f-1 profile-main">
+          <view class="f" style="gap:10rpx;">
+            <text class="profile-name">{{me.name || '完善资料'}}</text>
+            <ui-icon name="edit" size="{{26}}" color="signal-800" />
+          </view>
+          <text class="mc-role">{{identityLabel}}</text>
+          <view wx:if="{{membership.active}}" class="f mt-8" style="gap:10rpx;">
+            <ui-icon name="crown" size="{{24}}" color="signal" />
+            <text class="profile-tier">{{membership.tier}}</text>
+          </view>
+          <text wx:if="{{expiryText}}" class="t-tiny mono mt-4 block">有效期至 {{expiryText}}</text>
+          <text wx:else class="t-tiny mt-4 block">尚未开通会员</text>
+        </view>
+        <ui-art kind="medallion" w="{{168}}" glyph="{{growthGlyph}}" variant="mine" />
+      </view>
+
+      <!-- 三个读数：成长值 / 邀请 / 收益（都点得进去） -->
+      <view class="card stat-row gap">
+        <view
+          wx:for="{{stats}}"
+          wx:key="label"
+          class="stat-cell"
+          data-url="{{item.url}}"
+          bind:tap="go"
+        >
+          <text class="stat-v mono">{{item.value}}</text>
+          <text class="stat-l">{{item.label}}</text>
+        </view>
+      </view>
+
+      <!-- 未开通时的开通引导（已开通不显示，避免常驻一个无意义的推销位） -->
+      <view wx:if="{{!membership.active}}" class="card card--signal upsell gap" data-url="/pages/subscribe/index" bind:tap="go">
+        <ui-art kind="gem" w="{{150}}" icon="crown" variant="upsell" />
+        <view class="f-1">
+          <text class="upsell-t">开通会员 · 解锁全部权益</text>
+          <text class="upsell-d">资源库、专属课程、闭门会、AI 诊断与专属服务</text>
+        </view>
+        <view class="upsell-btn"><text>查看方案</text><ui-icon name="arrow" size="{{24}}" color="on-signal" /></view>
+      </view>
+
+      <!-- 功能行 -->
+      <view class="rows gap">
+        <view
+          wx:for="{{rows}}"
+          wx:key="title"
+          class="card set-row"
+          data-url="{{item.url}}"
+          data-tab="{{item.tab}}"
+          bind:tap="go"
+        >
+          <view class="set-ico"><ui-icon name="{{item.icon}}" size="{{38}}" color="{{item.color}}" /></view>
+          <view class="f-1">
+            <view class="f" style="gap:14rpx;">
+              <text class="row-t">{{item.title}}</text>
+              <text wx:if="{{item.tag}}" class="tag tag--purple">{{item.tag}}</text>
+            </view>
+            <text class="t-meta mt-4 block">{{item.desc}}</text>
+          </view>
+          <text wx:if="{{item.trail}}" class="t-meta">{{item.trail}}</text>
+          <ui-icon name="chev" size="{{28}}" color="ink-800" />
+        </view>
+      </view>
+
+      <!-- 联系专属服务 -->
+      <view wx:if="{{teacher}}" class="card card--signal contact gap" data-url="/pages/advisor/index" bind:tap="go">
+        <ui-avatar name="{{teacher.name}}" size="{{80}}" />
+        <view class="f-1">
+          <view class="f" style="gap:12rpx;">
+            <ui-icon name="chat" size="{{28}}" color="on-signal" />
+            <text class="contact-t">联系专属服务</text>
+          </view>
+          <text class="contact-d">你的服务老师：{{teacher.name}}</text>
+          <text wx:if="{{teacher.role}}" class="contact-d">{{teacher.role}}{{teacher.service_region ? ' · ' + teacher.service_region : ''}}</text>
+        </view>
+        <view class="contact-btn">立即联系</view>
+      </view>
+
+      <!-- 退出登录 -->
+      <view class="card logout gap" bind:tap="logout">
+        <ui-icon name="logout" size="{{32}}" color="pulse" />
+        <text class="logout-t">退出登录</text>
+      </view>
+      <view class="ta-c mt-16">
+        <text class="t-micro">{{version}}</text>
+      </view>
+    </block>
+  </view>
+
+  <ui-profile-edit
+    wx:if="{{showProfileEdit}}"
+    name="{{me.name}}"
+    avatar-path="{{me.avatarPath}}"
+    bind:close="closeProfile"
+    bind:saved="onProfileSaved"
+  />
+</view>

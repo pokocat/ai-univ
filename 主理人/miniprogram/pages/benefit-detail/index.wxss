@@ -1,0 +1,7 @@
+/* 权益详情页版式。 */
+.bd-hero { padding: 28rpx; overflow: hidden; }
+.bd-title { font-size: 49rpx; font-weight: 700; margin: 18rpx 0 10rpx; }
+.bd-stat { padding: 24rpx 10rpx; }
+.flow-t { font-size: var(--fs-sec); font-weight: 700; color: var(--ink-900); }
+.flow-d { margin-top: 7rpx; font-size: var(--fs-micro); color: var(--ink-600); line-height: 1.45; }
+.block { display: block; }

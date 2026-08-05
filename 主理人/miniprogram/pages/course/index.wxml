@@ -1,0 +1,126 @@
+<view class="screen screen--bar">
+  <view class="ambience" />
+  <view class="layer">
+    <ui-subhead title="课程详情" home="/pages/training/index" />
+
+    <ui-errbar wx:if="{{err}}" msg="{{err}}" retrying="{{retrying}}" bind:retry="load" />
+    <view wx:if="{{loading}}" class="card card-pad"><view class="skeleton skeleton-block" /></view>
+
+    <block wx:elif="{{course}}">
+      <!-- 视频/封面区 -->
+      <view class="card cs-card">
+        <view class="cs-thumb">
+          <text class="tag tag--purple tag--round cs-badge">{{course.course_type}}</text>
+          <view wx:if="{{playable}}" class="cs-play" bind:tap="play"><ui-icon name="play" size="{{52}}" color="on-signal" /></view>
+          <view class="cs-cap">
+            <text class="cs-title">{{course.title}}</text>
+            <text class="cs-meta mono">{{metaText}}</text>
+          </view>
+        </view>
+        <view class="vstat">
+          <view class="vstat-i">
+            <ui-ring wx:if="{{course.progressPct != null}}" pct="{{course.progressPct}}" size="{{64}}" color="signal-600" label="{{course.progressPct}}%" labelSize="{{11}}" labelColor="ink" />
+            <ui-icon wx:else name="play" size="{{42}}" color="signal" />
+            <view>
+              <text class="vs-t">{{course.progressPct == null ? '暂无章节' : '已观看'}}</text>
+              <text class="vs-d">{{progressText}}</text>
+            </view>
+          </view>
+          <view class="vstat-i">
+            <ui-icon name="clock" size="{{42}}" color="signal" />
+            <view>
+              <text class="vs-t">最近学习</text>
+              <text class="vs-d mono">{{lastWatchedText}}</text>
+            </view>
+          </view>
+          <view class="vstat-i">
+            <ui-icon name="refresh" size="{{42}}" color="signal" />
+            <view>
+              <text class="vs-t">{{course.replay_url ? '可反复回看' : '暂无回放'}}</text>
+              <text class="vs-d">{{course.replay_url ? '不限次数' : '结束后回填'}}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 章节 -->
+      <view class="card card-pad gap">
+        <view class="f-between mb-8">
+          <text class="col-h">课程章节</text>
+          <text class="t-tiny">共 {{course.chapterCount}} 讲</text>
+        </view>
+        <block wx:if="{{course.chapters.length}}">
+          <view
+            wx:for="{{course.chapters}}"
+            wx:key="id"
+            class="chap-row {{item.current ? 'chap-row--cur' : ''}}"
+            data-id="{{item.id}}"
+            data-playable="{{item.playable}}"
+            bind:tap="playChapter"
+          >
+            <view class="chap-ico"><ui-icon name="{{item.icon}}" size="{{32}}" color="signal" /></view>
+            <view class="f-1">
+              <text class="chap-t">第 {{item.seq}} 讲　{{item.title}}</text>
+              <text class="t-tiny mono mt-4 block">{{item.metaText}}</text>
+            </view>
+            <text wx:if="{{item.current}}" class="t-meta t-pulse nowrap">继续</text>
+            <view wx:elif="{{item.playable}}" class="play-circle"><ui-icon name="chev" size="{{22}}" color="signal" /></view>
+            <text wx:else class="t-tiny nowrap">待上传</text>
+          </view>
+        </block>
+        <view wx:else class="blank">
+          <view class="blank-mark"><ui-icon name="play" size="{{45}}" color="signal" /></view>
+          <text class="blank-title">还没有上传章节</text>
+          <text class="blank-hint">课程结束后回放与章节会陆续上传，上传后会在站内消息通知你。</text>
+        </view>
+      </view>
+
+      <!-- 学习资料 -->
+      <view wx:if="{{course.materials.length}}" class="card card-pad gap">
+        <view class="f-between mb-10">
+          <text class="col-h">学习资料</text>
+          <view class="link-trail" data-url="/pages/courseware/index?id={{course.id}}" bind:tap="go">
+            <text>全部课件</text><ui-icon name="chev" size="{{22}}" color="ink-800" />
+          </view>
+        </view>
+        <view class="two-col">
+          <view
+            wx:for="{{course.materials}}"
+            wx:key="id"
+            wx:if="{{index < 2}}"
+            class="mat-tile"
+            data-url="/pages/courseware/index?id={{course.id}}"
+            bind:tap="go"
+          >
+            <ui-icon name="doc" size="{{45}}" color="signal" />
+            <view class="f-1">
+              <text class="mat-t">{{item.name}}</text>
+              <text class="t-micro mono mt-4 block">{{item.file_ext}} · {{item.sizeText}}</text>
+            </view>
+            <view class="dl-circle"><ui-icon name="download" size="{{26}}" color="signal" /></view>
+          </view>
+        </view>
+      </view>
+    </block>
+
+    <view wx:else class="card card-pad">
+      <view class="blank">
+        <view class="blank-mark"><ui-icon name="cap" size="{{52}}" color="signal" /></view>
+        <text class="blank-title">课程不存在或不在你的可见范围</text>
+        <text class="blank-hint">课程按项目分发，换个入口或返回培训服务看看。</text>
+        <view class="btn-sm mt-16" data-url="/pages/training/index" bind:tap="go">返回培训服务</view>
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{course}}" class="action-bar">
+    <view class="action-row">
+      <view class="cta cta--primary" bind:tap="play">
+        <ui-icon name="play" size="{{32}}" color="on-signal" /><text>{{playText}}</text>
+      </view>
+      <view class="cta cta--ghost" data-url="/pages/courseware/index?id={{course.id}}" bind:tap="go">
+        <ui-icon name="download" size="{{30}}" color="signal" /><text>课件下载</text>
+      </view>
+    </view>
+  </view>
+</view>

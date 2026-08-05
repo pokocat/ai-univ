@@ -1,0 +1,107 @@
+<view class="screen screen--bar">
+  <view class="ambience" />
+  <view class="layer">
+    <ui-apphead pro="{{true}}" />
+
+    <ui-errbar wx:if="{{err}}" msg="{{err}}" retrying="{{retrying}}" bind:retry="load" />
+    <view wx:if="{{loading}}" class="card card-pad"><view class="skeleton skeleton-block" /></view>
+
+    <block wx:else>
+      <!-- hero -->
+      <view class="card card--hero suc-hero">
+        <text wx:if="{{tier}}" class="tag tag--purple tag--round">{{tier}}</text>
+        <view class="f-start mt-8">
+          <view class="f-1">
+            <view class="title-grad suc-title">开通成功</view>
+            <text class="t-h3 mt-8 block">欢迎加入主理人公社</text>
+          </view>
+          <ui-art kind="check" w="{{240}}" variant="suc" extStyle="margin-right:-10rpx;" />
+        </view>
+        <text class="t-meta mt-16 block">你的主理人之旅已正式启航</text>
+      </view>
+
+      <!-- 真实进度时间线：每一步的「已完成 / 进行中」都来自服务端状态 -->
+      <view class="card card-pad gap">
+        <view class="timeline">
+          <view wx:for="{{steps}}" wx:key="title" class="tl-item">
+            <view class="tl-rail">
+              <view class="tl-node" style="{{item.done ? '' : 'background:var(--track);box-shadow:none;'}}" />
+              <view wx:if="{{index < steps.length - 1}}" class="tl-line" />
+            </view>
+            <view class="tl-icon"><ui-icon name="{{item.icon}}" size="{{35}}" color="signal" /></view>
+            <view class="f-1">
+              <text class="tl-t">{{item.title}}</text>
+              <text class="t-meta mt-4 block">{{item.desc}}</text>
+            </view>
+            <view class="tl-done">
+              <text style="color:var(--{{item.done ? 'ok' : 'ink-600'}});">{{item.state}}</text>
+              <ui-icon wx:if="{{item.done}}" name="shield" size="{{28}}" color="ok" />
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 班级：只在真的分配了才显示 -->
+      <view wx:if="{{group.assignment}}" class="card card-pad gap suc-class">
+        <text class="t-meta">你的班级已分配</text>
+        <view class="f f-wrap mt-6" style="gap:14rpx;">
+          <text class="title-grad suc-class-name">{{group.title}}</text>
+          <view class="tag tag--{{group.joined ? 'green' : 'amber'}} tag--round">
+            <ui-icon name="shield" size="{{21}}" color="{{group.joined ? 'ok' : 'warn'}}" />
+            <text>{{group.assignment.status}}</text>
+          </view>
+        </view>
+        <view wx:if="{{group.serviceTeacher}}" class="f mt-16" style="gap:18rpx;">
+          <ui-avatar name="{{group.serviceTeacher.name}}" size="{{80}}" />
+          <view class="f-1">
+            <view class="f" style="gap:12rpx;">
+              <text class="t-h4">服务老师：{{group.serviceTeacher.name}}</text>
+              <text class="tag tag--purple">专属服务</text>
+            </view>
+            <text class="t-tiny mt-4 block">{{group.serviceTeacher.role || '社群服务'}}{{group.serviceTeacher.service_region ? ' · ' + group.serviceTeacher.service_region : ''}}</text>
+          </view>
+        </view>
+        <view class="info-card mt-16">
+          <view wx:if="{{group.cohort && group.cohort.start_date}}" class="ic-row">
+            <view class="ic-l"><ui-icon name="calendar" size="{{26}}" color="ink-800" /><text>开班时间</text></view>
+            <text class="ic-v mono">{{group.cohortStart}}</text>
+          </view>
+          <view class="ic-row">
+            <view class="ic-l"><ui-icon name="members" size="{{26}}" color="ink-800" /><text>班群状态</text></view>
+            <text class="ic-v" style="color:var(--{{group.joined ? 'ok' : 'warn'}});">{{group.assignment.status}}</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 两个下一步 -->
+      <view class="two-col gap">
+        <view class="card ghost-action" data-url="/pages/member/index" data-tab="{{true}}" bind:tap="go">
+          <ui-icon name="card" size="{{42}}" color="signal" />
+          <view class="f-1">
+            <text class="ga-t">查看会员卡</text>
+            <text class="ga-d">权益、有效期与会员码</text>
+          </view>
+          <ui-icon name="chev" size="{{28}}" color="ink-800" />
+        </view>
+        <view class="card ghost-action" data-url="{{advisorUrl}}" bind:tap="go">
+          <ui-icon name="wechat" size="{{42}}" color="ok" />
+          <view class="f-1">
+            <text class="ga-t">{{advisorTitle}}</text>
+            <text class="ga-d">{{advisorDesc}}</text>
+          </view>
+          <ui-icon name="chev" size="{{28}}" color="ink-800" />
+        </view>
+      </view>
+    </block>
+  </view>
+
+  <view class="action-bar">
+    <view class="cta cta--primary" data-url="/pages/index/index" data-tab="{{true}}" bind:tap="go">
+      <text>进入主理人公社</text>
+      <view class="cta-arrow"><ui-icon name="arrow" size="{{30}}" color="on-signal" /></view>
+    </view>
+    <view class="ta-c mt-14">
+      <text class="t-micro">探索 · 连接 · 共创 · 成长</text>
+    </view>
+  </view>
+</view>

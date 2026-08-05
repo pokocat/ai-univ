@@ -1,0 +1,39 @@
+/* 会员订阅页版式。 */
+
+.sub-hero { padding: 0; overflow: hidden; }
+.sub-hero-top { padding: 42rpx 28rpx 24rpx; text-align: center; }
+.sub-hero-t { display: block; font-size: 37rpx; font-weight: 700; color: var(--ink-900); letter-spacing: 1rpx; }
+.sub-hero-d { display: block; font-size: var(--fs-meta); color: var(--ink-700); margin-top: 14rpx; }
+
+/* 权益对比表 */
+.cmp { padding: 0 10rpx 18rpx; }
+.cmp-head, .cmp-row {
+  display: grid; grid-template-columns: 1.4fr 1fr 1fr; align-items: center;
+  padding: 19rpx 18rpx;
+}
+.cmp-head { border-top: 1rpx solid var(--line-soft); }
+.cmp-head .cmp-c1 { font-size: var(--fs-h4); font-weight: 700; color: var(--ink-900); }
+.cmp-head .cmp-c2 { font-size: var(--fs-body); color: var(--ink-700); text-align: center; }
+.cmp-head .cmp-c3 { font-size: var(--fs-body); color: var(--signal-600); font-weight: 700; text-align: center; }
+.cmp-row { border-top: 1rpx solid var(--line-soft); }
+.cmp-row .cmp-c1 { display: flex; align-items: center; gap: 14rpx; font-size: var(--fs-sec); color: var(--ink-800); }
+.cmp-row .cmp-c2, .cmp-row .cmp-c3 { display: flex; align-items: center; justify-content: center; }
+.cmp-row .cmp-c3, .cmp-head .cmp-c3 { background: rgba(124, 58, 237, 0.06); }
+
+/* 套餐行 */
+.plan-row {
+  display: flex; align-items: center; gap: 21rpx;
+  padding: 26rpx 28rpx; border-radius: 24rpx;
+  background: var(--card-bg); border: 1rpx solid var(--line);
+}
+.plan-row--on {
+  border-color: var(--signal-600);
+  box-shadow: 0 0 0 1rpx rgba(109, 40, 217, 0.2), 0 10rpx 34rpx rgba(126, 92, 150, 0.12);
+}
+.plan-name { font-size: var(--fs-h3); font-weight: 700; color: var(--ink-900); }
+.save { display: block; margin-top: 4rpx; font-size: var(--fs-tiny); color: var(--pulse-600); }
+.block { display: block; }
+
+/* 通道未开放时压暗主 CTA，但**不置灰不禁用**：点下去要有反馈（toast 说明原因），
+   置灰按钮点了毫无反应，用户不知道自己漏了哪一步（同登录页那条口径）。 */
+.cta--muted { filter: saturate(0.55) brightness(0.94); }

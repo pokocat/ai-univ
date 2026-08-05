@@ -1,0 +1,94 @@
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.nav__back {
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: -6px;
+}
+
+.card--pad16 {
+  padding: 16px;
+}
+
+/* --- 结论 + 健康分 ------------------------------------------------------- */
+.verdict {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.verdict__h {
+  font: 700 17px/1.3 var(--f-sans);
+  color: var(--ink);
+  margin-top: 10px;
+  white-space: pre-line; /* headline 里的 \n 要断行 */
+}
+
+.verdict__score {
+  text-align: right;
+  flex-shrink: 0;
+  margin-left: 12px;
+}
+
+.score__n {
+  font: 700 34px/1 var(--f-mono);
+  color: var(--amber);
+  font-variant-numeric: tabular-nums;
+}
+
+.score__cap {
+  font: 400 10px/1 var(--f-sans);
+  color: var(--grey);
+  margin-top: 6px;
+}
+
+.hr--v {
+  margin: 15px 0 13px;
+}
+
+/* --- 问题条目 ----------------------------------------------------------- */
+.issue__top {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 11px;
+}
+
+.issue__no {
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  font: 600 10px/20px var(--f-mono);
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.issue__no--r {
+  background: var(--tint-r);
+  color: var(--rose);
+}
+
+.issue__no--a {
+  background: var(--tint-a);
+  color: var(--amber);
+}
+
+.issue__flag {
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.mt12 {
+  margin-top: 12px;
+}
+
+.act__body {
+  flex: 1;
+}

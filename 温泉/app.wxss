@@ -1,0 +1,480 @@
+@import "styles/icons.wxss";
+
+/* ===========================================================================
+ * 温泉酒店 AI 超级应用 · 设计令牌
+ * 冷岩灰底 + 曜石紫（动作）+ 汤泉青（私域承接）+ 琥珀（预警）
+ * 刻意区别于主理人公社的暖奶油紫，两个 App 不会看串。
+ *
+ * 尺寸单位用 px（设计稿 390×844 = iPhone 14 逻辑分辨率），
+ * 在 390pt 机型上与设计稿 1:1，375–430pt 靠 flex 自适应。
+ * ========================================================================= */
+
+page {
+  --ink: #191D21;
+  --slate: #5C666E;
+  --grey: #8B959C;
+  --muted: #B0BAC1;
+
+  --ground: #F4F6F7;
+  --soft: #F6F8F9;
+  --chip: #EDF0F2;
+  --line: #E6EAEC;
+  --hair: #EEF1F3;
+  --edge: #DDE2E5;
+
+  --purple: #7A5C9B;
+  --plum: #5F457E;
+  --lilac: #B99BD8;
+  --purple-mid: #9A80B8;
+  --tint-p: #F1ECF6;
+
+  --teal: #3E96A3;
+  --teal-deep: #2C6E78;
+  --teal-mid: #6FB4BD;
+  --teal-text: #3D6B71;
+  --teal-edge: #CFE6E9;
+  --tint-t: #E8F3F4;
+
+  --amber: #C08320;
+  --amber-text: #7A5426;
+  --tint-a: #FDF6E9;
+
+  --green: #2E8B63;
+  --tint-g: #E7F3ED;
+  --rose: #C4485A;
+  --tint-r: #FBE9EC;
+
+  --f-sans: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue",
+    "Noto Sans SC", "Microsoft YaHei", sans-serif;
+  --f-mono: ui-monospace, "SF Mono", Menlo, "Roboto Mono", "Courier New", monospace;
+
+  background: var(--ground);
+  font-family: var(--f-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+view,
+text,
+scroll-view,
+image {
+  box-sizing: border-box;
+}
+
+/* --- 屏幕骨架 ----------------------------------------------------------- */
+.screen {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: var(--ground);
+  overflow: hidden;
+}
+
+.statusbar {
+  flex-shrink: 0;
+}
+
+/* 顶部标题区：各屏自绘，不用系统导航栏 */
+.head {
+  flex-shrink: 0;
+  padding: 12px 18px 12px;
+}
+
+.head__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.body {
+  flex: 1;
+  min-height: 0;
+  padding: 0 16px;
+}
+
+/* scroll-view 内部的实际内容列 */
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-bottom: 18px;
+}
+
+.stack--tight {
+  gap: 9px;
+}
+
+.stack--loose {
+  gap: 10px;
+}
+
+/* --- 卡片 --------------------------------------------------------------- */
+.card {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 15px;
+  box-shadow: 0 1px 2px rgba(25, 29, 33, 0.04);
+}
+
+.card--sm {
+  border-radius: 14px;
+  padding: 13px;
+}
+
+.card--flush {
+  padding: 0;
+  overflow: hidden;
+}
+
+.card--dash {
+  border-style: dashed;
+  border-color: #CFD6DA;
+  box-shadow: none;
+}
+
+.card--ink {
+  background: var(--ink);
+  border: none;
+  border-radius: 18px;
+  padding: 18px;
+  box-shadow: none;
+}
+
+.hr {
+  height: 1px;
+  background: var(--hair);
+}
+
+.hr--onink {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* --- 排版 --------------------------------------------------------------- */
+.kicker {
+  font: 500 9px/1 var(--f-mono);
+  letter-spacing: 0.12em;
+  color: var(--grey);
+}
+
+.kicker--p {
+  font: 500 9.5px/1 var(--f-mono);
+  letter-spacing: 0.14em;
+  color: var(--lilac);
+}
+
+.title {
+  font: 700 16.5px/1 var(--f-sans);
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+.h2 {
+  font: 700 13.5px/1 var(--f-sans);
+  color: var(--ink);
+}
+
+.h3 {
+  font: 700 13px/1 var(--f-sans);
+  color: var(--ink);
+}
+
+.lede {
+  font: 400 12.5px/1.6 var(--f-sans);
+  color: var(--slate);
+}
+
+.body-s {
+  font: 400 12px/1.6 var(--f-sans);
+  color: var(--slate);
+}
+
+.meta {
+  font: 400 11px/1 var(--f-mono);
+  color: var(--grey);
+}
+
+.meta-s {
+  font: 400 10.5px/1 var(--f-mono);
+  color: var(--grey);
+}
+
+.num {
+  font-family: var(--f-mono);
+  font-weight: 700;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.unit {
+  font: 400 13px/1 var(--f-sans);
+  color: var(--slate);
+}
+
+.pos {
+  color: var(--green);
+}
+
+/* --- 药丸 / 标签 -------------------------------------------------------- */
+.pill {
+  border-radius: 999px;
+  padding: 4px 9px;
+  font: 600 10px/1 var(--f-sans);
+}
+
+.pill--g {
+  background: var(--tint-g);
+  color: var(--green);
+}
+
+.pill--a {
+  background: var(--tint-a);
+  color: var(--amber);
+}
+
+.pill--r {
+  background: var(--tint-r);
+  color: var(--rose);
+}
+
+.chips {
+  display: flex;
+  gap: 7px;
+}
+
+.chip {
+  height: 32px;
+  padding: 0 14px;
+  border-radius: 999px;
+  background: var(--chip);
+  color: var(--slate);
+  font: 500 12px/32px var(--f-sans);
+  flex-shrink: 0;
+}
+
+.chip--on {
+  background: var(--ink);
+  color: #fff;
+  font-weight: 600;
+}
+
+/* --- 按钮 --------------------------------------------------------------- */
+.btn {
+  border-radius: 12px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  font: 700 13.5px/1 var(--f-sans);
+}
+
+.btn--p {
+  background: var(--purple);
+  color: #fff;
+}
+
+.btn--onink {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  font-weight: 600;
+  font-size: 13px;
+  padding: 0 16px;
+}
+
+/* 小号行内动作按钮 */
+.btn-s {
+  border-radius: 9px;
+  padding: 8px 13px;
+  font: 700 11.5px/1 var(--f-sans);
+  flex-shrink: 0;
+}
+
+.btn-s--p {
+  background: var(--purple);
+  color: #fff;
+}
+
+.btn-s--t {
+  background: var(--teal);
+  color: #fff;
+}
+
+.btn-s--ghost {
+  background: var(--chip);
+  color: var(--slate);
+  font-weight: 600;
+}
+
+.btn-s--onink {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  font-weight: 600;
+  font-size: 12px;
+  border-radius: 10px;
+}
+
+.hit:active {
+  opacity: 0.62;
+}
+
+/* --- 提示条（tint row） ------------------------------------------------- */
+.note {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 11px;
+  padding: 10px 12px;
+}
+
+.note__t {
+  font: 400 11px/1.45 var(--f-sans);
+  flex: 1;
+}
+
+.note--soft {
+  background: var(--soft);
+}
+.note--soft .note__t {
+  color: var(--slate);
+}
+
+.note--amber {
+  background: var(--tint-a);
+}
+.note--amber .note__t {
+  color: var(--amber-text);
+}
+
+.note--teal {
+  background: var(--tint-t);
+}
+.note--teal .note__t {
+  color: var(--teal-text);
+}
+
+/* 带动作按钮的提示条 */
+.act {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-radius: 12px;
+  padding: 11px 12px;
+}
+
+.act--p {
+  background: var(--tint-p);
+}
+
+.act--t {
+  background: var(--tint-t);
+}
+
+.act__lead {
+  font: 600 11.5px/1.4 var(--f-sans);
+}
+
+.act--p .act__lead {
+  color: var(--plum);
+}
+
+.act--t .act__lead {
+  color: var(--teal-deep);
+}
+
+.act__meta {
+  font: 400 10.5px/1 var(--f-mono);
+  color: var(--grey);
+  margin-top: 5px;
+}
+
+/* --- 图标尺寸 ----------------------------------------------------------- */
+.ic {
+  width: 16px;
+  height: 16px;
+}
+.ic-12 {
+  width: 12px;
+  height: 12px;
+}
+.ic-14 {
+  width: 14px;
+  height: 14px;
+}
+.ic-18 {
+  width: 18px;
+  height: 18px;
+}
+.ic-20 {
+  width: 20px;
+  height: 20px;
+}
+.ic-22 {
+  width: 22px;
+  height: 22px;
+}
+.ic-26 {
+  width: 26px;
+  height: 26px;
+}
+
+/* 圆角图标底板（首页常用宫格等） */
+.tile {
+  width: 44px;
+  height: 44px;
+  border-radius: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tile--lilac {
+  background: var(--tint-p);
+}
+
+.tile--teal {
+  background: var(--tint-t);
+}
+
+/* --- 条纹占位（还没有真素材的位置） ------------------------------------ */
+.ph {
+  background: repeating-linear-gradient(
+    135deg,
+    #E4E8EA 0 5px,
+    #EEF1F3 5px 10px
+  );
+}
+
+.shot {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    135deg,
+    #E4E8EA 0 5px,
+    #EEF1F3 5px 10px
+  );
+}
+
+/* --- 进度 / 条形 -------------------------------------------------------- */
+.bar {
+  height: 8px;
+  border-radius: 999px;
+  background: var(--chip);
+  overflow: hidden;
+}
+
+.bar__fill {
+  height: 8px;
+  border-radius: 999px;
+}
+
+.bar--thin,
+.bar--thin .bar__fill {
+  height: 6px;
+}
+
+/* --- 底部自绘 tabBar 的占位高度 ---------------------------------------- */
+.tabpad {
+  flex-shrink: 0;
+}

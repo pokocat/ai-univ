@@ -1,0 +1,195 @@
+<view class="page">
+  <!-- 联调提示条：只在「显式切过环境」时出现，避免忘了自己还连在测试后端上。
+       未切过（含审核版本走默认档）不显示；正式版 envOverridden 恒为 false。 -->
+  <view wx:if="{{envOverridden}}" class="env-bar" bind:tap="copyEnvBase">
+    <ui-icon name="info" size="{{26}}" color="warn" />
+    <text class="env-bar-t">当前后端：{{envLabel}} · {{envBase}}（点击复制）</text>
+  </view>
+
+  <!-- 账号 -->
+  <view class="section-head section-head--first"><text class="section-title">账号</text></view>
+  <view class="card card--list">
+    <view class="row" bind:tap="copyMemberNo">
+      <text class="info-k">会员编号</text>
+      <view class="f set-val">
+        <text class="t-body fw-500">{{memberNo || '—'}}</text>
+        <ui-icon name="copy" size="{{24}}" color="t3" />
+      </view>
+    </view>
+    <view class="row">
+      <text class="info-k">手机号</text>
+      <text class="t-body fw-500">{{phoneText}}</text>
+    </view>
+  </view>
+
+  <!-- 消息提醒：站内消息默认开启；每个微信模板由用户主动点击授权一次 -->
+  <view class="section-head"><text class="section-title">消息提醒</text></view>
+  <view class="card">
+    <view class="notify-intro">
+      <text class="t-sec">支付、分班、入群和权益变化都会保存在站内消息。开启下面的微信提醒后，即使没打开小程序也能收到服务通知。</text>
+    </view>
+    <view
+      wx:for="{{notificationTemplates}}"
+      wx:key="key"
+      class="notify-setting {{index < notificationTemplates.length - 1 ? 'notify-setting--line' : ''}}"
+      data-key="{{item.key}}"
+      bind:tap="enableNotification"
+    >
+      <view class="f set-row f-1">
+        <ui-icon name="bell" size="{{30}}" color="{{item.configured ? 'accent' : 't3'}}" />
+        <view class="f-1">
+          <text class="t-body">{{item.title}}</text>
+          <view class="mt-4"><text class="t-muted">{{item.description}}</text></view>
+        </view>
+      </view>
+      <view class="f set-val">
+        <text class="{{item.remaining > 0 ? 'notify-status--on' : 't-muted'}}">{{item.statusText}}</text>
+        <ui-icon wx:if="{{item.configured}}" name="chevron-right" size="{{26}}" color="t3" />
+      </view>
+    </view>
+    <view wx:if="{{!notifyConfiguredCount}}" class="notify-unconfigured">
+      <text class="t-muted">微信模板尚未配置；站内消息功能不受影响。</text>
+    </view>
+  </view>
+
+  <!-- 协议与隐私 -->
+  <view class="section-head"><text class="section-title">协议与隐私</text></view>
+  <view class="card card--list">
+    <view class="row" data-type="user" bind:tap="openAgreement">
+      <view class="f set-row">
+        <ui-icon name="file-text" size="{{30}}" color="accent" />
+        <text class="t-body">用户协议</text>
+      </view>
+      <ui-icon name="chevron-right" size="{{28}}" color="t3" />
+    </view>
+    <view class="row" data-type="privacy" bind:tap="openAgreement">
+      <view class="f set-row">
+        <ui-icon name="shield-check" size="{{30}}" color="accent" />
+        <text class="t-body">隐私政策</text>
+      </view>
+      <ui-icon name="chevron-right" size="{{28}}" color="t3" />
+    </view>
+    <view class="row" data-type="membership" bind:tap="openAgreement">
+      <view class="f set-row">
+        <ui-icon name="file-text" size="{{30}}" color="accent" />
+        <text class="t-body">会员服务协议</text>
+      </view>
+      <ui-icon name="chevron-right" size="{{28}}" color="t3" />
+    </view>
+    <view class="row" bind:tap="openPrivacyContract">
+      <view class="f set-row">
+        <ui-icon name="shield-check" size="{{30}}" color="accent" />
+        <view>
+          <text class="t-body">小程序隐私保护指引</text>
+          <view class="mt-4"><text class="t-muted">微信官方版本</text></view>
+        </view>
+      </view>
+      <ui-icon name="chevron-right" size="{{28}}" color="t3" />
+    </view>
+  </view>
+
+  <!-- 通用 -->
+  <view class="section-head"><text class="section-title">通用</text></view>
+  <view class="card card--list">
+    <view class="row" bind:tap="clearCache">
+      <view class="f set-row">
+        <ui-icon name="refresh-cw" size="{{30}}" color="accent" />
+        <view>
+          <text class="t-body">清除缓存</text>
+          <view class="mt-4"><text class="t-muted">仅清页面数据，不会退出登录</text></view>
+        </view>
+      </view>
+      <ui-icon name="chevron-right" size="{{28}}" color="t3" />
+    </view>
+    <!-- 连点 7 次开出后端环境切换（仅非正式版生效，见 tapVersion 注释） -->
+    <view class="row" bind:tap="tapVersion">
+      <view class="f set-row">
+        <ui-icon name="info" size="{{30}}" color="accent" />
+        <text class="t-body">当前版本</text>
+      </view>
+      <text class="t-muted">{{version}}</text>
+    </view>
+    <button class="row row--btn" bind:tap="openCustomerService">
+      <view class="f set-row">
+        <ui-icon name="message-circle" size="{{30}}" color="accent" />
+        <text class="t-body">在线客服</text>
+      </view>
+      <ui-icon name="chevron-right" size="{{28}}" color="t3" />
+    </button>
+  </view>
+
+  <!-- 危险区 -->
+  <view class="section-head"><text class="section-title">账号注销</text></view>
+  <view class="card">
+    <view wx:if="{{pendingTicket}}" class="del-pending">
+      <text class="t-sec">注销申请已提交（工单 {{pendingTicket}}），运营核验后会依法处理。</text>
+    </view>
+    <block wx:else>
+      <text class="t-sec">注销后，你的会员档案与个人信息将被删除或匿名化，已购买的会员权益同时失效且不可恢复。法律法规要求保留的交易记录除外。</text>
+      <view class="mt-12">
+        <text class="t-muted">为核验身份、避免误删，注销采用人工审核：提交后运营会在 1 个工作日内处理。</text>
+      </view>
+      <button class="btn btn--danger mt-26" bind:tap="openDelete">
+        <ui-icon name="trash-2" size="{{28}}" color="danger" />
+        申请注销账号
+      </button>
+    </block>
+  </view>
+
+  <!-- 后端环境切换弹层（联调用；正式版打不开） -->
+  <ui-sheet wx:if="{{envOpen}}" title="后端环境" bind:close="closeEnv">
+    <view class="mt-12"><text class="t-muted">切换后会清除登录态并回到登录页——token 属于上一个后端，换库后对不上。</text></view>
+    <view
+      wx:for="{{envList}}"
+      wx:key="key"
+      class="env-item {{envPick === item.key ? 'env-item--on' : ''}}"
+      data-key="{{item.key}}"
+      bind:tap="pickEnv"
+    >
+      <view class="f-between">
+        <view class="f set-row">
+          <view class="env-radio {{envPick === item.key ? 'env-radio--on' : ''}}" />
+          <text class="t-body fw-500">{{item.label}}</text>
+          <text wx:if="{{item.isDefault}}" class="tag tag--gray">默认</text>
+        </view>
+      </view>
+      <view class="env-item-sub"><text class="t-muted">{{item.hint}}</text></view>
+      <view wx:if="{{item.base}}" class="env-item-sub"><text class="t-muted">{{item.base}}</text></view>
+      <!-- 局域网档没有固定地址，就地填 -->
+      <input
+        wx:if="{{item.editable && envPick === item.key}}"
+        value="{{lanInput}}"
+        placeholder="http://192.168.1.8:8080/api/v1"
+        placeholder-style="color:#6E685F"
+        class="field-input"
+        bindinput="onLanInput"
+      />
+    </view>
+
+    <view class="mt-16">
+      <text class="t-muted">真机连非正式环境需在手机上打开调试模式（开发版/体验版）跳过域名校验。</text>
+    </view>
+    <button class="btn btn--primary mt-26" bind:tap="applyEnv">切换并重新登录</button>
+    <button class="btn btn--ghost mt-16" bind:tap="resetEnv">恢复默认</button>
+  </ui-sheet>
+
+  <!-- 注销原因弹层（原因选填，但问一句能让运营判断是不是误操作/可挽回） -->
+  <ui-sheet wx:if="{{delOpen}}" title="申请注销账号" bind:close="closeDelete">
+    <view class="mt-16">
+      <text class="t-sec">能告诉我们原因吗？（选填，有助于我们改进）</text>
+      <input
+        value="{{delReason}}"
+        placeholder="例如：不再使用 / 重复注册"
+        placeholder-style="color:#6E685F"
+        class="field-input"
+        maxlength="100"
+        bindinput="onReasonInput"
+      />
+    </view>
+    <view class="mt-20">
+      <text class="t-muted">提交后不会立即删除，运营核验身份后依法处理；处理期间你仍可正常使用。</text>
+    </view>
+    <button class="btn btn--danger mt-30" loading="{{delSubmitting}}" bind:tap="submitDelete">提交注销申请</button>
+    <button class="btn btn--ghost mt-16" bind:tap="closeDelete">再想想</button>
+  </ui-sheet>
+</view>

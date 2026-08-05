@@ -1,0 +1,9 @@
+/* 宿主必须自己声明盒模型与 flex-shrink：app.wxss 的 .avatar 上那条 flex-shrink:0 写在
+   **内层 view** 上，保不住宿主。成员列表这类「头像 + 长名字 + 状态」的 flex 行里，
+   宿主被压窄后内层固定尺寸溢出，表现是头像被旁边文字盖住。
+   刻意不写 line-height:0（icon/art/ring 都写了）：它会继承进 .avatar-ini 的首字母，
+   把那个字的行盒压成 0。vertical-align 只在宿主处于行内上下文时起作用，flex 行里无副作用。 */
+:host { display: inline-flex; flex-shrink: 0; vertical-align: middle; }
+
+/* 盘体/渐变/圆角/裁切全部沿用 app.wxss 的 .avatar / .avatar-ini / .avatar-img
+   （styleIsolation: shared 才吃得到），组件本身不再重复定义，避免两处样式漂移。 */

@@ -1,0 +1,143 @@
+<view class="page page--sub pt-30">
+  <!-- ① 校验票据与身份 -->
+  <view wx:if="{{stage === 'loading'}}" class="card"><text class="t-muted">加载中…</text></view>
+
+  <!-- ② 确认卡：先让用户看清"用哪个微信号登录"，再给确认按钮 -->
+  <view wx:elif="{{stage === 'confirm'}}" class="card-glow">
+    <view class="f card-head">
+      <view class="li-icon head-icon">
+        <ui-icon name="qr-code" size="{{30}}" color="accent" />
+      </view>
+      <view class="f-1">
+        <text class="t-strong">登录社群管理台</text>
+        <view class="mt-6"><text class="t-muted">电脑上的登录请求等待你确认</text></view>
+      </view>
+    </view>
+
+    <!-- 身份块：点头像/昵称可随时重新编辑（微信不允许静默取头像昵称，只能用户自己填） -->
+    <view class="who" bind:tap="openProfile">
+      <ui-avatar path="{{avatarPath}}" name="{{memberName}}" size="lg" />
+      <view class="who-text">
+        <text class="t-body fw-500">{{memberName}}</text>
+        <view wx:if="{{memberNo}}" class="mt-6"><text class="info-k mono">{{memberNo}}</text></view>
+        <!-- 手机号：有就显示尾号，没有也如实说"未绑定"，不留空让人以为是加载中 -->
+        <view class="mt-6">
+          <text class="info-k">{{phoneText ? '手机号 ' + phoneText : '未绑定手机号'}}</text>
+        </view>
+      </view>
+      <text class="who-edit">编辑</text>
+    </view>
+
+    <!-- ②-a 资料没填：说清为什么要填（不是"完善资料得积分"那种空话），主按钮换成填写入口 -->
+    <view wx:if="{{isDefaultName}}" class="notice notice--warn">
+      <text class="t-sec">请先设置头像和昵称，再确认登录。</text>
+      <view class="mt-10">
+        <text class="t-muted">微信不允许小程序自动获取你的头像昵称。管理员要在电脑上批准这次开户，
+        看到的只有你在这里填的资料——不填的话列表里是一排「微信用户」，他认不出该批准谁。</text>
+      </view>
+    </view>
+
+    <!-- ②-b 资料齐了：正常的授权说明 -->
+    <block wx:else>
+      <view class="notice">
+        <text class="t-sec">确认后，电脑上的管理台将以这个身份登录。</text>
+        <view class="mt-10">
+          <text class="t-muted">如果这不是你本人在操作，请直接取消——你的账号不会有任何变化。</text>
+        </view>
+      </view>
+      <!-- 头像缺失不阻断确认（头像授权真有可能被拒，堵死就登不进来了），只给一个补设入口 -->
+      <view wx:if="{{avatarMissing}}" class="side-row">
+        <text class="t-muted">还没有头像，管理员看到的是文字头像</text>
+        <text class="side-link" bind:tap="openProfile">设置头像</text>
+      </view>
+    </block>
+
+    <!-- 手机号：**可选**采集。微信规范禁止把手机号授权当作使用前提，所以它在主按钮之外、
+         拒绝也不影响登录；已绑定就不再问第二遍 -->
+    <view wx:if="{{!phoneText}}" class="side-row">
+      <text class="t-muted">绑定手机号，便于管理员识别并联系你（选填）</text>
+      <button class="btn btn--ghost btn--mini" open-type="getPhoneNumber" bindgetphonenumber="onPhone">
+        微信快速绑定
+      </button>
+    </view>
+
+    <button wx:if="{{isDefaultName}}" class="btn btn--gradient mt-30" bind:tap="openProfile">
+      填写昵称和头像
+    </button>
+    <button wx:else class="btn btn--gradient mt-30" loading="{{confirming}}" bind:tap="doConfirm">确认登录</button>
+    <button class="btn btn--ghost mt-14" bind:tap="cancel">取消</button>
+  </view>
+
+  <!-- ③ 已确认（有启用账号）：这是唯一可以说"电脑那头能进去了"的分支 -->
+  <view wx:elif="{{stage === 'ok'}}" class="card-glow">
+    <view class="f card-head">
+      <view class="li-icon li-icon--ok head-icon">
+        <ui-icon name="check-circle" size="{{30}}" color="ok" />
+      </view>
+      <view class="f-1">
+        <text class="t-strong">{{title}}</text>
+        <view class="mt-6"><text class="t-muted">{{memberName}}</text></view>
+      </view>
+      <text class="tag tag--green">已确认</text>
+    </view>
+    <view class="mt-22"><text class="t-sec">{{hint}}</text></view>
+    <button class="btn btn--ghost mt-30" bind:tap="goHome">回到首页</button>
+  </view>
+
+  <!-- ④ 待批准：确认动作成功了，但电脑那头**还进不去**——如实说，不写"登录成功" -->
+  <view wx:elif="{{stage === 'pending'}}" class="card-glow">
+    <view class="f card-head">
+      <view class="li-icon li-icon--warn head-icon">
+        <ui-icon name="clock" size="{{30}}" color="warn" />
+      </view>
+      <view class="f-1">
+        <text class="t-strong">{{title}}</text>
+        <view class="mt-6"><text class="t-muted">{{memberName}}</text></view>
+      </view>
+      <text class="tag tag--amber">待批准</text>
+    </view>
+    <view class="mt-22"><text class="t-sec">{{hint}}</text></view>
+    <view class="notice">
+      <text class="t-muted">批准由管理员在管理台「账号与权限」页完成。批准后回到电脑重新扫码即可登录，本页不需要一直开着。</text>
+    </view>
+    <button class="btn btn--ghost mt-30" bind:tap="goHome">回到首页</button>
+  </view>
+
+  <!-- ⑤ 已取消：只说本地放手了，不谎称"电脑上的登录已被取消" -->
+  <view wx:elif="{{stage === 'cancelled'}}" class="card empty-card">
+    <text class="t-title">{{title}}</text>
+    <view class="mt-14"><text class="t-muted">{{hint}}</text></view>
+    <button class="btn btn--gradient mt-40" bind:tap="goHome">回到首页</button>
+  </view>
+
+  <!-- ⑥ 失败：原样展示服务端人话（票据过期 / 已被另一个微信号确认 / 已完成登录） -->
+  <view wx:else class="card-glow">
+    <view class="f card-head">
+      <view class="li-icon li-icon--danger head-icon">
+        <ui-icon name="info" size="{{30}}" color="danger" />
+      </view>
+      <view class="f-1">
+        <text class="t-strong">无法确认登录</text>
+        <view class="mt-6"><text class="t-muted">请按下面的说明处理</text></view>
+      </view>
+    </view>
+    <view class="notice"><text class="t-sec">{{errMsg}}</text></view>
+    <!-- 只有网络类失败才给重试：票据失效时按钮点一万次也不会成功，解法在电脑那头 -->
+    <button wx:if="{{canRetry}}" class="btn btn--gradient mt-30" bind:tap="retry">重试</button>
+    <button class="btn btn--ghost mt-14" bind:tap="goHome">回到首页</button>
+  </view>
+
+  <!-- 完善资料（头像 chooseAvatar + 昵称 input type=nickname 一体）：与登录页/我的页同一个组件 -->
+  <ui-profile-edit
+    wx:if="{{profileOpen}}"
+    title="设置头像和昵称"
+    subtitle="管理员在电脑上批准这次登录时，看到的就是这里填的头像和昵称。"
+    avatarPath="{{avatarPath}}"
+    name="{{memberName}}"
+    bind:saved="onProfileSaved"
+    bind:close="closeProfile"
+  />
+
+  <!-- 隐私授权弹层：本页有头像/昵称填写与手机号（getPhoneNumber），必须挂 -->
+  <ui-privacy />
+</view>

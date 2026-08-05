@@ -1,0 +1,159 @@
+.catbar {
+  width: 100%;
+  white-space: nowrap;
+}
+
+.row-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.mb7 { margin-bottom: 7px; }
+.mb12 { margin-bottom: 12px; }
+.mb13 { margin-bottom: 13px; }
+.mt7 { margin-top: 7px; }
+.mt12 { margin-top: 12px; }
+
+.hr--v {
+  margin: 14px 0 12px;
+}
+
+/* --- 形象主卡 ----------------------------------------------------------- */
+.who {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.who__img {
+  width: 64px;
+  height: 80px;
+  border-radius: 11px;
+  flex-shrink: 0;
+  background: repeating-linear-gradient(135deg, #E4E8EA 0 4px, #EEF1F3 4px 8px);
+}
+
+.who__body {
+  flex: 1;
+}
+
+.who__n {
+  font: 700 15px/1.25 var(--f-sans);
+  color: var(--ink);
+}
+
+.who__row {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 9px;
+}
+
+.who__ok {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* --- 形象时间轴 --------------------------------------------------------- */
+.tl__cap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 11px;
+}
+
+.tl {
+  display: flex;
+  gap: 9px;
+}
+
+.tl__col {
+  flex: 1;
+}
+
+.tl__img {
+  display: block;
+  width: 100%;
+  height: 96px;
+  border-radius: 10px;
+  background: repeating-linear-gradient(135deg, #E4E8EA 0 4px, #EEF1F3 4px 8px);
+}
+
+/* 在用的那个时期：紫色描边 */
+.tl__img.is-on {
+  outline: 2px solid var(--purple);
+  outline-offset: 1px;
+}
+
+.tl__y {
+  font: 500 10px/1 var(--f-mono);
+  color: var(--slate);
+  margin-top: 7px;
+}
+
+.tl__y.is-on {
+  font-weight: 600;
+  color: var(--purple);
+}
+
+/* --- 场景列表 ----------------------------------------------------------- */
+.scenes {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.scene {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+
+.scene__img {
+  width: 56px;
+  height: 40px;
+  border-radius: 9px;
+  flex-shrink: 0;
+  background: repeating-linear-gradient(135deg, #E4E8EA 0 4px, #EEF1F3 4px 8px);
+}
+
+.scene__body {
+  flex: 1;
+  min-width: 0;
+}
+
+.scene__n {
+  font: 600 12.5px/1 var(--f-sans);
+  color: var(--ink);
+}
+
+.scene__m {
+  font: 400 10px/1.35 var(--f-mono);
+  color: var(--grey);
+  margin-top: 6px;
+}
+
+/* --- 外借 --------------------------------------------------------------- */
+.lend {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 14px 15px;
+}
+
+.lend__body {
+  flex: 1;
+}
+
+.lend__t {
+  font: 700 12.5px/1.3 var(--f-sans);
+  color: var(--ink);
+}
+
+.lend__b {
+  font: 400 11px/1.45 var(--f-sans);
+  color: var(--slate);
+  margin-top: 5px;
+}

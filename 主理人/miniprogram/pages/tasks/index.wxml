@@ -1,0 +1,72 @@
+<view class="page">
+  <ui-errbar wx:if="{{loadError}}" msg="{{loadError}}" retrying="{{retrying}}" bind:retry="retryLoad" />
+
+  <!-- 头区：进度是这一页的主对象，用大号数字直接承载，不再包进卡片 -->
+  <view class="hd">
+    <text class="hd-title">我的任务</text>
+    <view class="f-between prog-row">
+      <view class="f prog-count">
+        <text class="prog-num mono">{{doneCount}}</text>
+        <text class="prog-total mono">/ {{total}}</text>
+        <text class="t-muted">已完成</text>
+      </view>
+      <text wx:if="{{donePoints > 0}}" class="t-amber">今日 +{{donePoints}} 积分</text>
+    </view>
+    <view class="progress-track mt-20">
+      <view class="progress-fill" style="width:{{pct}}%" />
+    </view>
+  </view>
+
+  <view wx:if="{{!loaded}}" class="card card--list">
+    <view class="task-cell">
+      <view class="skeleton skeleton-line skeleton-line--title" />
+      <view class="skeleton skeleton-line skeleton-line--body" />
+    </view>
+    <view class="task-cell">
+      <view class="skeleton skeleton-line skeleton-line--title" />
+      <view class="skeleton skeleton-line skeleton-line--body" />
+    </view>
+    <view class="task-cell">
+      <view class="skeleton skeleton-line skeleton-line--title" />
+      <view class="skeleton skeleton-line skeleton-line--body" />
+    </view>
+  </view>
+
+  <view wx:elif="{{tasks.length === 0}}" class="card empty-state">
+    <view class="empty-state-mark">务</view>
+    <text class="empty-state-title">今天暂时没有任务</text>
+    <text class="empty-state-desc">新的社群任务会出现在这里，稍后再来看看。</text>
+  </view>
+
+  <!--
+    列表是「一张卡 + 细线分隔」，不是「每条任务一张卡」。
+    十条任务十张浮动卡片时，页面上只剩容器，没有内容层级。
+  -->
+  <view wx:else class="card card--list">
+    <view
+      wx:for="{{tasks}}"
+      wx:key="id"
+      class="task-cell {{item.done ? 'task-cell--done' : ''}}"
+      data-id="{{item.id}}"
+      bind:tap="complete"
+    >
+      <view class="f task-row">
+        <view class="task-check {{item.done ? 'task-check--done' : ''}} {{item.urgent && !item.done ? 'task-check--urgent' : ''}}">
+          <ui-icon wx:if="{{item.done}}" name="check-circle" size="{{22}}" color="on-accent" />
+        </view>
+        <view class="f-1">
+          <text class="task-title {{item.done ? 'task-title--done' : ''}}">{{item.title}}</text>
+          <view class="f task-meta">
+            <text class="tag {{item.tagClass}}">{{item.typeText}}</text>
+            <view wx:if="{{item.deadlineText}}" class="f meta-clock">
+              <ui-icon name="clock" size="{{20}}" color="t3" />
+              <text class="t-muted">{{item.deadlineText}}</text>
+            </view>
+            <text wx:if="{{item.points > 0}}" class="t-amber">+{{item.points}} 积分</text>
+            <text wx:if="{{busyId === item.id}}" class="t-muted">提交中…</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

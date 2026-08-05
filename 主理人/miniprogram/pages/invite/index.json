@@ -1,0 +1,13 @@
+{
+  "navigationBarTitleText": "邀请推荐",
+  "enablePullDownRefresh": true,
+  "backgroundTextStyle": "dark",
+  "backgroundColor": "#FFF7EC",
+  "usingComponents": {
+    "ui-icon": "/components/icon/index",
+    "ui-art": "/components/art/index",
+    "ui-avatar": "/components/avatar/index",
+    "ui-subhead": "/components/subhead/index",
+    "ui-errbar": "/components/errbar/index"
+  }
+}

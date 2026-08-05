@@ -1,0 +1,16 @@
+<view class="apphead" style="{{navPad}}">
+  <view class="app-head" style="padding-right:{{capsuleW}}rpx;">
+    <view wx:if="{{logo}}" class="app-logo {{compact ? 'app-logo--sm' : ''}}">
+      <ui-icon name="gem" size="{{compact ? 32 : 40}}" color="signal-200" stroke="{{1.3}}" />
+    </view>
+    <view class="app-brand">
+      <view class="app-brand-row">
+        <text class="app-name {{big ? 'app-name--lg' : ''}}">{{title}}</text>
+        <text wx:if="{{pro}}" class="badge-pro">PRO</text>
+        <text wx:if="{{ai}}" class="badge-ai">AI</text>
+        <view wx:if="{{gem}}" class="gem-mini"><ui-icon name="gem" size="{{26}}" color="signal" /></view>
+      </view>
+      <text wx:if="{{sub}}" class="app-sub">{{sub}}</text>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,116 @@
+<ui-sheet
+  title="{{title}}"
+  variant="profile"
+  closable="{{!phoneRequired && !nameRequired}}"
+  bind:close="close"
+>
+  <view wx:if="{{subtitle}}" class="pe-sub"><text>{{subtitle}}</text></view>
+
+  <!--
+    常规注册表：一组「左标签 + 右值」的行，细线分隔，头像 → 昵称 → 手机号。
+    说明文字一律不进行内，统一收到列表下方的 .pe-note——
+    每行各挂一句说明是上一版最主要的杂乱来源。
+  -->
+  <view class="pe-form">
+    <!--
+      头像行本身就是 chooseAvatar 按钮。
+      内部只放 view/image/text：嵌自定义组件会抢走点击命中
+      （profile-edit.test.js ① 守着这条）。
+    -->
+    <button
+      class="pe-row pe-row--btn"
+      open-type="chooseAvatar"
+      bindchooseavatar="onChooseAvatar"
+      hover-class="pe-row--pressed"
+      aria-label="设置头像"
+    >
+      <text class="pe-label">头像</text>
+      <view class="pe-value">
+        <text class="pe-opt">选填</text>
+        <image
+          wx:if="{{tempAvatar || avatarSrc}}"
+          class="pe-avatar"
+          src="{{tempAvatar || avatarSrc}}"
+          mode="aspectFill"
+          binderror="onAvatarImageError"
+        />
+        <view wx:else class="pe-avatar pe-avatar--fallback">{{avatarChar}}</view>
+        <view class="pe-arrow" />
+      </view>
+    </button>
+
+    <view class="pe-row">
+      <text class="pe-label">昵称</text>
+      <view class="pe-value">
+        <text wx:if="{{!nameRequired}}" class="pe-opt">选填</text>
+        <input
+          type="nickname"
+          value="{{nickInput}}"
+          placeholder="请输入昵称"
+          placeholder-style="color:#6E685F"
+          class="pe-input"
+          maxlength="30"
+          bindinput="onNickInput"
+        />
+      </view>
+    </view>
+
+    <!-- 手机号：只在首次注册（phoneRequired）或已绑定时出现；我的页编辑不渲染 -->
+    <view wx:if="{{phoneRequired || phoneDisplay}}" class="pe-row">
+      <text class="pe-label">手机号</text>
+      <view class="pe-value">
+        <text wx:if="{{phoneDisplay}}" class="pe-phone mono">{{phoneDisplay}}</text>
+        <!-- 后台未声明 scope：配置问题，再点也不会成功，按钮收掉、原因写在下方 -->
+        <text wx:elif="{{phoneScopeError}}" class="pe-state">暂不可用</text>
+        <text wx:elif="{{!privacyReady}}" class="pe-state">检查中…</text>
+        <!-- 未同意微信隐私协议：必须先走官方 agreePrivacyAuthorization，不能直接调 getPhoneNumber -->
+        <button
+          wx:elif="{{!privacyAgreed}}"
+          id="profile-privacy-agree"
+          class="pe-inline-btn"
+          open-type="agreePrivacyAuthorization"
+          bindagreeprivacyauthorization="onAgreePrivacy"
+        >
+          同意隐私指引
+        </button>
+        <button
+          wx:else
+          class="pe-inline-btn pe-inline-btn--primary"
+          open-type="getPhoneNumber"
+          loading="{{phoneBinding}}"
+          bindgetphonenumber="onPhone"
+        >
+          微信绑定
+        </button>
+      </view>
+    </view>
+  </view>
+
+  <!-- 全部说明收在这里，一次只说当前这一步需要知道的事 -->
+  <view wx:if="{{phoneRequired || phoneDisplay}}" class="pe-note">
+    <block wx:if="{{phoneScopeError}}">
+      <text class="pe-note-err">{{phoneScopeError}}</text>
+      <text class="pe-link" bind:tap="openPrivacyContract">查看《小程序隐私保护指引》</text>
+    </block>
+    <block wx:elif="{{!privacyAgreed && privacyReady}}">
+      <text>绑定手机号前，请先阅读并同意</text>
+      <text class="pe-link" bind:tap="openPrivacyContract">《小程序隐私保护指引》</text>
+    </block>
+    <text wx:else>手机号用于确认会员身份与必要的服务联系，不会获取通讯录，也不会公开展示。</text>
+  </view>
+
+  <!--
+    提交按钮常驻。
+    上一版在手机号完成前整个按钮都不渲染，用户面对一张没有提交入口的表，
+    既不知道还差什么，也不知道填完会发生什么。现在保持可见并置灰，
+    按钮文案直接说明卡在哪一步。
+  -->
+  <button
+    class="btn btn--primary pe-save"
+    disabled="{{!canSave || (phoneRequired && !phoneDisplay) || (nameRequired && !hasNickname)}}"
+    loading="{{saving}}"
+    bind:tap="save"
+  >
+    {{submitLabel}}
+  </button>
+</ui-sheet>

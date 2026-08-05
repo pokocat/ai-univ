@@ -1,0 +1,14 @@
+{
+  "navigationBarTitleText": "课程与直播",
+  "enablePullDownRefresh": true,
+  "backgroundTextStyle": "dark",
+  "usingComponents": {
+    "ui-icon": "/components/icon/index",
+    "ui-errbar": "/components/errbar/index",
+    "ui-privacy": "/components/privacy/index"
+  },
+  "backgroundColor": "#FFF7EC",
+  "navigationStyle": "default",
+  "navigationBarBackgroundColor": "#FFF7EC",
+  "navigationBarTextStyle": "black"
+}

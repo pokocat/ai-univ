@@ -1,0 +1,12 @@
+<view class="errbar">
+  <view class="errbar-body">
+    <view class="errbar-dot" />
+    <view class="errbar-text">
+      <text class="errbar-title">加载失败</text>
+      <text class="errbar-msg">{{msg}}</text>
+    </view>
+    <view class="errbar-btn {{retrying ? 'errbar-btn--busy' : ''}}" bind:tap="retry">
+      {{retrying ? '重试中' : '重试'}}
+    </view>
+  </view>
+</view>

@@ -1,0 +1,95 @@
+<view class="screen">
+  <view class="statusbar" style="height: {{padTop}}px"></view>
+
+  <view class="head">
+    <view class="nav">
+      <view class="nav__back hit" bindtap="back">
+        <view class="ic ic-26 ic-back"></view>
+      </view>
+      <view class="title">会员经营</view>
+      <view class="meta nav__tail">{{m.count}}</view>
+    </view>
+  </view>
+
+  <scroll-view class="body" scroll-y enable-flex>
+    <view class="stack">
+
+      <!-- 年卡：权益全部围绕「制造第二次消费的理由」 -->
+      <view class="card--ink vipcard">
+        <view class="vip__top">
+          <view>
+            <view class="kicker--p">{{m.card.kicker}}</view>
+            <view class="vip__price">
+              <text class="vip__num">{{m.card.price}}</text>
+              <text class="vip__per">{{m.card.per}}</text>
+            </view>
+          </view>
+          <view class="vip__new">
+            <view class="vip__newn">{{m.card.newCount}}</view>
+            <view class="vip__newl">{{m.card.newLabel}}</view>
+          </view>
+        </view>
+        <view class="hr--onink vip__hr"></view>
+        <view class="perks">
+          <view class="perk" wx:for="{{m.card.perks}}" wx:key="text">
+            <view class="ic ic-14 {{item.icon}}"></view>
+            <view class="perk__t">{{item.text}}</view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 无人货柜：品牌方铺货，酒店零库存 -->
+      <view class="card">
+        <view class="row-between mb13">
+          <view class="vend__head">
+            <view class="ic ic-18 ic-fridge"></view>
+            <view class="h2">{{m.vending.title}}</view>
+          </view>
+          <view class="pill pill--g">{{m.vending.tag}}</view>
+        </view>
+        <view class="trio">
+          <view wx:for="{{m.vending.stats}}" wx:key="k">
+            <view class="kicker">{{item.k}}</view>
+            <view class="trio__v {{item.green ? 'pos' : ''}}">
+              <text>{{item.v}}</text><text wx:if="{{item.unit}}" class="trio__u">{{item.unit}}</text>
+            </view>
+          </view>
+        </view>
+        <view class="note note--soft mt13">
+          <view class="ic ic-12 ic-info"></view>
+          <view class="note__t">{{m.vending.note}}</view>
+        </view>
+      </view>
+
+      <!-- 协会统一选品：100 家共采，积分可抵扣 -->
+      <view class="card">
+        <view class="row-between mb12">
+          <view class="h2">{{m.skus.title}}</view>
+          <view class="meta-s">{{m.skus.meta}}</view>
+        </view>
+        <view class="skus">
+          <view class="sku" wx:for="{{m.skus.items}}" wx:key="name">
+            <image class="sku__img" src="{{item.img}}" mode="aspectFill" lazy-load />
+            <view class="sku__body">
+              <view class="sku__n">{{item.name}}</view>
+              <view class="sku__m">{{item.note}}</view>
+            </view>
+            <view class="sku__s {{item.on ? 'is-on' : 'is-wait'}}">{{item.state}}</view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 积分把内容生产成本和消费闭环连起来 -->
+      <view class="card points3">
+        <view class="ic ic-20 ic-coin"></view>
+        <view class="points3__body">
+          <view class="lend__t">积分是那根线</view>
+          <view class="lend__b">出片消耗 · 裂变赠送 · 商城抵扣，三处用的是同一套积分</view>
+        </view>
+      </view>
+
+    </view>
+  </scroll-view>
+
+  <tabbar selected="{{tab}}" />
+</view>

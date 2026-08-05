@@ -1,0 +1,55 @@
+/* 组件样式隔离（默认 isolated）：全局 app.wxss 的**类**不作用于组件内部，
+   故按钮样式在此自带一份；但自定义属性会继承进来，颜色仍走 token。 */
+.pv-mask {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 200;
+  background: rgba(20, 23, 26, 0.58);
+  display: flex; align-items: flex-end;
+}
+.pv-body {
+  position: relative;
+  width: 100%; box-sizing: border-box;
+  background: var(--paper);
+  border-radius: 34rpx 34rpx 0 0;
+  padding: 54rpx 40rpx calc(48rpx + env(safe-area-inset-bottom));
+  box-shadow: 0 -24rpx 60rpx rgba(20, 23, 26, 0.20);
+}
+.pv-body::before {
+  content: "";
+  position: absolute; top: 16rpx; left: 50%;
+  width: 72rpx; height: 8rpx; margin-left: -36rpx;
+  border-radius: 999rpx; background: var(--line);
+}
+.pv-title {
+  font-family: var(--font-zh);
+  font-size: 34rpx; font-weight: 600; color: var(--ink-900);
+}
+.pv-text {
+  margin-top: 22rpx;
+  font-size: 25rpx; line-height: 1.75; color: var(--ink-700);
+}
+.pv-link { color: var(--signal-800); }
+
+.pv-btns { display: flex; gap: 22rpx; margin-top: 36rpx; }
+.pv-btn {
+  flex: 1; min-width: 0;
+  display: flex; align-items: center; justify-content: center;
+  border: none; border-radius: 16rpx;
+  font-size: 26rpx; font-weight: 600; line-height: 1.4;
+  padding: 20rpx 0;
+  transition: transform 180ms ease, background 180ms ease;
+}
+.pv-btn::after { border: none; }
+.pv-btn--ghost {
+  background: var(--sunk); color: var(--ink-900);
+  border: 1rpx solid var(--line);
+}
+.pv-btn--ghost:active { background: var(--line-soft); transform: scale(0.985); }
+.pv-btn--primary {
+  background: var(--signal-600); color: var(--on-signal);
+  box-shadow: var(--sh-signal-sm);
+}
+.pv-btn--primary:active { background: var(--signal-700); transform: scale(0.985); }
+
+@media (prefers-reduced-motion: reduce) {
+  .pv-btn { transition: none; }
+}

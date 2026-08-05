@@ -1,0 +1,108 @@
+<view class="screen screen--bar">
+  <view class="ambience" />
+  <view class="layer">
+    <ui-subhead title="退款进度" home="/pages/refund/index" />
+
+    <ui-errbar wx:if="{{err}}" msg="{{err}}" retrying="{{retrying}}" bind:retry="load" />
+    <view wx:if="{{loading}}" class="card card-pad"><view class="skeleton skeleton-block" /></view>
+
+    <block wx:elif="{{refund}}">
+      <view class="card result-hero">
+        <view class="result-hero-text">
+          <text class="tag tag--purple tag--round">退款进度</text>
+          <view class="title-grad rr-title">{{heroTitle}}</view>
+          <text class="t-sec mt-8 block">{{heroDesc}}</text>
+        </view>
+        <view class="result-hero-art"><ui-art kind="gem" w="{{220}}" icon="yrefund" variant="rr" /></view>
+      </view>
+
+      <!-- 四步进度 -->
+      <view class="card card-pad gap">
+        <view class="f-between mb-16">
+          <text class="col-h">处理进度</text>
+          <view class="link-trail" bind:tap="load"><text>刷新</text><ui-icon name="refresh" size="{{22}}" color="ink-800" /></view>
+        </view>
+        <view class="hprog">
+          <block wx:for="{{refund.steps}}" wx:key="title">
+            <view class="hprog-step">
+              <view class="hprog-node {{item.done ? 'hprog-node--done' : (item.active ? 'hprog-node--pulse' : '')}}">
+                <ui-icon name="{{stepIcons[index]}}" size="{{32}}" color="{{item.done || item.active ? 'on-signal' : 'ink-800'}}" />
+              </view>
+              <text class="hprog-t {{item.done || item.active ? '' : 'hprog-t--off'}}">{{item.title}}</text>
+              <text class="hprog-s" style="{{item.active ? 'color:var(--pulse-600);' : ''}}">{{item.state}}</text>
+              <text wx:if="{{item.atText}}" class="hprog-d mono">{{item.atText}}</text>
+            </view>
+            <view wx:if="{{index < refund.steps.length - 1}}" class="hprog-line {{item.done ? 'hprog-line--on' : ''}}" />
+          </block>
+        </view>
+      </view>
+
+      <!-- 退款信息 -->
+      <view class="card card-pad gap">
+        <text class="col-h mb-10 block">退款信息</text>
+        <view class="info-card">
+          <view class="ic-row">
+            <view class="ic-l"><ui-icon name="doc" size="{{26}}" color="ink-800" /><text>订单编号</text></view>
+            <view class="f" style="gap:8rpx;" bind:tap="copyNo">
+              <text class="ic-v mono">{{refund.order_no}}</text>
+              <ui-icon name="copy" size="{{22}}" color="ink-600" />
+            </view>
+          </view>
+          <view class="ic-row">
+            <view class="ic-l"><ui-icon name="crown" size="{{26}}" color="ink-800" /><text>会员方案</text></view>
+            <text class="ic-v">{{refund.plan_name}}</text>
+          </view>
+          <view class="ic-row">
+            <view class="ic-l"><ui-icon name="card" size="{{26}}" color="ink-800" /><text>退款金额</text></view>
+            <text class="ic-v mono t-pulse">¥{{amountText}}</text>
+          </view>
+          <view wx:if="{{appliedText}}" class="ic-row">
+            <view class="ic-l"><ui-icon name="clock" size="{{26}}" color="ink-800" /><text>申请时间</text></view>
+            <text class="ic-v mono">{{appliedText}}</text>
+          </view>
+          <view class="ic-row">
+            <view class="ic-l"><ui-icon name="shield" size="{{26}}" color="ink-800" /><text>当前状态</text></view>
+            <text class="ic-v t-signal">{{refund.status}}</text>
+          </view>
+          <view class="ic-row">
+            <view class="ic-l"><ui-icon name="info" size="{{26}}" color="ink-800" /><text>到账说明</text></view>
+            <text class="ic-v">{{refund.etaHint}}</text>
+          </view>
+        </view>
+      </view>
+
+      <view wx:if="{{decisionComment}}" class="card card-pad gap">
+        <text class="col-h mb-8 block">审核意见</text>
+        <text class="rr-comment">{{decisionComment}}</text>
+      </view>
+
+      <view class="warn-box gap">
+        <ui-icon name="warn" size="{{32}}" color="danger" />
+        <text class="t-meta t-danger">
+          已使用的部分权益可能影响退款结果，最终以平台审核为准；
+          实际到账时间由支付渠道决定，中台只负责审批与权益回收。
+        </text>
+      </view>
+    </block>
+
+    <view wx:else class="card card-pad">
+      <view class="blank">
+        <view class="blank-mark"><ui-icon name="yrefund" size="{{52}}" color="signal" /></view>
+        <text class="blank-title">找不到这笔退款</text>
+        <text class="blank-hint">订单可能不属于你，或还没有提交过退款申请。</text>
+        <view class="btn-sm mt-16" data-url="/pages/refund/index" bind:tap="go">返回订单与退款</view>
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{refund}}" class="action-bar">
+    <view class="action-row">
+      <view class="cta cta--primary" data-url="/pages/advisor/index" bind:tap="go">
+        <ui-icon name="headset" size="{{32}}" color="on-signal" /><text>联系服务老师</text>
+      </view>
+      <view class="cta cta--ghost" data-url="/pages/mine/index" bind:tap="go">
+        <ui-icon name="user" size="{{30}}" color="signal" /><text>返回我的</text>
+      </view>
+    </view>
+  </view>
+</view>

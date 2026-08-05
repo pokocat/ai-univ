@@ -1,0 +1,108 @@
+<view class="screen screen--bar">
+  <view class="ambience" />
+  <view class="layer">
+    <ui-subhead title="会员订阅" home="/pages/member/index" />
+
+    <ui-errbar wx:if="{{err}}" msg="{{err}}" retrying="{{retrying}}" bind:retry="load" />
+
+    <view wx:if="{{loading}}" class="card card-pad"><view class="skeleton skeleton-block" /></view>
+
+    <block wx:else>
+      <!-- hero + 权益对比 -->
+      <view class="card card--hero sub-hero">
+        <view class="sub-hero-top">
+          <text class="sub-hero-t">AI 驱动 · 资源链接 · 共同成长</text>
+          <text class="sub-hero-d">主理人公社会员计划</text>
+          <ui-art kind="gem" w="{{230}}" icon="crown" variant="sub" extStyle="margin:14rpx auto 0;" />
+          <text class="sub-hero-d mt-8">连接优质资源，放大商业影响力</text>
+        </view>
+
+        <view wx:if="{{compare.length}}" class="cmp">
+          <view class="cmp-head">
+            <text class="cmp-c1">权益对比</text>
+            <text class="cmp-c2">普通会员</text>
+            <text class="cmp-c3">付费会员</text>
+          </view>
+          <view wx:for="{{compare}}" wx:key="code" class="cmp-row">
+            <view class="cmp-c1">
+              <ui-icon name="{{item.icon}}" size="{{28}}" color="ink-800" />
+              <text>{{item.name}}</text>
+            </view>
+            <view class="cmp-c2">
+              <ui-icon wx:if="{{item.freeIncluded}}" name="shield" size="{{28}}" color="ok" />
+              <ui-icon wx:else name="xcircle" size="{{28}}" color="ink-500" />
+            </view>
+            <view class="cmp-c3"><ui-icon name="shield" size="{{28}}" color="signal" /></view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 套餐选项 -->
+      <block wx:if="{{plans.length}}">
+        <view
+          wx:for="{{plans}}"
+          wx:key="plan_code"
+          class="plan-row gap {{selected === item.plan_code ? 'plan-row--on' : ''}}"
+          data-code="{{item.plan_code}}"
+          bind:tap="pick"
+        >
+          <view class="radio {{selected === item.plan_code ? 'radio--on' : ''}}">
+            <view wx:if="{{selected === item.plan_code}}" class="radio-i" />
+          </view>
+          <view class="f-1">
+            <view class="f f-wrap" style="gap:14rpx;">
+              <text class="plan-name">{{item.name}}</text>
+              <text wx:if="{{item.badge}}" class="tag tag--amber">{{item.badge}}</text>
+              <text wx:if="{{item.recommended}}" class="tag tag--purple">推荐</text>
+            </view>
+            <text class="t-tiny mt-4 block">{{item.durationText}}{{item.summary ? ' · ' + item.summary : ''}}</text>
+          </view>
+          <view class="ta-r">
+            <view class="price">
+              <text class="price-cur">¥</text>
+              <text class="price-v mono">{{item.priceText}}</text>
+              <text class="price-unit">{{item.unitText}}</text>
+            </view>
+            <text wx:if="{{item.saveText}}" class="mono save">省 ¥{{item.saveText}}</text>
+          </view>
+        </view>
+      </block>
+
+      <view wx:else class="card card-pad">
+        <view class="blank">
+          <view class="blank-mark"><ui-icon name="crown" size="{{52}}" color="signal" /></view>
+          <text class="blank-title">暂无可购买的会员方案</text>
+          <text class="blank-hint">运营还没有上架会员套餐，可以先联系服务老师了解，或稍后再来。</text>
+          <view class="btn-sm mt-16" data-url="/pages/advisor/index" bind:tap="go">联系服务老师</view>
+        </view>
+      </view>
+
+      <!-- 支付通道如实说明：不摆一个必然失败的支付入口 -->
+      <view wx:if="{{plans.length}}" class="box box--sunk gap">
+        <view class="f" style="gap:12rpx;">
+          <ui-icon name="{{pay.disabled ? 'warn' : 'shield'}}" size="{{28}}" color="{{pay.disabled ? 'warn' : 'signal'}}" />
+          <text class="t-sec fw-600">{{pay.hint}}</text>
+        </view>
+        <text class="t-tiny mt-6 block">到期前会通过站内消息与微信服务通知提醒你续费。本平台不做自动扣费，续费需你手动确认。</text>
+      </view>
+
+      <!-- iOS 通道未开放：在选档这一页就说清楚，不让用户白走一步 -->
+      <view wx:if="{{iosBlocked}}" class="warn-box gap">
+        <ui-icon name="warn" size="{{32}}" color="danger" />
+        <text class="t-meta t-danger">当前 iOS 通道尚未开放，可在安卓/鸿蒙设备上开通，或联系服务老师协助。</text>
+      </view>
+    </block>
+  </view>
+
+  <view wx:if="{{plans.length}}" class="action-bar">
+    <view class="cta cta--primary {{pay.disabled ? 'cta--muted' : ''}}" bind:tap="next">
+      <text>{{pay.disabled ? '支付通道开通中' : '下一步 · 确认订单'}}</text>
+      <view wx:if="{{!pay.disabled}}" class="cta-arrow"><ui-icon name="arrow" size="{{30}}" color="on-signal" /></view>
+    </view>
+    <view class="f-center mt-12" style="gap:10rpx;">
+      <ui-icon name="shield" size="{{24}}" color="ink-600" />
+      <text class="t-micro">开通即表示同意</text>
+      <text class="t-micro t-signal" data-url="/pages/agreement/index?type=membership" bind:tap="go">《会员服务协议》</text>
+    </view>
+  </view>
+</view>

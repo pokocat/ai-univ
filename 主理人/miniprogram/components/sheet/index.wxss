@@ -1,0 +1,41 @@
+/* 组件样式隔离：弹层壳样式在组件内维护；slot 内容样式由页面作用域提供。
+   自定义属性会继承进组件，颜色统一走 token。 */
+.sheet-mask {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 100;
+  background: rgba(51, 33, 15, 0.45);
+  display: flex; align-items: flex-end;
+}
+.sheet-body {
+  position: relative;
+  width: 100%; box-sizing: border-box;
+  max-height: calc(100vh - 48rpx);
+  overflow-y: auto;
+  background: var(--paper);
+  border-radius: 34rpx 34rpx 0 0;
+  padding: 52rpx 40rpx calc(48rpx + env(safe-area-inset-bottom));
+  box-shadow: 0 -24rpx 60rpx rgba(20, 23, 26, 0.20);
+}
+.sheet-body::before {
+  content: "";
+  position: absolute; top: 16rpx; left: 50%;
+  width: 72rpx; height: 8rpx; margin-left: -36rpx;
+  border-radius: 999rpx; background: var(--line);
+}
+.sheet-body--compact {
+  padding-top: 48rpx;
+  padding-bottom: calc(32rpx + env(safe-area-inset-bottom));
+}
+.sheet-body--profile {
+  padding: 46rpx 36rpx calc(28rpx + env(safe-area-inset-bottom));
+}
+.sheet-head { display: flex; justify-content: space-between; align-items: center; }
+.sheet-title {
+  font-family: var(--font-zh);
+  font-size: 38rpx; font-weight: 600; line-height: 1.25; color: var(--ink-900);
+  letter-spacing: -1rpx;
+}
+.sheet-close {
+  padding: 8rpx;
+  border-radius: 12rpx;
+  background: var(--sunk);
+}

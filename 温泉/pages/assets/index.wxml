@@ -1,0 +1,101 @@
+<view class="screen">
+  <view class="statusbar" style="height: {{padTop}}px"></view>
+
+  <view class="head">
+    <view class="head__row mb13">
+      <view class="title">数字资产库</view>
+      <view class="meta">{{a.total}}</view>
+    </view>
+    <!-- 四类资产：形象 / 场景 / 产品 / 声音 -->
+    <scroll-view scroll-x class="catbar" enable-flex show-scrollbar="{{false}}">
+      <view class="chips">
+        <view
+          wx:for="{{a.tabs}}"
+          wx:key="name"
+          class="chip {{index === kind ? 'chip--on' : ''}}"
+          data-i="{{index}}"
+          bindtap="pickKind"
+        >{{item.name}} {{item.n}}</view>
+      </view>
+    </scroll-view>
+  </view>
+
+  <scroll-view class="body" scroll-y enable-flex>
+    <view class="stack">
+
+      <!-- 形象带时间轴：同一个人的三个时期分别核验、分别授权 -->
+      <view class="card">
+        <view class="who">
+          <image class="who__img" src="{{a.persona.avatar}}" mode="aspectFill" lazy-load />
+          <view class="who__body">
+            <view class="kicker mb7">{{a.persona.reg}}</view>
+            <view class="who__n">{{a.persona.name}}</view>
+            <view class="who__row">
+              <view class="pill pill--g who__ok">
+                <view class="ic ic-12 ic-shield"></view>
+                <text>{{a.persona.status}}</text>
+              </view>
+            </view>
+            <view class="meta-s mt7">{{a.persona.verified}}</view>
+          </view>
+        </view>
+
+        <view class="hr hr--v"></view>
+
+        <view class="tl__cap">
+          <view class="ic ic-12 ic-time"></view>
+          <view class="kicker">形象时间轴 · 3 个时期</view>
+        </view>
+        <view class="tl">
+          <view class="tl__col" wx:for="{{a.persona.eras}}" wx:key="year">
+            <image
+              class="tl__img {{item.active ? 'is-on' : ''}}"
+              src="{{item.src}}"
+              mode="aspectFill"
+              lazy-load
+            />
+            <view class="tl__y {{item.active ? 'is-on' : ''}}">{{item.year}}</view>
+          </view>
+        </view>
+        <view class="note note--soft mt12">
+          <view class="ic ic-12 ic-info"></view>
+          <view class="note__t">{{a.persona.note}}</view>
+        </view>
+      </view>
+
+      <!-- 场景带空间参数：机位、石阶级数、门的开合、成人儿童身高比 -->
+      <view class="card">
+        <view class="row-between mb12">
+          <view class="h2">场景 · 空间一致性</view>
+          <view class="meta-s">{{a.tabs[1].n}} 个</view>
+        </view>
+        <view class="scenes">
+          <view class="scene" wx:for="{{a.scenes}}" wx:key="name">
+            <image class="scene__img" src="{{item.thumb}}" mode="aspectFill" lazy-load />
+            <view class="scene__body">
+              <view class="scene__n">{{item.name}}</view>
+              <view class="scene__m">{{item.meta}}</view>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 资产可外借，协会内部形成素材流通 -->
+      <view class="card card--dash lend">
+        <view class="lend__body">
+          <view class="lend__t">{{a.lend.title}}</view>
+          <view class="lend__b">{{a.lend.body}}</view>
+        </view>
+        <view
+          class="btn-s btn-s--ghost hit"
+          bindtap="toast"
+          data-msg="演示版：按次分成，协会统一结算"
+        >了解</view>
+      </view>
+
+    </view>
+  </scroll-view>
+
+  <!-- 框架 tabBar 是覆盖式的，这里留出等高空白 -->
+  <view class="tabpad" style="height: {{70 + safeBottom}}px"></view>
+</view>

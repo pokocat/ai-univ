@@ -1,0 +1,133 @@
+<view class="screen screen--bar">
+  <view class="ambience" />
+  <view class="layer">
+    <ui-subhead title="预约 AI 诊断" home="/pages/diagnosis/index" />
+
+    <ui-errbar wx:if="{{err}}" msg="{{err}}" retrying="{{retrying}}" bind:retry="load" />
+
+    <view class="card card--hero db-hero">
+      <view class="f-start" style="gap:8rpx;">
+        <view class="f-1">
+          <view class="title-grad db-title">AI 诊断预约</view>
+          <text class="lead mt-8">提交社群与业务信息，获取增长、活跃、转化与服务诊断建议</text>
+          <view class="f f-wrap mt-12" style="gap:10rpx;">
+            <view class="pill-outline"><ui-icon name="sparkle" size="{{21}}" color="signal" /><text>智能匹配</text></view>
+            <view class="pill-outline"><ui-icon name="clock" size="{{21}}" color="signal-600" /><text>优先排期</text></view>
+          </view>
+        </view>
+        <ui-art kind="aigem" w="{{215}}" variant="db" />
+      </view>
+    </view>
+
+    <!-- 诊断信息 -->
+    <view class="card card-pad gap">
+      <view class="f-between mb-8">
+        <text class="col-h">诊断信息</text>
+        <text class="t-tiny t-danger">* 为必填</text>
+      </view>
+
+      <view class="form-row">
+        <view class="form-l"><ui-icon name="members" size="{{30}}" color="signal" /><text>诊断对象</text></view>
+        <picker range="{{subjects}}" value="{{subjectIdx}}" bindchange="pickSubject">
+          <view class="field-trail">
+            <text>{{subjects[subjectIdx] || '请选择'}}</text>
+            <ui-icon name="chev" size="{{26}}" color="ink-800" />
+          </view>
+        </picker>
+      </view>
+
+      <view class="form-row">
+        <view class="form-l"><ui-icon name="pin" size="{{30}}" color="signal" /><text>所在城市</text></view>
+        <input class="field-inline" value="{{form.city}}" placeholder="选填" data-k="city" bindinput="onInput" />
+      </view>
+
+      <view class="form-row">
+        <view class="form-l"><ui-icon name="bookmark" size="{{30}}" color="signal" /><text>社群方向</text></view>
+        <input class="field-inline" value="{{form.communityFocus}}" placeholder="如：本地生活 / 知识付费" data-k="communityFocus" bindinput="onInput" />
+      </view>
+
+      <view class="form-row">
+        <view class="form-l"><ui-icon name="user" size="{{30}}" color="signal" /><text>会员规模</text></view>
+        <picker range="{{scales}}" value="{{scaleIdx}}" bindchange="pickScale">
+          <view class="field-trail">
+            <text>{{scales[scaleIdx] || '请选择区间'}}</text>
+            <ui-icon name="chev" size="{{26}}" color="ink-800" />
+          </view>
+        </picker>
+      </view>
+    </view>
+
+    <!-- 诊断类型：来自字典，不在客户端硬编码 -->
+    <view class="card card-pad gap">
+      <view class="mb-12">
+        <text class="col-h">诊断类型</text>
+        <text class="star"> *</text>
+        <text class="t-tiny">（可多选）</text>
+      </view>
+      <view class="four-col">
+        <view
+          wx:for="{{types}}"
+          wx:key="label"
+          class="pick {{item.on ? 'pick--on' : ''}}"
+          data-label="{{item.label}}"
+          bind:tap="toggleType"
+        >
+          <view wx:if="{{item.on}}" class="tile-check"><ui-icon name="check" size="{{20}}" color="on-signal" /></view>
+          <ui-icon name="{{item.icon}}" size="{{42}}" color="{{item.on ? 'signal' : 'ink-800'}}" />
+          <text>{{item.label}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 核心问题 / 期望目标 -->
+    <view class="card card-pad gap">
+      <view class="mb-10">
+        <text class="col-h">核心问题</text><text class="star"> *</text>
+      </view>
+      <textarea
+        class="textarea"
+        value="{{form.coreProblem}}"
+        placeholder="简要描述当前面临的核心问题"
+        maxlength="200"
+        data-k="coreProblem"
+        bindinput="onInput"
+      />
+      <view class="ta-r mt-6"><text class="t-micro mono">{{form.coreProblem.length}}/200</text></view>
+
+      <view class="mb-10 mt-16">
+        <text class="col-h">期望目标</text><text class="star"> *</text>
+      </view>
+      <textarea
+        class="textarea"
+        value="{{form.expectGoal}}"
+        placeholder="描述希望通过诊断达成的目标"
+        maxlength="200"
+        data-k="expectGoal"
+        bindinput="onInput"
+      />
+      <view class="ta-r mt-6"><text class="t-micro mono">{{form.expectGoal.length}}/200</text></view>
+    </view>
+
+    <view class="box box--sunk gap">
+      <view class="f" style="gap:12rpx;">
+        <ui-icon name="shield" size="{{28}}" color="signal" />
+        <text class="t-sec fw-600">提交后会发生什么</text>
+      </view>
+      <text class="t-tiny mt-6 block">
+        提交后进入排期，服务老师会结合你的社群与业务数据出具诊断报告，一般 2 个工作日内反馈。
+        进度会在「诊断记录」与站内消息里同步。
+      </text>
+    </view>
+  </view>
+
+  <view class="action-bar">
+    <view class="action-row">
+      <view class="cta cta--primary {{submitting ? 'cta--busy' : ''}}" bind:tap="submit">
+        <text>{{submitting ? '提交中…' : '提交预约'}}</text>
+      </view>
+      <view class="cta cta--ghost" data-url="/pages/advisor/index" bind:tap="go">
+        <ui-icon name="headset" size="{{30}}" color="signal" /><text>咨询老师</text>
+      </view>
+    </view>
+  </view>
+</view>

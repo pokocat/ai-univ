@@ -1,0 +1,103 @@
+<view class="screen screen--bar">
+  <view class="ambience" />
+  <view class="layer">
+    <ui-subhead title="服务顾问" home="/pages/group/index" />
+
+    <ui-errbar wx:if="{{err}}" msg="{{err}}" retrying="{{retrying}}" bind:retry="load" />
+    <view wx:if="{{loading}}" class="card card-pad"><view class="skeleton skeleton-block" /></view>
+
+    <block wx:else>
+      <view class="card card--hero ad-hero">
+        <view class="f-start" style="gap:8rpx;">
+          <view class="f-1">
+            <view class="title-grad ad-title">{{heroTitle}}</view>
+            <text class="lead mt-8">{{heroDesc}}</text>
+            <view class="f mt-12" style="gap:14rpx;">
+              <view class="pill-outline"><ui-icon name="crown" size="{{21}}" color="signal" /><text>专属服务</text></view>
+              <view class="pill-outline pill-outline--pulse"><ui-icon name="ribbon" size="{{21}}" color="pulse" /><text>全程陪伴</text></view>
+            </view>
+          </view>
+          <ui-art kind="gem" w="{{210}}" icon="wechat" variant="ad" />
+        </view>
+      </view>
+
+      <!-- 顾问名片 + 码 -->
+      <view wx:if="{{advisorQr || teacher}}" class="card card-pad gap">
+        <view class="f" style="gap:24rpx;">
+          <ui-avatar name="{{advisorName}}" path="{{advisorAvatar}}" size="{{140}}" ring="{{true}}" />
+          <view class="f-1">
+            <view class="f f-wrap" style="gap:12rpx;">
+              <text class="ad-name">{{advisorName}}</text>
+              <text class="tag tag--purple">{{advisorRole}}</text>
+            </view>
+            <text wx:if="{{advisorRegion}}" class="t-meta mt-8 block">{{advisorRegion}}</text>
+            <text class="t-tiny mt-6 block">{{advisorHint}}</text>
+          </view>
+        </view>
+
+        <view wx:if="{{advisorQr}}" class="qr-frame mt-16" bind:tap="previewQr">
+          <image class="qr-img" src="{{advisorQr}}" style="width:400rpx;height:400rpx;" mode="aspectFit" />
+        </view>
+        <view wx:if="{{advisorQr}}" class="f-center mt-12" style="gap:10rpx;">
+          <ui-icon name="scan" size="{{26}}" color="signal" />
+          <text class="t-meta t-signal">点击放大后长按识别，添加顾问企业微信</text>
+        </view>
+
+        <!-- 码还没就绪：如实说在等什么，并给刷新，不摆一个空的白框 -->
+        <view wx:if="{{!advisorQr}}" class="box box--sunk mt-16">
+          <view class="f" style="gap:12rpx;">
+            <ui-icon name="clock" size="{{28}}" color="warn" />
+            <text class="t-sec fw-600">{{qrPendingTitle}}</text>
+          </view>
+          <text class="t-tiny mt-6 block">{{qrPendingHint}}</text>
+        </view>
+      </view>
+
+      <!-- 完全没有顾问：兜底到微信客服 / 群聊 -->
+      <view wx:else class="card card-pad gap">
+        <view class="blank">
+          <view class="blank-mark"><ui-icon name="headset" size="{{52}}" color="signal" /></view>
+          <text class="blank-title">还没有为你匹配专属顾问</text>
+          <text class="blank-hint">{{fallbackHint}}</text>
+          <view class="btn-grad mt-16" bind:tap="contactService">联系客服</view>
+          <view class="btn-sm mt-12" data-url="/pages/ticket/index" bind:tap="go">提交服务工单</view>
+        </view>
+      </view>
+
+      <!-- 添加后如何入群：三步 -->
+      <view class="card card-pad gap">
+        <view class="f-between mb-16">
+          <view class="f" style="gap:12rpx;">
+            <ui-icon name="shield" size="{{28}}" color="signal" /><text class="col-h">添加后如何入群</text>
+          </view>
+          <text class="t-tiny">三步即完成</text>
+        </view>
+        <view class="flow3">
+          <block wx:for="{{steps}}" wx:key="title">
+            <view class="flow-item">
+              <text class="flow-n mono">{{index + 1}}</text>
+              <view class="flow-ico"><ui-icon name="{{item.icon}}" size="{{38}}" color="signal" /></view>
+              <text class="flow-t">{{item.title}}</text>
+              <text class="flow-d">{{item.desc}}</text>
+            </view>
+            <view wx:if="{{index < steps.length - 1}}" class="flow-line" />
+          </block>
+        </view>
+      </view>
+    </block>
+  </view>
+
+  <view class="action-bar">
+    <view class="action-row">
+      <view wx:if="{{advisorQr}}" class="cta cta--primary" bind:tap="saveQr">
+        <ui-icon name="download" size="{{32}}" color="on-signal" /><text>保存二维码</text>
+      </view>
+      <view wx:else class="cta cta--primary" bind:tap="load">
+        <ui-icon name="refresh" size="{{32}}" color="on-signal" /><text>刷新状态</text>
+      </view>
+      <view class="cta cta--ghost" data-url="/pages/group-qr/index" bind:tap="go">
+        <ui-icon name="chat" size="{{30}}" color="signal" /><text>入群入口</text>
+      </view>
+    </view>
+  </view>
+</view>

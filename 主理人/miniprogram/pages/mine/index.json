@@ -1,0 +1,14 @@
+{
+  "navigationBarTitleText": "我的",
+  "enablePullDownRefresh": true,
+  "backgroundTextStyle": "dark",
+  "backgroundColor": "#FFF7EC",
+  "usingComponents": {
+    "ui-icon": "/components/icon/index",
+    "ui-art": "/components/art/index",
+    "ui-avatar": "/components/avatar/index",
+    "ui-apphead": "/components/apphead/index",
+    "ui-errbar": "/components/errbar/index",
+    "ui-profile-edit": "/components/profile-edit/index"
+  }
+}

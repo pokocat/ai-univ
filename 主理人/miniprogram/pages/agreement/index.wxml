@@ -1,0 +1,36 @@
+<view class="page page--sub">
+  <view class="hd">
+    <view class="hd-title">{{title}}</view>
+    <view class="hd-sub">更新日期 {{updatedAt}} · 生效主体 {{operator}}</view>
+  </view>
+
+  <view class="card">
+    <text class="doc-intro">{{intro}}</text>
+  </view>
+
+  <view wx:for="{{sections}}" wx:key="h" class="card">
+    <view class="doc-h">{{item.h}}</view>
+    <view wx:for="{{item.ps}}" wx:for-item="p" wx:key="*this" class="doc-p">
+      <text class="t-body">{{p}}</text>
+    </view>
+  </view>
+
+  <!-- 另外两份协议的互跳入口 -->
+  <view class="card doc-others">
+    <view class="doc-h">相关协议</view>
+    <view
+      wx:for="{{others}}"
+      wx:key="type"
+      class="f-between doc-other-row"
+      data-type="{{item.type}}"
+      bind:tap="goOther"
+    >
+      <text class="t-body">《{{item.title}}》</text>
+      <text class="t-primary">查看</text>
+    </view>
+  </view>
+
+  <view class="doc-foot">
+    <text class="t-muted">本页内容为 {{title}} 全文，如有疑问可在「我的 → 在线客服」咨询。</text>
+  </view>
+</view>

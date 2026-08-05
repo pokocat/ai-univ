@@ -1,0 +1,240 @@
+<view class="page page--sub">
+  <ui-errbar wx:if="{{loadError}}" msg="{{loadError}}" retrying="{{retrying}}" bind:retry="retryLoad" />
+
+  <view class="hd">
+    <text class="hd-title">我的培训</text>
+    <view><text class="hd-sub">报名进度与班级信息</text></view>
+  </view>
+
+  <!-- 骨架而不是「加载中…」：与社群页/任务页同一套等待反馈 -->
+  <view wx:if="{{!loaded}}" class="card">
+    <view class="skeleton skeleton-line skeleton-line--title" />
+    <view class="skeleton skeleton-line skeleton-line--body" />
+    <view class="skeleton skeleton-block mt-30" />
+  </view>
+
+  <!-- ① 尚无报名：只引导去看套餐，不摆任何班级/顾问占位 -->
+  <view wx:elif="{{phase === 'none'}}" class="card empty-card">
+    <text class="t-title">{{title}}</text>
+    <view class="mt-14"><text class="t-muted">{{hint}}</text></view>
+    <button class="btn btn--gradient mt-40" bind:tap="goHome">去看培训套餐</button>
+  </view>
+
+  <block wx:else>
+    <!-- 阶段进度（分班 → 加顾问 → 进群 → 在训） -->
+    <view class="card steps-card">
+      <view class="steps">
+        <view wx:for="{{steps}}" wx:key="label" class="step">
+          <view wx:if="{{index > 0}}" class="step-link {{item.linked ? 'step-link--on' : ''}}" />
+          <view class="step-dot step-dot--{{item.state}}">
+            <text class="step-idx">{{item.state === 'done' ? '✓' : index + 1}}</text>
+          </view>
+          <text class="step-label step-label--{{item.state}}">{{item.label}}</text>
+        </view>
+      </view>
+      <view class="steps-hint"><text class="t-sec">{{hint}}</text></view>
+    </view>
+
+    <!-- ② 等待分班 -->
+    <view wx:if="{{phase === 'waiting_assign'}}" class="card-glow">
+      <view class="f card-head">
+        <view class="li-icon li-icon--warn head-icon">
+          <ui-icon name="clock" size="{{30}}" color="warn" />
+        </view>
+        <view class="f-1">
+          <text class="t-strong">{{title}}</text>
+          <view class="mt-6"><text class="t-muted">{{trackText}}</text></view>
+        </view>
+        <text class="tag tag--amber">{{statusText}}</text>
+      </view>
+      <view class="mt-22"><text class="t-sec">分班完成后，这里会显示你的班级顾问与班级群入口。</text></view>
+      <button class="btn btn--ghost mt-30" loading="{{refreshing}}" bind:tap="refreshStatus">刷新状态</button>
+    </view>
+
+    <!-- ③ 添加班级顾问 -->
+    <block wx:elif="{{phase === 'add_advisor'}}">
+      <!-- 运营轨：本次分班由运营安置，没有本人专属顾问码；不摆一个并不承接你的企微顾问。
+           官方插件入口已下发就在本页加入，没下发才等客服（个微人工承接）。 -->
+      <view wx:if="{{opsPlaced}}" class="card-glow">
+        <view class="f card-head">
+          <view class="li-icon head-icon">
+            <ui-icon name="users" size="{{30}}" color="accent" />
+          </view>
+          <view class="f-1">
+            <text class="t-strong">{{title}}</text>
+            <view class="mt-6"><text class="t-muted">{{cohortName}}</text></view>
+          </view>
+          <text class="tag">已分班</text>
+        </view>
+
+        <view class="row-line">
+          <view class="f-between kv"><text class="t-muted">班级群</text><text class="t-body fw-500">{{groupName}}</text></view>
+          <view class="f-between kv"><text class="t-muted">开课时间</text><text class="t-body fw-500">{{periodText}}</text></view>
+        </view>
+
+        <!-- scene=1 官方插件入口已下发：本页直接入群。 -->
+        <block wx:if="{{joinAvailable}}">
+          <view class="mt-22">
+            <text class="t-sec">点击下方「加入群聊」，按微信提示进入班级群，无需等待客服邀请。</text>
+          </view>
+          <view class="join-panel">
+            <join-group-cell
+              url="{{joinUrl}}"
+              contactText="加入班级群"
+              contactTextBlod="{{true}}"
+              paddingStyle="{{0}}"
+              bind:completemessage="handleJoinComplete"
+            ></join-group-cell>
+            <text class="join-panel-tip">由企业微信官方提供入群服务</text>
+          </view>
+          <button class="btn btn--ghost mt-30" loading="{{refreshing}}" bind:tap="refreshStatus">我已进群，刷新状态</button>
+          <button class="btn btn--ghost mt-14" bind:tap="goGroup">去我的社群</button>
+        </block>
+        <!-- 官方入口未下发：如实用接口文案（不摆假入口），入群进度与客服在「我的社群」。
+             接口没给文案就不摆空盒子——顶部 hint 已经说清这一态在等什么 -->
+        <block wx:else>
+          <view wx:if="{{joinHint}}" class="notice"><text class="t-sec">{{joinHint}}</text></view>
+          <button class="btn btn--primary mt-30" bind:tap="goGroup">去我的社群</button>
+          <button class="btn btn--ghost mt-14" loading="{{refreshing}}" bind:tap="refreshStatus">刷新状态</button>
+        </block>
+      </view>
+
+      <!-- 推荐人轨：本人专属一次性活码 -->
+      <view wx:else class="card-glow">
+        <view class="f card-head">
+          <view class="avatar avatar--sm">{{advisor.char}}</view>
+          <view class="f-1">
+            <text class="t-strong">{{advisor.name}}</text>
+            <!-- 服务区域/部门后端有才显示；企业认证信息后端未提供，故不展示 -->
+            <view wx:if="{{advisor.metaText}}" class="mt-6"><text class="t-muted">{{advisor.metaText}}</text></view>
+          </view>
+          <text class="tag">班级顾问</text>
+        </view>
+
+        <view class="row-line">
+          <view class="f-between kv"><text class="t-muted">班级</text><text class="t-body fw-500">{{cohortName}}</text></view>
+          <view class="f-between kv"><text class="t-muted">开课时间</text><text class="t-body fw-500">{{periodText}}</text></view>
+        </view>
+
+        <!-- 顾问活码：本人专属、一次性，摊开展示（白底保证识别率） -->
+        <block wx:if="{{contactAvailable}}">
+          <view class="qr-panel">
+            <image src="{{contactQr}}" class="qr-lg" mode="aspectFit" bind:tap="previewContactQR" />
+            <view class="qr-preview-tip">点击二维码放大，再长按识别添加顾问</view>
+            <text class="qr-tip">点开二维码 · 再长按识别</text>
+            <text wx:if="{{contactExpiresText}}" class="t-muted">二维码有效期至 {{contactExpiresText}}</text>
+          </view>
+          <view class="mt-22"><text class="t-muted">添加后，班级顾问会把你拉进班级群，并发送开课信息与课表。</text></view>
+        </block>
+        <!-- 已过期/已回收：如实说明并给出补救路径（用接口 hint，不摆失效的假二维码） -->
+        <view wx:else class="notice"><text class="t-sec">{{contactHint}}</text></view>
+
+        <button class="btn btn--ghost mt-30" loading="{{refreshing}}" bind:tap="refreshStatus">我已添加，刷新状态</button>
+      </view>
+    </block>
+
+    <!-- ④ 加入班级群 -->
+    <block wx:elif="{{phase === 'join_group'}}">
+      <view class="card-glow">
+        <view class="f card-head">
+          <view class="li-icon head-icon">
+            <ui-icon name="users" size="{{30}}" color="accent" />
+          </view>
+          <view class="f-1">
+            <text class="t-strong">{{groupName}}</text>
+            <view class="mt-6"><text class="t-muted">{{cohortName}}</text></view>
+          </view>
+          <text class="tag">待入群</text>
+        </view>
+
+        <!-- scene=1 官方插件入口；不再展示无法长按识别的 scene=2 活码图片。 -->
+        <view class="mt-22">
+          <text class="t-sec">班级顾问已发送邀请，也可以点击下方「加入群聊」进入班级群。</text>
+        </view>
+        <view wx:if="{{joinAvailable}}" class="join-panel">
+          <join-group-cell
+            url="{{joinUrl}}"
+            contactText="加入班级群"
+            contactTextBlod="{{true}}"
+            paddingStyle="{{0}}"
+            bind:completemessage="handleJoinComplete"
+          ></join-group-cell>
+          <text class="join-panel-tip">由企业微信官方提供入群服务</text>
+        </view>
+        <view wx:else class="notice"><text class="t-sec">{{joinHint}}</text></view>
+
+        <button class="btn btn--ghost mt-30" loading="{{refreshing}}" bind:tap="refreshStatus">我已进群，刷新状态</button>
+      </view>
+
+      <!-- 顾问小卡（同页保留，进群遇到问题找同一个人） -->
+      <view wx:if="{{advisor}}" class="card f card-head">
+        <view class="avatar avatar--sm">{{advisor.char}}</view>
+        <view class="f-1">
+          <text class="t-strong">{{advisor.name}}</text>
+          <view class="mt-6">
+            <text class="t-muted">{{advisor.metaText ? advisor.metaText : '班级顾问'}}</text>
+          </view>
+        </view>
+        <ui-icon name="headphones" size="{{32}}" color="ok" />
+      </view>
+    </block>
+
+    <!-- ⑤ 我的班级（在训） -->
+    <block wx:elif="{{phase === 'in_cohort'}}">
+      <view class="card-glow">
+        <view class="f card-head">
+          <view class="li-icon li-icon--ok head-icon">
+            <ui-icon name="check-circle" size="{{30}}" color="ok" />
+          </view>
+          <view class="f-1">
+            <text class="t-strong">{{cohortName}}</text>
+            <!-- 副标题不复述状态（标题右侧已有「在训」标签），只给同页最有用的下一步信息 -->
+            <view class="mt-6"><text class="t-muted">开课信息以班级群通知为准</text></view>
+          </view>
+          <text class="tag tag--green">在训</text>
+        </view>
+
+        <view class="row-line">
+          <view class="f-between kv"><text class="t-muted">讲师</text><text class="t-body fw-500">{{instructor}}</text></view>
+          <view class="f-between kv"><text class="t-muted">开课周期</text><text class="t-body fw-500">{{periodText}}</text></view>
+          <view class="f-between kv"><text class="t-muted">班级群</text><text class="t-body fw-500">{{groupName}}</text></view>
+          <view wx:if="{{joinedAtText}}" class="f-between kv">
+            <text class="t-muted">入群时间</text><text class="t-body fw-500">{{joinedAtText}}</text>
+          </view>
+        </view>
+
+        <view class="mt-22"><text class="t-sec">{{joinHint}}</text></view>
+        <view wx:if="{{joinAvailable}}" class="join-panel mt-30">
+          <join-group-cell
+            url="{{joinUrl}}"
+            contactText="重新打开群聊入口"
+            contactTextBlod="{{true}}"
+            paddingStyle="{{0}}"
+            bind:completemessage="handleJoinComplete"
+          ></join-group-cell>
+        </view>
+      </view>
+
+      <!-- 课程入口（课表与回放在既有课程页） -->
+      <view class="card f card-head" bind:tap="goCourses">
+        <view class="li-icon li-icon--warn head-icon">
+          <ui-icon name="tv" size="{{30}}" color="warn" />
+        </view>
+        <view class="f-1">
+          <text class="t-strong">课程与直播</text>
+          <view class="mt-6"><text class="t-muted">课表 · 回放</text></view>
+        </view>
+        <ui-icon name="chevron-right" size="{{30}}" color="t3" />
+      </view>
+    </block>
+
+    <!-- 报名信息（全部真实字段，缺失显示 —） -->
+    <view class="section-head"><text class="section-title">报名信息</text></view>
+    <view class="card card--list">
+      <view wx:for="{{info}}" wx:key="k" class="row">
+        <text class="info-k">{{item.k}}</text>
+        <text class="t-body fw-500">{{item.v}}</text>
+      </view>
+    </view>
+  </block>
+</view>

@@ -1,0 +1,199 @@
+<view class="screen screen--tab">
+  <view class="ambience" />
+  <view class="layer">
+    <ui-apphead sub="连接主理人 · 共创新商业" />
+
+    <view class="topseg">
+      <view class="topseg-item {{tab === 'mine' ? 'topseg-item--on' : ''}}" data-tab="mine" bind:tap="switchTab">我的社群</view>
+      <view class="topseg-item {{tab === 'activity' ? 'topseg-item--on' : ''}}" data-tab="activity" bind:tap="switchTab">
+        <text>班级活动</text>
+        <text wx:if="{{activityCount}}" class="seg-badge">{{activityCount}}</text>
+      </view>
+    </view>
+
+    <ui-errbar wx:if="{{err}}" msg="{{err}}" retrying="{{retrying}}" bind:retry="load" />
+
+    <!-- ───────── 我的社群 ───────── -->
+    <block wx:if="{{tab === 'mine'}}">
+      <view wx:if="{{loading}}" class="card card-pad"><view class="skeleton skeleton-block" /></view>
+
+      <!-- 未分配：如实说明下一步，不摆一个空的班级卡 -->
+      <view wx:elif="{{!group.assignment}}" class="card card-pad">
+        <view class="blank">
+          <view class="blank-mark"><ui-icon name="members" size="{{52}}" color="signal" /></view>
+          <text class="blank-title">还没有为你分配班级</text>
+          <text class="blank-hint">{{group.hint}}</text>
+          <view wx:if="{{!group.hasPaidEntitlement}}" class="btn-grad mt-16" data-url="/pages/subscribe/index" bind:tap="go">去开通会员</view>
+        </view>
+      </view>
+
+      <block wx:else>
+        <!-- 班级 hero -->
+        <view class="card card--hero-3 class-hero">
+          <view class="tag tag--purple tag--round">
+            <ui-icon name="grid" size="{{21}}" color="signal" /><text>我的班级</text>
+          </view>
+          <view class="f-start mt-8" style="gap:8rpx;">
+            <view class="f-1">
+              <view class="f f-wrap" style="gap:14rpx;">
+                <text class="title-grad class-name">{{group.title}}</text>
+                <view class="tag tag--{{group.joined ? 'green' : 'amber'}} tag--round">
+                  <ui-icon name="shield" size="{{21}}" color="{{group.joined ? 'ok' : 'warn'}}" /><text>{{group.assignment.status}}</text>
+                </view>
+              </view>
+              <text class="lead mt-6">链接资源 · 共同成长 · 放大影响力</text>
+            </view>
+            <ui-art kind="medallion" w="{{175}}" glyph="{{group.glyph}}" variant="cohort" extStyle="margin-top:-10rpx;" />
+          </view>
+
+          <view class="box mt-12">
+            <view class="f" style="gap:10rpx;">
+              <ui-icon name="members" size="{{26}}" color="ink-800" />
+              <text class="t-sec">班级人数</text>
+            </view>
+            <text class="class-count mono">{{group.assignment.member_count}} 人</text>
+          </view>
+
+          <view class="two-col mt-8" style="gap:14rpx;">
+            <view wx:if="{{group.owner}}" class="box f" style="gap:14rpx;">
+              <ui-avatar name="{{group.owner.name}}" size="{{56}}" />
+              <view class="f-1">
+                <text class="mini-t">{{group.owner.name}}</text>
+                <text class="mini-d">{{group.owner.identity || '群主'}}</text>
+              </view>
+            </view>
+            <view wx:if="{{group.serviceTeacher}}" class="box f" style="gap:14rpx;">
+              <ui-avatar name="{{group.serviceTeacher.name}}" size="{{56}}" />
+              <view class="f-1">
+                <text class="mini-t">{{group.serviceTeacher.name}}</text>
+                <text class="mini-d">{{group.serviceTeacher.role || '服务老师'}}</text>
+              </view>
+            </view>
+          </view>
+        </view>
+
+        <!-- 两个大动作 -->
+        <view class="two-col gap">
+          <view class="big-action big-action--grad" data-url="/pages/group-qr/index" bind:tap="go">
+            <ui-icon name="chat" size="{{45}}" color="on-signal" />
+            <view>
+              <text class="ba-t ba-t--on">进入班群</text>
+              <text class="ba-d ba-d--on">与同学一起交流成长</text>
+            </view>
+            <ui-icon name="arrow" size="{{28}}" color="on-signal" extStyle="position:absolute;right:24rpx;top:24rpx;" />
+          </view>
+          <view class="big-action big-action--ghost" data-url="/pages/advisor/index" bind:tap="go">
+            <ui-icon name="wechat" size="{{45}}" color="ok" />
+            <view>
+              <text class="ba-t">{{group.advisorRequired ? '添加服务顾问' : '联系服务老师'}}</text>
+              <text class="ba-d">{{group.advisorRequired ? '加上顾问才能进群' : '获取专属服务支持'}}</text>
+            </view>
+            <ui-icon name="arrow" size="{{28}}" color="signal" extStyle="position:absolute;right:24rpx;top:24rpx;" />
+          </view>
+        </view>
+
+        <!-- 班级成员 -->
+        <view class="card card-pad gap">
+          <view class="f-between mb-12">
+            <view class="f" style="gap:8rpx;">
+              <text class="col-h">班级成员</text>
+              <text class="t-tiny mono">({{group.assignment.member_count}})</text>
+            </view>
+            <text class="t-tiny">{{group.membersHint}}</text>
+          </view>
+          <view wx:if="{{group.members.length}}" class="roster">
+            <view wx:for="{{group.members}}" wx:key="index" class="roster-i">
+              <ui-avatar name="{{item.name}}" path="{{item.avatarPath}}" size="{{84}}" ring="{{item.is_me}}" />
+              <text class="roster-n">{{item.name || '会员'}}</text>
+              <text wx:if="{{item.is_me}}" class="me-pill">我</text>
+            </view>
+          </view>
+          <view wx:else class="blank">
+            <view class="blank-mark"><ui-icon name="members" size="{{45}}" color="signal" /></view>
+            <text class="blank-title">名单还没有人</text>
+            <text class="blank-hint">已确认入群的同学会出现在这里；正在邀请中的同学暂不显示。</text>
+          </view>
+        </view>
+
+        <!-- 今日班级任务 -->
+        <view class="card card-pad gap">
+          <view class="f-between mb-8">
+            <text class="col-h">今日班级任务</text>
+            <view class="link-trail" data-url="/pages/tasks/index" bind:tap="go">
+              <text>查看全部任务</text><ui-icon name="chev" size="{{22}}" color="ink-800" />
+            </view>
+          </view>
+          <block wx:if="{{tasks.length}}">
+            <view wx:for="{{tasks}}" wx:key="id" class="row-item">
+              <view class="row-ico"><ui-icon name="{{item.icon}}" size="{{32}}" color="signal" /></view>
+              <view class="f-1">
+                <text class="task-t">{{item.title}}</text>
+                <text class="t-tiny mt-4 block">{{item.meta}}</text>
+              </view>
+              <view class="f" style="gap:6rpx;">
+                <text class="task-st" style="color:var(--{{item.stColor}});">{{item.stText}}</text>
+                <ui-icon wx:if="{{item.done}}" name="shield" size="{{24}}" color="ok" />
+                <ui-icon wx:else name="chev" size="{{24}}" color="signal" />
+              </view>
+            </view>
+          </block>
+          <view wx:else class="blank">
+            <view class="blank-mark"><ui-icon name="shield" size="{{45}}" color="signal" /></view>
+            <text class="blank-title">今天没有待完成任务</text>
+            <text class="blank-hint">班级任务由运营发布，有新任务时会出现在这里。</text>
+          </view>
+        </view>
+      </block>
+    </block>
+
+    <!-- ───────── 班级活动 ───────── -->
+    <block wx:else>
+      <view wx:if="{{loading}}" class="card card-pad"><view class="skeleton skeleton-block" /></view>
+      <block wx:elif="{{activities.length}}">
+        <view wx:for="{{activities}}" wx:key="activity_no" class="card card-pad {{index ? 'gap' : ''}}">
+          <view class="f-start" style="gap:21rpx;">
+            <view class="act-thumb">
+              <text wx:if="{{item.status === '报名中'}}" class="tag tag--pink act-badge">报名中</text>
+              <text class="act-cover">{{item.cover_text || item.title}}</text>
+            </view>
+            <view class="f-1">
+              <text class="act-t">{{item.title}}</text>
+              <text class="t-tiny mono mt-6 block">{{item.whenText}}</text>
+              <text wx:if="{{item.venue}}" class="t-tiny mt-4 block">{{item.venue}}</text>
+              <view class="f mt-8" style="gap:10rpx;">
+                <text class="t-tiny">已有 <text class="mono">{{item.signup_count}}</text> 人报名</text>
+                <text wx:if="{{item.capacity}}" class="t-tiny">/ 限 <text class="mono">{{item.capacity}}</text> 人</text>
+              </view>
+            </view>
+            <view class="ta-c act-side">
+              <text wx:if="{{item.countdown}}" class="t-micro">距开始</text>
+              <text wx:if="{{item.countdown}}" class="act-cd mono">{{item.countdown}}</text>
+              <view
+                wx:if="{{item.signed_up}}"
+                class="btn-outline"
+              >已报名</view>
+              <view
+                wx:elif="{{item.status === '报名中'}}"
+                class="btn-grad"
+                data-no="{{item.activity_no}}"
+                bind:tap="signUp"
+              >我要报名</view>
+              <text wx:else class="t-tiny">{{item.status}}</text>
+            </view>
+          </view>
+          <view wx:if="{{item.summary}}" class="box box--sunk mt-12">
+            <text class="t-meta">{{item.summary}}</text>
+          </view>
+        </view>
+      </block>
+      <view wx:else class="card card-pad">
+        <view class="blank">
+          <view class="blank-mark"><ui-icon name="calendar" size="{{52}}" color="signal" /></view>
+          <text class="blank-title">近期没有活动排期</text>
+          <text class="blank-hint">线下沙龙与闭门会开放报名时会出现在这里，也可以先在公告中心看看最新动态。</text>
+          <view class="btn-sm mt-16" data-url="/pages/notifications/index" data-tab="{{true}}" bind:tap="go">去公告中心</view>
+        </view>
+      </view>
+    </block>
+  </view>
+</view>

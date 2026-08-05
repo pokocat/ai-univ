@@ -1,0 +1,105 @@
+<view class="screen screen--bar">
+  <view class="ambience" />
+  <view class="layer">
+    <ui-subhead title="会员权益" home="/pages/member/index" />
+
+    <ui-errbar wx:if="{{err}}" msg="{{err}}" retrying="{{retrying}}" bind:retry="load" />
+    <view wx:if="{{loading}}" class="card card-pad"><view class="skeleton skeleton-block" /></view>
+
+    <block wx:else>
+      <!-- hero + 三格读数 -->
+      <view class="card card--hero ben-hero">
+        <view class="f-start" style="gap:8rpx;">
+          <view class="f-1">
+            <text wx:if="{{tier}}" class="tag tag--purple tag--round">{{tier}} 专享</text>
+            <text wx:else class="tag tag--gray tag--round">未开通</text>
+            <view class="title-grad ben-title">会员权益</view>
+            <text class="lead">连接资源、提升能力、获得陪跑与增长支持</text>
+          </view>
+          <ui-art kind="gem" w="{{210}}" icon="crown" variant="ben" />
+        </view>
+        <view class="stat-3">
+          <view class="stat-3-item">
+            <ui-icon name="gem" size="{{35}}" color="signal" extStyle="margin:0 auto;" />
+            <text class="s3-v mono">{{availableCount}}<text class="s3-unit"> 项</text></text>
+            <text class="s3-d">当前可用</text>
+          </view>
+          <view class="stat-3-item">
+            <ui-icon name="lock" size="{{35}}" color="signal" extStyle="margin:0 auto;" />
+            <text class="s3-v mono">{{lockedCount}}<text class="s3-unit"> 项</text></text>
+            <text class="s3-d">升级后解锁</text>
+          </view>
+          <view class="stat-3-item">
+            <ui-icon name="shield" size="{{35}}" color="signal" extStyle="margin:0 auto;" />
+            <text class="s3-v title-grad mono">{{levelText}}</text>
+            <text class="s3-d">{{levelName}}</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 全部权益 -->
+      <view class="card card-pad gap">
+        <view class="f-between mb-12">
+          <text class="col-h">全部权益</text>
+          <text class="t-tiny">共 {{benefits.length}} 项</text>
+        </view>
+        <view class="ben-grid">
+          <view
+            wx:for="{{benefits}}"
+            wx:key="code"
+            class="ben-tile {{item.available ? '' : 'ben-tile--lock'}}"
+            data-code="{{item.code}}"
+            data-page="{{item.action_page}}"
+            data-available="{{item.available}}"
+            data-reason="{{item.lockReason}}"
+            bind:tap="openBenefit"
+          >
+            <view class="ben-ico">
+              <ui-icon name="{{item.icon}}" size="{{45}}" color="{{item.available ? 'signal' : 'ink-500'}}" />
+            </view>
+            <text class="bt-t">{{item.name}}</text>
+            <text class="bt-d">{{item.summary}}</text>
+            <view wx:if="{{item.available}}" class="ben-st">
+              <ui-icon name="shield" size="{{22}}" color="ok" />
+              <text>{{item.quotaText || item.status_hint}}</text>
+            </view>
+            <view wx:else class="ben-st ben-st--lock">
+              <ui-icon name="lock" size="{{22}}" color="ink-500" />
+              <text>{{item.min_identity}}起</text>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 如何使用 -->
+      <view class="card card-pad gap">
+        <text class="col-h mb-14 block">如何使用权益</text>
+        <view class="flow3">
+          <block wx:for="{{steps}}" wx:key="title">
+            <view class="flow-item">
+              <text class="flow-n mono">{{index + 1}}</text>
+              <view class="flow-ico"><ui-icon name="{{item.icon}}" size="{{38}}" color="signal" /></view>
+              <text class="flow-t">{{item.title}}</text>
+              <text class="flow-d">{{item.desc}}</text>
+            </view>
+            <view wx:if="{{index < steps.length - 1}}" class="flow-line" />
+          </block>
+        </view>
+      </view>
+    </block>
+  </view>
+
+  <view class="action-bar">
+    <view class="action-row">
+      <view wx:if="{{!active}}" class="cta cta--primary" data-url="/pages/subscribe/index" bind:tap="go">
+        <ui-icon name="crown" size="{{32}}" color="on-signal" /><text>开通会员</text>
+      </view>
+      <view wx:else class="cta cta--primary" data-url="/pages/diagnosis/index" bind:tap="go">
+        <ui-icon name="sparkle" size="{{32}}" color="on-signal" /><text>使用 AI 诊断</text>
+      </view>
+      <view class="cta cta--ghost" data-url="/pages/member/index" bind:tap="go">
+        <ui-icon name="card" size="{{30}}" color="signal" /><text>返回会员卡</text>
+      </view>
+    </view>
+  </view>
+</view>

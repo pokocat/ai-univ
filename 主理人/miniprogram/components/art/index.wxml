@@ -1,0 +1,9 @@
+<view class="art" style="{{box}}">
+  <!-- aspectFit：素材是正方形，盒子沿用各 kind 原来的宽高比，靠它内嵌居中（见 index.js 口径①） -->
+  <image class="art-img" src="{{src}}" mode="aspectFit" />
+  <!-- 中心叠加物：字形优先，其次图标。素材里刻意没有文字，等级值是动态的，只能叠 -->
+  <text wx:if="{{glyphText}}" class="art-glyph" style="font-size:{{glyphSize}}rpx;">{{glyphText}}</text>
+  <view wx:elif="{{overlayIcon}}" class="art-ico">
+    <ui-icon name="{{overlayIcon}}" size="{{iconSize}}" color="on-signal" />
+  </view>
+</view>

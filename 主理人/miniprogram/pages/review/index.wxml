@@ -1,0 +1,130 @@
+<view class="screen screen--bar">
+  <view class="ambience" />
+  <view class="layer">
+    <ui-subhead title="服务评价" home="/pages/mine/index" />
+
+    <ui-errbar wx:if="{{err}}" msg="{{err}}" retrying="{{retrying}}" bind:retry="load" />
+    <view wx:if="{{loading}}" class="card card-pad"><view class="skeleton skeleton-block" /></view>
+
+    <block wx:elif="{{subject}}">
+      <view class="card result-hero">
+        <view class="result-hero-text">
+          <view class="title-grad rv-title">{{existing ? '修改评价' : '服务已完成'}}</view>
+          <text class="t-sec mt-8 block">{{existing ? '你之前已评价过，可以直接修改' : '为本次服务体验打个分，帮助我们持续优化'}}</text>
+          <view class="f mt-12" style="gap:10rpx;">
+            <view class="pill-outline"><ui-icon name="ribbon" size="{{21}}" color="signal" /><text>真实反馈</text></view>
+            <view class="pill-outline"><ui-icon name="shield" size="{{21}}" color="ok" /><text>持续优化</text></view>
+          </view>
+        </view>
+        <view class="result-hero-art"><ui-art kind="check" w="{{220}}" variant="rv" /></view>
+      </view>
+
+      <!-- 服务信息 -->
+      <view class="card card-pad gap">
+        <text class="col-h mb-12 block">服务信息</text>
+        <view wx:if="{{subject.employee_name}}" class="f rv-teacher">
+          <ui-avatar name="{{subject.employee_name}}" size="{{96}}" ring="{{true}}" />
+          <view class="f-1">
+            <view class="f" style="gap:12rpx;">
+              <text class="t-h3">{{subject.employee_name}}</text>
+              <text class="tag tag--purple">专属服务</text>
+            </view>
+            <text wx:if="{{subject.employee_title}}" class="t-tiny mt-6 block">{{subject.employee_title}}</text>
+          </view>
+        </view>
+        <view class="three-col mt-12">
+          <view>
+            <view class="f" style="gap:8rpx;"><ui-icon name="calendar" size="{{24}}" color="ink-800" /><text class="t-tiny">服务类型</text></view>
+            <text class="rv-info-v">{{subject.service_type}}</text>
+          </view>
+          <view>
+            <view class="f" style="gap:8rpx;"><ui-icon name="clock" size="{{24}}" color="ink-800" /><text class="t-tiny">服务时间</text></view>
+            <text class="rv-info-v mono">{{serviceAtText}}</text>
+          </view>
+          <view>
+            <view class="f" style="gap:8rpx;"><ui-icon name="members" size="{{24}}" color="ink-800" /><text class="t-tiny">班级归属</text></view>
+            <text class="rv-info-v">{{subject.cohort_name || '—'}}</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 评分 -->
+      <view class="card card-pad gap">
+        <view class="f-between mb-14">
+          <view>
+            <text class="col-h">整体评价</text>
+            <text class="t-tiny">（点击星星打分）</text>
+          </view>
+          <text class="rv-label">{{ratingLabel}}</text>
+        </view>
+        <view class="rv-stars">
+          <view wx:for="{{[1,2,3,4,5]}}" wx:key="*this" class="rv-star" data-n="{{item}}" bind:tap="setRating">
+            <ui-icon name="star2" size="{{84}}" color="{{item <= rating ? 'signal' : 'ink-400'}}" fill="{{item <= rating}}" />
+          </view>
+        </view>
+        <view class="ta-c mt-12">
+          <text class="t-sec"><text class="mono">{{rating}}</text> 分 · {{ratingLabel}}</text>
+        </view>
+      </view>
+
+      <!-- 评价内容 -->
+      <view class="card card-pad gap">
+        <view class="mb-10">
+          <text class="col-h">评价内容</text><text class="t-tiny">（选填）</text>
+        </view>
+        <textarea class="textarea" value="{{content}}" placeholder="分享你的服务体验、收获与建议…" maxlength="200" bindinput="onInput" />
+        <view class="ta-r mt-6"><text class="t-micro mono">{{content.length}}/200</text></view>
+      </view>
+
+      <!-- 标签 + 回访意愿 -->
+      <view class="card card-pad gap">
+        <view class="mb-12">
+          <text class="col-h">评价标签</text><text class="t-tiny">（可多选）</text>
+        </view>
+        <view class="f f-wrap" style="gap:14rpx;">
+          <view
+            wx:for="{{tags}}"
+            wx:key="label"
+            class="chooser chooser--pill {{item.on ? 'chooser--on' : ''}}"
+            data-label="{{item.label}}"
+            bind:tap="toggleTag"
+          >
+            <ui-icon name="{{item.icon}}" size="{{24}}" color="{{item.on ? 'signal' : 'ink-800'}}" />
+            <text>{{item.label}}</text>
+          </view>
+        </view>
+        <view class="hr mt-16 mb-16" />
+        <view class="f-between">
+          <view class="f-1">
+            <text class="t-h4">是否愿意被回访</text>
+            <text class="t-tiny mt-4 block">我们会根据反馈持续改进服务质量</text>
+          </view>
+          <view class="f" style="gap:14rpx;">
+            <view class="chooser {{revisit === true ? 'chooser--on' : ''}}" data-v="1" bind:tap="setRevisit">愿意</view>
+            <view class="chooser {{revisit === false ? 'chooser--on' : ''}}" data-v="0" bind:tap="setRevisit">暂不</view>
+          </view>
+        </view>
+      </view>
+    </block>
+
+    <view wx:else class="card card-pad">
+      <view class="blank">
+        <view class="blank-mark"><ui-icon name="ribbon" size="{{52}}" color="signal" /></view>
+        <text class="blank-title">找不到要评价的服务</text>
+        <text class="blank-hint">评价需要从具体的工单或诊断进入，这样分数才会归到对应的服务上。</text>
+        <view class="btn-sm mt-16" data-url="/pages/ticket/index?tab=mine" bind:tap="go">去我的工单</view>
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{subject}}" class="action-bar">
+    <view class="action-row">
+      <view class="cta cta--primary {{submitting ? 'cta--busy' : ''}}" bind:tap="submit">
+        <ui-icon name="edit" size="{{32}}" color="on-signal" /><text>{{submitting ? '提交中…' : (existing ? '更新评价' : '提交评价')}}</text>
+      </view>
+      <view class="cta cta--ghost" bind:tap="back">
+        <ui-icon name="xcircle" size="{{30}}" color="signal" /><text>稍后再说</text>
+      </view>
+    </view>
+  </view>
+</view>

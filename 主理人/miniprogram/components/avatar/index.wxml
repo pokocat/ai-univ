@@ -1,0 +1,10 @@
+<view class="avatar {{ring ? 'avatar--ring' : ''}} {{extClass}}" style="{{boxStyle}}" bind:tap="onTap">
+  <image
+    wx:if="{{src}}"
+    class="avatar-img"
+    src="{{src}}"
+    mode="aspectFill"
+    binderror="onError"
+  />
+  <text wx:else class="avatar-ini" style="{{iniStyle}}">{{char}}</text>
+</view>

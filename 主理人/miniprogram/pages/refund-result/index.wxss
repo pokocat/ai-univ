@@ -1,0 +1,4 @@
+/* 退款进度页版式。 */
+.rr-title { font-size: 56rpx; letter-spacing: 2rpx; margin-top: 14rpx; }
+.rr-comment { display: block; font-size: var(--fs-h4); color: var(--ink-800); line-height: 1.8; white-space: pre-line; }
+.block { display: block; }

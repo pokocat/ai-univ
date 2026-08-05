@@ -1,0 +1,8 @@
+/* 图标与配色都在 components/tabbar 自己的 wxss 里，这里只负责定位。 */
+.tabfix {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
+}

@@ -1,0 +1,46 @@
+<view class="page page--sub">
+  <ui-errbar wx:if="{{loadError}}" msg="{{loadError}}" retrying="{{retrying}}" bind:retry="retryLoad" />
+
+  <view class="hd">
+    <text class="hd-title">课程与直播</text>
+    <view><text class="hd-sub">开课与回放都收在这里</text></view>
+  </view>
+
+  <view wx:if="{{loaded && courses.length === 0}}" class="card empty-state">
+    <view class="empty-state-mark">课</view>
+    <text class="empty-state-title">暂无课程安排</text>
+    <text class="empty-state-desc">新的直播与课程排期会出现在这里。</text>
+  </view>
+
+  <!-- 一张卡承载整张课表：细线分隔，直播中的一条用朱砂竖标提到前面 -->
+  <view wx:elif="{{courses.length > 0}}" class="card card--list">
+    <view
+      wx:for="{{courses}}"
+      wx:key="id"
+      class="course-cell {{item.live ? 'course-cell--live' : ''}}"
+      data-id="{{item.id}}"
+      data-can-watch="{{item.canWatch}}"
+      bind:tap="enterCourse"
+    >
+      <view class="f course-row">
+        <view class="li-icon {{item.iconClass}}">
+          <ui-icon name="tv" size="{{28}}" color="{{item.iconColor}}" />
+        </view>
+        <view class="f-1">
+          <view class="f-between">
+            <text class="t-strong">{{item.title}}</text>
+            <view class="f status-wrap">
+              <view wx:if="{{item.live}}" class="dot--pulse" />
+              <text class="{{item.statusClass}}">{{item.status}}</text>
+            </view>
+          </view>
+          <view class="mt-8"><text class="t-muted">{{item.metaText}}</text></view>
+          <view wx:if="{{item.canWatch}}" class="mt-14">
+            <text class="tag">{{item.actionText}} · 微信内直接打开</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+</view>

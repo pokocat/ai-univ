@@ -1,0 +1,4 @@
+{
+  "desc": "会员小程序不需要被索引",
+  "rules": [{ "action": "disallow", "page": "*" }]
+}

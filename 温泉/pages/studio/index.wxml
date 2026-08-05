@@ -1,0 +1,101 @@
+<view class="screen">
+  <view class="statusbar" style="height: {{padTop}}px"></view>
+
+  <view class="head">
+    <view class="title mb13">选一个模板开拍</view>
+    <!-- 按「你想解决什么经营问题」分类，不出现「换脸」「数字人」这类技术词 -->
+    <scroll-view scroll-x class="catbar" enable-flex show-scrollbar="{{false}}">
+      <view class="chips">
+        <view
+          wx:for="{{cats}}"
+          wx:key="*this"
+          class="chip {{index === cat ? 'chip--on' : ''}}"
+          data-i="{{index}}"
+          bindtap="pickCat"
+        >{{item}}</view>
+      </view>
+    </scroll-view>
+  </view>
+
+  <scroll-view class="body" scroll-y enable-flex>
+    <view class="stack">
+
+      <!-- 协会统一脚本：100 家共用一套故事，各家只换人物和场地 -->
+      <view class="card card--flush">
+        <view class="cover">
+          <image class="cover__img" src="{{drama.cover}}" mode="aspectFill" lazy-load />
+          <view class="cover__badge">{{drama.badge}}</view>
+          <view class="cover__play">
+            <view class="ic ic-26 ic-play"></view>
+          </view>
+        </view>
+        <view class="cover__foot">
+          <view class="drama__t">{{drama.title}}</view>
+          <view class="drama__b">{{drama.body}}</view>
+          <view class="drama__row">
+            <view class="meta">{{drama.used}}</view>
+            <view class="meta">{{drama.dur}}</view>
+            <view
+              class="btn-s btn-s--p drama__go hit"
+              data-url="/pages/produce/index"
+              bindtap="goto"
+            >{{drama.btn}}</view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 单条短视频模板：明码标积分，20 分钟出一批 -->
+      <view class="duo">
+        <view
+          class="card card--flush hit"
+          wx:for="{{templates}}"
+          wx:key="id"
+          data-url="/pages/produce/index?tpl={{item.id}}"
+          bindtap="goto"
+        >
+          <image class="tpl__img" src="{{item.cover}}" mode="aspectFill" lazy-load />
+          <view class="tpl__foot">
+            <view class="tpl__t">{{item.title}}</view>
+            <view class="tpl__n">{{item.note}}</view>
+            <view class="tpl__row">
+              <view class="tpl__cost">{{tw.clipCost}} 积分</view>
+              <view class="meta-s">{{item.dur}}</view>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 明星背书模板（协会签的形象授权） -->
+      <view class="card">
+        <view class="star">
+          <image class="star__img" src="{{star.thumb}}" mode="aspectFill" lazy-load />
+          <view class="star__body">
+            <view class="star__head">
+              <view class="h3">{{star.title}}</view>
+              <view class="pill pill--a">{{star.tag}}</view>
+            </view>
+            <view class="star__b">{{star.body}}</view>
+          </view>
+          <view class="ic ic-18 ic-lock"></view>
+        </view>
+      </view>
+
+      <!-- 从零开一部自己的剧 -->
+      <view
+        class="card--ink scratch hit"
+        bindtap="toast"
+        data-msg="演示版：军师会先问你三个问题，再搭脚本"
+      >
+        <view class="scratch__body">
+          <view class="scratch__t">从零开一部你自己的剧</view>
+          <view class="scratch__b">说一句话，军师帮你搭脚本和分镜</view>
+        </view>
+        <view class="btn-s btn-s--onink">开始</view>
+      </view>
+
+    </view>
+  </scroll-view>
+
+  <!-- 框架 tabBar 是覆盖式的，这里留出等高空白 -->
+  <view class="tabpad" style="height: {{70 + safeBottom}}px"></view>
+</view>

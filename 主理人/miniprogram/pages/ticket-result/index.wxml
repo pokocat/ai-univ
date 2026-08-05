@@ -1,0 +1,155 @@
+<view class="screen screen--bar">
+  <view class="ambience" />
+  <view class="layer">
+    <ui-subhead title="工单进度" home="/pages/ticket/index" />
+
+    <ui-errbar wx:if="{{err}}" msg="{{err}}" retrying="{{retrying}}" bind:retry="load" />
+    <view wx:if="{{loading}}" class="card card-pad"><view class="skeleton skeleton-block" /></view>
+
+    <block wx:elif="{{ticket}}">
+      <view class="card result-hero">
+        <view class="result-hero-text">
+          <view class="title-grad tr-title">{{heroTitle}}</view>
+          <text class="t-sec mt-8 block">{{heroDesc}}</text>
+          <view class="f f-wrap mt-12" style="gap:10rpx;">
+            <view class="pill-outline"><ui-icon name="clock" size="{{21}}" color="signal" /><text>{{ticket.status}}</text></view>
+            <view wx:if="{{dueText}}" class="pill-outline pill-outline--pulse">
+              <ui-icon name="alarm" size="{{21}}" color="pulse" /><text>{{dueText}}</text>
+            </view>
+          </view>
+        </view>
+        <view class="result-hero-art"><ui-art kind="gem" w="{{230}}" icon="headset" variant="tr" /></view>
+      </view>
+
+      <!-- 四步进度：读 ticket_event 流水（status 只有三态，反推不出「几点受理」） -->
+      <view class="card card-pad gap">
+        <view class="f-between mb-16">
+          <text class="col-h">处理进度</text>
+          <view class="link-trail" bind:tap="load"><text>刷新</text><ui-icon name="refresh" size="{{22}}" color="ink-800" /></view>
+        </view>
+        <view class="hprog">
+          <block wx:for="{{ticket.steps}}" wx:key="title">
+            <view class="hprog-step">
+              <view class="hprog-node {{item.reached ? (item.active ? 'hprog-node--active' : 'hprog-node--done') : ''}}">
+                <ui-icon name="{{stepIcons[index]}}" size="{{32}}" color="{{item.reached ? 'on-signal' : 'ink-800'}}" />
+              </view>
+              <text class="hprog-t {{item.reached ? '' : 'hprog-t--off'}}">{{item.title}}</text>
+              <text class="hprog-s" style="{{item.active ? 'color:var(--signal-800);' : ''}}">{{item.state}}</text>
+              <text wx:if="{{item.atText}}" class="hprog-d mono">{{item.atText}}</text>
+            </view>
+            <view wx:if="{{index < ticket.steps.length - 1}}" class="hprog-line {{item.reached ? 'hprog-line--on' : ''}}" />
+          </block>
+        </view>
+      </view>
+
+      <!-- 工单信息 -->
+      <view class="card card-pad gap">
+        <text class="col-h mb-10 block">工单信息</text>
+        <view class="info-card">
+          <view class="ic-row">
+            <view class="ic-l"><ui-icon name="doc" size="{{26}}" color="ink-800" /><text>工单编号</text></view>
+            <view class="f" style="gap:8rpx;" bind:tap="copyNo">
+              <text class="ic-v mono">{{ticket.ticket_no}}</text>
+              <ui-icon name="copy" size="{{22}}" color="ink-600" />
+            </view>
+          </view>
+          <view class="ic-row">
+            <view class="ic-l"><ui-icon name="grid9" size="{{26}}" color="ink-800" /><text>问题类型</text></view>
+            <text class="ic-v">{{ticket.ticket_type}}</text>
+          </view>
+          <view class="ic-row">
+            <view class="ic-l"><ui-icon name="clock" size="{{26}}" color="ink-800" /><text>提交时间</text></view>
+            <text class="ic-v mono">{{createdText}}</text>
+          </view>
+          <view class="ic-row">
+            <view class="ic-l"><ui-icon name="alarm" size="{{26}}" color="ink-800" /><text>承诺时限</text></view>
+            <text class="ic-v mono">{{ticket.sla_total_hours}} 小时</text>
+          </view>
+          <view class="ic-row">
+            <view class="ic-l"><ui-icon name="shield" size="{{26}}" color="ink-800" /><text>当前状态</text></view>
+            <text class="ic-v t-signal">{{ticket.status}}</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 我的描述 -->
+      <view class="card card-pad gap">
+        <text class="col-h mb-10 block">我提交的问题</text>
+        <text class="tr-desc">{{ticket.description}}</text>
+      </view>
+
+      <!-- 处理反馈：有才显示 -->
+      <view wx:if="{{ticket.reply}}" class="card card-pad gap">
+        <view class="f-between mb-10">
+          <text class="col-h">处理反馈</text>
+          <text class="t-tiny mono">{{repliedText}}</text>
+        </view>
+        <text class="tr-desc">{{ticket.reply}}</text>
+      </view>
+
+      <!-- 处理人：有才显示 -->
+      <view wx:if="{{ticket.assignee_name}}" class="card card-pad gap">
+        <text class="col-h mb-12 block">为你处理的服务老师</text>
+        <view class="f" style="gap:21rpx;">
+          <ui-avatar name="{{ticket.assignee_name}}" size="{{96}}" ring="{{true}}" />
+          <view class="f-1">
+            <view class="f" style="gap:12rpx;">
+              <text class="t-h3">{{ticket.assignee_name}}</text>
+              <text class="tag tag--purple">专属服务</text>
+            </view>
+            <text wx:if="{{ticket.assignee_title}}" class="t-tiny mt-6 block">{{ticket.assignee_title}}</text>
+          </view>
+          <view class="btn-soft" data-url="/pages/advisor/index" bind:tap="go">联系</view>
+        </view>
+      </view>
+      <view wx:elif="{{ticket.status !== '已解决'}}" class="box box--sunk gap">
+        <view class="f" style="gap:12rpx;">
+          <ui-icon name="clock" size="{{28}}" color="signal" />
+          <text class="t-sec fw-600">等待分配处理人</text>
+        </view>
+        <text class="t-tiny mt-6 block">分配后会在这里显示，并通过站内消息通知你。</text>
+      </view>
+
+      <!-- 进度流水（完整时间线） -->
+      <view wx:if="{{events.length}}" class="card card-pad gap">
+        <text class="col-h mb-10 block">处理记录</text>
+        <view class="timeline">
+          <view wx:for="{{events}}" wx:key="created_at" class="tl-item">
+            <view class="tl-rail">
+              <view class="tl-node" />
+              <view wx:if="{{index < events.length - 1}}" class="tl-line" />
+            </view>
+            <view class="f-1 tr-event">
+              <text class="tr-event-t">{{item.event_type}}</text>
+              <text wx:if="{{item.detail}}" class="t-tiny mt-4 block">{{item.detail}}</text>
+              <text class="t-micro mono mt-4 block">{{item.timeText}}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </block>
+
+    <view wx:else class="card card-pad">
+      <view class="blank">
+        <view class="blank-mark"><ui-icon name="doc" size="{{52}}" color="signal" /></view>
+        <text class="blank-title">找不到这张工单</text>
+        <text class="blank-hint">它可能不属于你，或编号不正确。</text>
+        <view class="btn-sm mt-16" data-url="/pages/ticket/index" bind:tap="go">返回服务工单</view>
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{ticket}}" class="action-bar">
+    <view class="action-row">
+      <view wx:if="{{canReview}}" class="cta cta--primary" bind:tap="review">
+        <ui-icon name="ribbon" size="{{32}}" color="on-signal" /><text>评价服务</text>
+      </view>
+      <view wx:else class="cta cta--primary" data-url="/pages/advisor/index" bind:tap="go">
+        <ui-icon name="headset" size="{{32}}" color="on-signal" /><text>联系服务老师</text>
+      </view>
+      <view class="cta cta--ghost" data-url="/pages/ticket/index?tab=mine" bind:tap="go">
+        <ui-icon name="doc" size="{{30}}" color="signal" /><text>我的工单</text>
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,13 @@
+{
+  "backgroundTextStyle": "dark",
+  "backgroundColor": "#FFF7EC",
+  "usingComponents": {
+    "ui-icon": "/components/icon/index",
+    "ui-art": "/components/art/index",
+    "ui-avatar": "/components/avatar/index",
+    "ui-subhead": "/components/subhead/index",
+    "ui-errbar": "/components/errbar/index",
+    "ui-ring": "/components/ring/index"
+  },
+  "navigationBarTitleText": "课件下载"
+}

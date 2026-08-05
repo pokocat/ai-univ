@@ -1,0 +1,121 @@
+<view class="login">
+  <!--
+    暖色开场：设计稿 01 的整幅 hero（位图插画）+ 渐变标题。
+    这一块可滚动（.stage 有 overflow-y），保证小屏上永远压不掉下面的操作坞。
+  -->
+  <view class="stage" style="{{navPad}}">
+    <view class="hero">
+      <!-- 插画铺底：本地位图，零网络。这一处是护栏 45（插画一律走 ui-art 自包含 SVG）的
+           **唯一例外**——首屏这张要的是有人物、有光的品牌感，SVG 手绘到那个程度不现实，
+           上一版的 reghero 就是个没有五官的紫色色块。素材已预裁成 750:540，
+           不要换成 100%/100%：那会依赖父级尺寸，算错时是整块不显示且不报错。 -->
+      <view class="hero-art">
+        <image class="hero-img" src="/assets/login-hero.jpg" mode="aspectFill" />
+      </view>
+      <view class="hero-text">
+        <view class="title-grad hero-title">主理人公社</view>
+        <text class="hero-sub">连接主理人 · 共创新商业</text>
+        <text class="hero-tags">链接　|　学习　|　资源　|　共创</text>
+      </view>
+    </view>
+
+    <view class="stage-inner">
+      <!--
+        标题与副文案都**显式断行**，不交给自动换行。
+        rpx 随屏宽等比缩放、中文字宽恒为 1em，所以每行的字数在任何机型上都一样——
+        断点写死是稳的。上一版靠 max-width 自动折行，62rpx 下正好把
+        「聚在一起。」断成「聚在一 / 起。」、副文案断出一个孤零零的「值。」。
+      -->
+      <view class="brand-word">
+        <text class="brand-word-l">把同频的人，</text>
+        <text class="brand-word-l brand-accent">聚在一起。</text>
+      </view>
+      <view class="brand-slogan">
+        <text class="brand-slogan-l">在可信赖的圈子里交流、学习，</text>
+        <text class="brand-slogan-l">也让每一次连接更有价值。</text>
+      </view>
+
+      <!-- 三行说明：给从分享链接第一次进来的人交代这是什么。
+           不编号、不做卡片宫格——登录页的主角是登录按钮，不是三条卖点。 -->
+      <view class="proof">
+        <view class="proof-row">
+          <view class="proof-ico"><ui-icon name="members" size="{{35}}" color="signal" /></view>
+          <view class="f-1">
+            <text class="proof-t">进入适合你的社群</text>
+            <text class="proof-d">运营协助匹配，让每次交流都有明确的人和场景</text>
+          </view>
+        </view>
+        <view class="proof-row">
+          <view class="proof-ico"><ui-icon name="cap" size="{{35}}" color="pulse" /></view>
+          <view class="f-1">
+            <text class="proof-t">跟上课程与活动</text>
+            <text class="proof-d">直播、课程和进度都收在这里，随时回来继续</text>
+          </view>
+        </view>
+        <view class="proof-row">
+          <view class="proof-ico"><ui-icon name="link" size="{{35}}" color="signal-600" /></view>
+          <view class="f-1">
+            <text class="proof-t">与朋友一起成长</text>
+            <text class="proof-d">把真正有价值的圈子，分享给同频的人</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!--
+    浅色操作坞：贴底固定，不参与滚动。
+    协议勾选与登录按钮永远在拇指区，任何机型都不需要先滚动才能登录。
+  -->
+  <view class="dock">
+    <view class="agree {{shaking ? 'agree--shake' : ''}}">
+      <!-- 勾选热区独立成 88rpx 见方（微信设计指南的最小点击区），
+           视觉上的方框只有 36rpx，但可点范围是整块 -->
+      <view
+        class="agree-hit"
+        bind:tap="toggleAgree"
+        aria-role="checkbox"
+        aria-checked="{{agreed}}"
+        aria-label="我已阅读并同意用户协议、隐私政策与会员服务协议"
+      >
+        <view class="agree-box {{agreed ? 'agree-box--on' : ''}}">
+          <view wx:if="{{agreed}}" class="agree-tick" />
+        </view>
+      </view>
+      <view class="agree-text">
+        <text bind:tap="toggleAgree">我已阅读并同意</text>
+        <!-- catch:tap：点协议名是去看协议，不能顺手把勾选状态也翻过来 -->
+        <text class="agree-link" data-type="user" catch:tap="openAgreement">《用户协议》</text>
+        <text class="agree-link" data-type="privacy" catch:tap="openAgreement">《隐私政策》</text>
+        <text class="agree-link" data-type="membership" catch:tap="openAgreement">《会员服务协议》</text>
+      </view>
+    </view>
+
+    <!-- 不做 disabled：置灰按钮点下去没有任何反馈，用户不知道自己漏了哪一步。
+         保持可点，未勾选时给 toast + 勾选区抖动，明确指向缺的那一步。 -->
+    <button class="login-btn" loading="{{logging}}" bind:tap="doLogin">微信一键登录</button>
+
+    <view class="dock-note">
+      <text>登录后需验证手机号，用于身份核验与服务联系</text>
+      <view class="mt-6"><text>不会获取通讯录与位置信息</text></view>
+    </view>
+  </view>
+
+  <!-- 首次注册登录：手机号与昵称必须完成；头像可在同一张表补齐或稍后设置。 -->
+  <ui-profile-edit
+    wx:if="{{profileOpen}}"
+    title="完成注册"
+    subtitle="验证手机号并填写昵称后即可进入，头像可以稍后设置。"
+    avatarPath="{{profileAvatar}}"
+    name="{{profileName}}"
+    phoneText="{{profilePhoneText}}"
+    phoneRequired="{{profilePhoneRequired}}"
+    nameRequired="{{profileNameRequired}}"
+    bind:phonebound="onPhoneBound"
+    bind:saved="onProfileSaved"
+    bind:close="closeProfile"
+  />
+
+  <!-- 隐私授权弹层：本页有头像选择（chooseAvatar）与昵称填写（input type=nickname），必须挂 -->
+  <ui-privacy />
+</view>

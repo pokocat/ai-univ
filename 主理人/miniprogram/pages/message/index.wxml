@@ -1,0 +1,78 @@
+<view class="screen screen--bar">
+  <view class="ambience" />
+  <view class="layer">
+    <ui-subhead title="公告详情" home="/pages/notifications/index" />
+
+    <ui-errbar wx:if="{{err}}" msg="{{err}}" retrying="{{retrying}}" bind:retry="load" />
+    <view wx:if="{{loading}}" class="card card-pad"><view class="skeleton skeleton-block" /></view>
+
+    <block wx:elif="{{ann}}">
+      <!-- hero -->
+      <view class="card card--hero msg-hero">
+        <view class="f-start" style="gap:8rpx;">
+          <view class="f-1">
+            <text class="tag tag--{{ann.importance === '重要' ? 'red' : 'purple'}} tag--round">{{ann.category}}</text>
+            <text wx:if="{{ann.group_name}}" class="t-sec mt-12 block">{{ann.group_name}}</text>
+            <text class="msg-title">{{ann.title}}</text>
+            <text wx:if="{{ann.summary}}" class="lead mt-8">{{ann.summary}}</text>
+            <view class="viewed-chip">
+              <text class="t-tiny">{{ann.read_count || 0}} 人已查看</text>
+            </view>
+          </view>
+          <ui-art kind="megaphone" w="{{196}}" variant="msg" />
+        </view>
+      </view>
+
+      <!-- 元信息 -->
+      <view class="card card-pad gap">
+        <view class="info-card">
+          <view class="ic-row">
+            <view class="ic-l"><ui-icon name="clock" size="{{26}}" color="ink-800" /><text>发布时间</text></view>
+            <text class="ic-v mono">{{publishText}}</text>
+          </view>
+          <view class="ic-row">
+            <view class="ic-l"><ui-icon name="doc" size="{{26}}" color="ink-800" /><text>公告编号</text></view>
+            <view class="f" style="gap:8rpx;" bind:tap="copyNo">
+              <text class="ic-v mono">{{ann.ann_no}}</text>
+              <ui-icon name="copy" size="{{22}}" color="ink-600" />
+            </view>
+          </view>
+          <view class="ic-row">
+            <view class="ic-l"><ui-icon name="user" size="{{26}}" color="ink-800" /><text>发布人</text></view>
+            <text class="ic-v">{{ann.source_member_name || ann.source_name}}</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 正文 -->
+      <view class="card card-pad gap">
+        <text class="msg-body">{{ann.body}}</text>
+        <view class="hr mt-16 mb-12" />
+        <view class="f-between">
+          <text class="t-meta">{{ann.source_name}}</text>
+          <text class="t-meta mono">{{ann.read_count || 0}} 人阅读</text>
+        </view>
+      </view>
+    </block>
+
+    <view wx:else class="card card-pad">
+      <view class="blank">
+        <view class="blank-mark"><ui-icon name="megaphone" size="{{52}}" color="signal" /></view>
+        <text class="blank-title">这条公告看不到了</text>
+        <text class="blank-hint">它可能已下线，或不在你的可见范围（班级公告只对已入群的同学可见）。</text>
+        <view class="btn-sm mt-16" data-url="/pages/notifications/index" data-tab="{{true}}" bind:tap="go">返回公告中心</view>
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{ann}}" class="action-bar">
+    <view class="action-row">
+      <view class="cta cta--ghost" bind:tap="markRead">
+        <ui-icon name="shield" size="{{30}}" color="signal" /><text>{{ann.read ? '已确认阅读' : '确认已读'}}</text>
+      </view>
+      <button class="cta cta--primary" open-type="share">
+        <ui-icon name="arrow" size="{{30}}" color="on-signal" /><text>转发</text>
+      </button>
+    </view>
+  </view>
+</view>

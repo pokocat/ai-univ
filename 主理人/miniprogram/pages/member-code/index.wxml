@@ -1,0 +1,98 @@
+<view class="screen screen--bar">
+  <view class="ambience" />
+  <view class="layer">
+    <ui-subhead title="会员码" home="/pages/member/index" />
+
+    <ui-errbar wx:if="{{err}}" msg="{{err}}" retrying="{{retrying}}" bind:retry="refresh" />
+
+    <!-- hero -->
+    <view class="card card--hero code-hero">
+      <view class="f-start" style="gap:8rpx;">
+        <view class="f-1">
+          <view class="title-grad code-title">会员码</view>
+          <text class="lead mt-6">用于线下活动签到、服务核验与权益识别</text>
+          <view class="f mt-12" style="gap:14rpx;">
+            <view class="pill-outline"><ui-icon name="crown" size="{{21}}" color="signal" /><text>专属身份</text></view>
+            <view class="pill-outline"><ui-icon name="shield" size="{{21}}" color="pulse" /><text>签名加密</text></view>
+          </view>
+        </view>
+        <ui-art kind="gem" w="{{210}}" icon="user" variant="code" />
+      </view>
+    </view>
+
+    <!-- 码本体 -->
+    <view class="card qr-card gap">
+      <view class="qr-frame">
+        <image wx:if="{{qrPath}}" class="qr-img" src="{{qrPath}}" style="width:400rpx;height:400rpx;" mode="aspectFit" />
+        <view wx:else class="qr-fallback">
+          <view class="skeleton" style="width:400rpx;height:400rpx;border-radius:18rpx;" />
+        </view>
+      </view>
+      <view class="f-between mt-12">
+        <text class="t-tiny">每 {{ttl}} 秒自动更新，截图后的码会失效</text>
+        <view class="f" style="gap:6rpx;" bind:tap="refresh">
+          <ui-icon name="refresh" size="{{24}}" color="signal" />
+          <text class="t-meta t-signal mono">{{left}}s</text>
+        </view>
+      </view>
+
+      <!-- 身份卡片 -->
+      <view class="codeprofile">
+        <ui-avatar name="{{me.name}}" path="{{me.avatarPath}}" size="{{88}}" />
+        <view class="f-1">
+          <view class="f" style="gap:12rpx;">
+            <text class="cp-name">{{me.name || '主理人'}}</text>
+            <text wx:if="{{tier}}" class="tag tag--purple">{{tier}}</text>
+          </view>
+          <text class="t-tiny mt-4 block">{{identityLabel}}{{me.city ? ' · ' + me.city : ''}}</text>
+          <view class="f mt-8" style="gap:18rpx;">
+            <view wx:if="{{levelText}}" class="f" style="gap:6rpx;">
+              <ui-icon name="gem" size="{{22}}" color="signal" />
+              <text class="t-tiny t-signal">{{levelText}}</text>
+            </view>
+            <view class="f" style="gap:6rpx;" bind:tap="copyNo">
+              <text class="t-tiny mono">{{me.member_no}}</text>
+              <ui-icon name="copy" size="{{22}}" color="ink-600" />
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <view class="f mt-10" style="gap:14rpx;">
+        <view class="status-chip status-chip--purple">
+          <ui-icon name="gem" size="{{24}}" color="signal-600" /><text>{{tier || '普通会员'}}</text>
+        </view>
+        <view class="status-chip status-chip--{{active ? 'green' : 'gray'}}">
+          <ui-icon name="shield" size="{{24}}" color="{{active ? 'ok' : 'ink-600'}}" /><text>{{active ? '有效中' : '未开通'}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 使用场景 -->
+    <view class="card card-pad gap">
+      <text class="col-h mb-12 block">会员码使用场景</text>
+      <view class="three-col">
+        <view wx:for="{{scenes}}" wx:key="title" class="ta-c">
+          <view class="scene-ico"><ui-icon name="{{item.icon}}" size="{{42}}" color="signal" /></view>
+          <text class="scene-t">{{item.title}}</text>
+          <text class="scene-d">{{item.desc}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="action-bar">
+    <view class="action-row">
+      <view class="cta cta--primary" bind:tap="refresh">
+        <ui-icon name="refresh" size="{{32}}" color="on-signal" /><text>刷新会员码</text>
+      </view>
+      <view class="cta cta--ghost" data-url="/pages/member/index" bind:tap="go">
+        <ui-icon name="card" size="{{30}}" color="signal" /><text>返回会员卡</text>
+      </view>
+    </view>
+    <view class="f-center mt-12" style="gap:10rpx;">
+      <ui-icon name="shield" size="{{24}}" color="ink-600" />
+      <text class="t-micro">会员码由服务端签名，过期或伪造的码在核验端会被拒绝</text>
+    </view>
+  </view>
+</view>

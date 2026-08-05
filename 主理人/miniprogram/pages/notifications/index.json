@@ -1,0 +1,12 @@
+{
+  "navigationBarTitleText": "消息",
+  "enablePullDownRefresh": true,
+  "backgroundTextStyle": "dark",
+  "backgroundColor": "#FFF7EC",
+  "usingComponents": {
+    "ui-icon": "/components/icon/index",
+    "ui-art": "/components/art/index",
+    "ui-apphead": "/components/apphead/index",
+    "ui-errbar": "/components/errbar/index"
+  }
+}

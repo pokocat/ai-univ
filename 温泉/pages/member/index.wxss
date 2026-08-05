@@ -1,0 +1,183 @@
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.nav__back {
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: -6px;
+}
+
+.nav__tail {
+  margin-left: auto;
+}
+
+.row-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.mb12 { margin-bottom: 12px; }
+.mb13 { margin-bottom: 13px; }
+.mt13 { margin-top: 13px; }
+
+/* --- 年卡 --------------------------------------------------------------- */
+.vipcard {
+  padding: 17px;
+}
+
+.vip__top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.vip__price {
+  margin-top: 11px;
+}
+
+.vip__num {
+  font: 700 22px/1 var(--f-sans);
+  color: #fff;
+}
+
+.vip__per {
+  font: 400 12px/1 var(--f-sans);
+  color: #9BA6AE;
+}
+
+.vip__new {
+  text-align: right;
+}
+
+.vip__newn {
+  font: 700 20px/1 var(--f-mono);
+  color: #fff;
+  font-variant-numeric: tabular-nums;
+}
+
+.vip__newl {
+  font: 400 10px/1 var(--f-sans);
+  color: #9BA6AE;
+  margin-top: 6px;
+}
+
+.vip__hr {
+  margin: 15px 0 13px;
+}
+
+.perks {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.perk {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.perk__t {
+  font: 400 11.5px/1 var(--f-sans);
+  color: #D5DBDF;
+}
+
+/* --- 无人货柜 ----------------------------------------------------------- */
+.vend__head {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.trio {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 9px;
+}
+
+.trio__v {
+  font: 700 19px/1 var(--f-mono);
+  color: var(--ink);
+  margin-top: 8px;
+  font-variant-numeric: tabular-nums;
+}
+
+.trio__u {
+  font: 400 11px/1 var(--f-sans);
+  color: var(--slate);
+}
+
+/* --- 协会统一选品 ------------------------------------------------------- */
+.skus {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+
+.sku {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+
+.sku__img {
+  width: 44px;
+  height: 44px;
+  border-radius: 11px;
+  flex-shrink: 0;
+  background: repeating-linear-gradient(135deg, #E4E8EA 0 4px, #EEF1F3 4px 8px);
+}
+
+.sku__body {
+  flex: 1;
+  min-width: 0;
+}
+
+.sku__n {
+  font: 600 12.5px/1 var(--f-sans);
+  color: var(--ink);
+}
+
+.sku__m {
+  font: 400 10.5px/1.35 var(--f-sans);
+  color: var(--grey);
+  margin-top: 6px;
+}
+
+.sku__s {
+  flex-shrink: 0;
+  font: 600 11.5px/1 var(--f-mono);
+}
+
+.sku__s.is-on { color: var(--green); }
+.sku__s.is-wait { color: var(--amber); }
+
+/* --- 积分说明 ----------------------------------------------------------- */
+.points3 {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 14px 15px;
+}
+
+.points3__body {
+  flex: 1;
+}
+
+.lend__t {
+  font: 700 12.5px/1.3 var(--f-sans);
+  color: var(--ink);
+}
+
+.lend__b {
+  font: 400 11px/1.45 var(--f-sans);
+  color: var(--slate);
+  margin-top: 5px;
+}

@@ -1,0 +1,83 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/group/index",
+    "pages/member/index",
+    "pages/notifications/index",
+    "pages/mine/index",
+    "pages/login/index",
+    "pages/subscribe/index",
+    "pages/payment/index",
+    "pages/success/index",
+    "pages/member-code/index",
+    "pages/benefits/index",
+    "pages/benefit-detail/index",
+    "pages/points/index",
+    "pages/renewal/index",
+    "pages/group-qr/index",
+    "pages/advisor/index",
+    "pages/message/index",
+    "pages/invite/index",
+    "pages/invite-poster/index",
+    "pages/training/index",
+    "pages/courses/index",
+    "pages/course/index",
+    "pages/courseware/index",
+    "pages/diagnosis/index",
+    "pages/diagnosis-booking/index",
+    "pages/booking-result/index",
+    "pages/ticket/index",
+    "pages/ticket-result/index",
+    "pages/review/index",
+    "pages/refund/index",
+    "pages/refund-result/index",
+    "pages/tasks/index",
+    "pages/earnings/index",
+    "pages/agent/index",
+    "pages/settings/index",
+    "pages/agreement/index",
+    "pages/scan-login/index"
+  ],
+  "window": {
+    "navigationStyle": "custom",
+    "backgroundTextStyle": "dark",
+    "backgroundColor": "#FFF7EC",
+    "navigationBarBackgroundColor": "#FFF7EC",
+    "navigationBarTitleText": "主理人公社",
+    "navigationBarTextStyle": "black",
+    "enablePullDownRefresh": false
+  },
+  "tabBar": {
+    "custom": true,
+    "color": "#A9906F",
+    "selectedColor": "#6D28D9",
+    "backgroundColor": "#FFF7EC",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/group/index",
+        "text": "社群"
+      },
+      {
+        "pagePath": "pages/member/index",
+        "text": "会员"
+      },
+      {
+        "pagePath": "pages/notifications/index",
+        "text": "消息"
+      },
+      {
+        "pagePath": "pages/mine/index",
+        "text": "我的"
+      }
+    ]
+  },
+  "style": "v2",
+  "lazyCodeLoading": "requiredComponents",
+  "__usePrivacyCheck__": true,
+  "sitemapLocation": "sitemap.json"
+}

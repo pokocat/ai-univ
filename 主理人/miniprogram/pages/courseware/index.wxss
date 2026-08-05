@@ -1,0 +1,35 @@
+/* 课件下载页版式。 */
+.cw-hero { padding: 28rpx; overflow: hidden; }
+.cw-title { font-size: 52rpx; font-weight: 700; }
+.file-row {
+  display: flex; align-items: center; gap: 21rpx;
+  padding: 21rpx 0; border-top: 1rpx solid var(--line-soft);
+}
+.file-row:first-of-type { border-top: none; }
+.file-ext {
+  width: 73rpx; height: 80rpx; flex: 0 0 73rpx; border-radius: 16rpx;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-mono); font-size: var(--fs-meta); font-weight: 700;
+  color: var(--signal-600);
+  background: rgba(124, 58, 237, 0.05); border: 3rpx solid var(--line-signal);
+  box-sizing: border-box;
+}
+.file-t { display: block; font-size: var(--fs-h4); font-weight: 700; color: var(--ink-900); }
+.dl-circle {
+  width: 63rpx; height: 63rpx; flex: 0 0 63rpx; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  border: 3rpx solid var(--line-signal); box-sizing: border-box;
+}
+.dl-stat {
+  display: grid; grid-template-columns: 1fr 1fr;
+  padding: 21rpx 10rpx; margin-top: 18rpx;
+  border-radius: var(--r-box);
+  background: rgba(255, 252, 246, 0.8); border: 1rpx solid var(--line);
+}
+.dl-stat-i { display: flex; align-items: center; gap: 12rpx; justify-content: center; position: relative; }
+.dl-stat-i + .dl-stat-i::before {
+  content: ""; position: absolute; left: 0; top: 4rpx; bottom: 4rpx; width: 1rpx; background: var(--track);
+}
+.vs-t { display: block; font-size: var(--fs-meta); color: var(--ink-900); font-weight: 600; }
+.vs-d { display: block; margin-top: 4rpx; font-size: var(--fs-micro); color: var(--ink-600); }
+.block { display: block; }

@@ -1,0 +1,10 @@
+/* 成长值明细页版式。 */
+.pt-hero { padding: 24rpx 28rpx 0; overflow: hidden; }
+.pt-title { font-size: 52rpx; font-weight: 700; margin: 18rpx 0 4rpx; }
+.pt-num { font-size: var(--fs-hero); font-weight: 700; }
+.stat-3 { margin: 24rpx -28rpx 0; }
+.pt-item-t { display: block; font-size: var(--fs-h4); font-weight: 700; color: var(--ink-900); }
+.pt-delta { align-self: center; font-size: 30rpx; font-weight: 700; }
+.lv-cur { font-size: 35rpx; font-weight: 700; }
+.lv-next { font-size: 35rpx; font-weight: 700; color: var(--signal-800); }
+.block { display: block; }

@@ -1,0 +1,100 @@
+<view class="page page--sub">
+  <ui-errbar wx:if="{{loadError}}" msg="{{loadError}}" retrying="{{retrying}}" bind:retry="retryLoad" />
+
+  <view class="hd">
+    <text class="hd-title">我的团队</text>
+    <view><text class="hd-sub">{{identity ? identity + ' · 我名下的群与学员' : '我名下的群与学员'}}</text></view>
+  </view>
+
+  <!-- 非结构身份：如实说明并给下一步（不摆空白页，也不报错） -->
+  <view wx:if="{{!loading && !available}}" class="card">
+    <view class="empty-card">
+      <text class="empty-state-title">这里面向代理 / 运营商 / 城市合伙人</text>
+      <view class="empty-state-desc">{{hint}}</view>
+    </view>
+  </view>
+
+  <block wx:if="{{available}}">
+    <!-- 学员水位：四个数字一次说清「多少人卡在哪一步」 -->
+    <view wx:if="{{summary}}" class="card card--list">
+      <view class="row">
+        <text class="info-k">学员合计</text>
+        <text class="t-body fw-500 mono">{{summary.total}}</text>
+      </view>
+      <view class="row">
+        <text class="info-k">待分班</text>
+        <text class="t-body fw-500 mono">{{summary.pending_assign}}</text>
+      </view>
+      <view class="row">
+        <text class="info-k">已分班待入群</text>
+        <text class="t-body fw-500 mono">{{summary.assigned}}</text>
+      </view>
+      <view class="row">
+        <text class="info-k">在训</text>
+        <text class="t-body fw-500 mono">{{summary.in_training}}</text>
+      </view>
+    </view>
+
+    <!-- 我名下的群 -->
+    <view class="section-head"><text class="section-title">我名下的群（{{groups.length}}）</text></view>
+    <view wx:if="{{groups.length === 0}}" class="card">
+      <view class="empty-card">
+        <text class="empty-state-title">还没有归属到你名下的群</text>
+        <view class="empty-state-desc">群的归属由运营在管理台设置，设置后这里会出现</view>
+      </view>
+    </view>
+    <view wx:else class="card card--list">
+      <view wx:for="{{groups}}" wx:key="id" class="row" data-id="{{item.id}}" bind:tap="copyGroupId">
+        <view class="f-1">
+          <text class="t-strong">{{item.name}}</text>
+          <view class="mt-4">
+            <text class="t-muted">{{item.typeText}}{{item.city ? ' · ' + item.city : ''}} · {{item.status}}</text>
+          </view>
+        </view>
+        <text class="{{item.full ? 't-amber' : 't-muted'}} mono">{{item.usedText}}</text>
+      </view>
+    </view>
+
+    <!-- 学员列表：只给姓名/阶段/班级，不给手机号（小程序不是后台） -->
+    <view class="section-head"><text class="section-title">我的学员（{{students.length}}）</text></view>
+    <view wx:if="{{stageTabs.length > 1}}" class="f stage-tabs">
+      <text
+        wx:for="{{stageTabs}}"
+        wx:key="*this"
+        class="stage-tab {{stage === item ? 'stage-tab--on' : ''}}"
+        data-stage="{{item}}"
+        bind:tap="switchStage"
+      >{{item}}</text>
+    </view>
+    <view wx:if="{{students.length === 0}}" class="card">
+      <view class="empty-card">
+        <text class="empty-state-title">还没有学员</text>
+        <view class="empty-state-desc">学员用你的邀请码注册并购买培训后会出现在这里，可去「邀请好友」拿码</view>
+      </view>
+    </view>
+    <view wx:else class="card card--list">
+      <block wx:for="{{students}}" wx:key="index">
+        <view wx:if="{{stage === '全部' || stage === item.status}}" class="row">
+          <view class="f-1">
+            <text class="t-strong">{{item.name}}</text>
+            <view class="mt-4">
+              <text class="t-muted">
+                {{item.cohortName || '未分班'}}{{item.groupName ? ' · ' + item.groupName : ''}}{{item.city ? ' · ' + item.city : ''}}
+              </text>
+            </view>
+          </view>
+          <view class="stu-right">
+            <text class="tag tag--gray">{{item.status}}</text>
+            <view class="mt-4"><text class="t-muted">{{item.timeText}}</text></view>
+          </view>
+        </view>
+      </block>
+    </view>
+
+    <view class="plan-note">
+      <text class="t-muted">
+        分班、改群等操作在管理台完成（用你的推荐人账号登录）。本页只读，数据与管理台同源。
+      </text>
+    </view>
+  </block>
+</view>

@@ -1,0 +1,22 @@
+<view wx:if="{{visible}}" class="pv-mask" catch:touchmove="noop">
+  <view class="pv-body">
+    <view class="pv-title">隐私保护指引</view>
+    <view class="pv-text">
+      在你使用昵称填写、手机号绑定、复制邀请码等功能前，需要你阅读并同意<text
+        class="pv-link"
+        bind:tap="openContract"
+      >《主理人公社小程序隐私保护指引》</text>。同意后我们才会收集对应信息；你可以随时在微信「设置 → 隐私 → 小程序」中撤回授权。
+    </view>
+    <view class="pv-btns">
+      <button class="pv-btn pv-btn--ghost" bind:tap="onDisagree">拒绝</button>
+      <button
+        id="privacy-agree-btn"
+        class="pv-btn pv-btn--primary"
+        open-type="agreePrivacyAuthorization"
+        bindagreeprivacyauthorization="onAgree"
+      >
+        同意并继续
+      </button>
+    </view>
+  </view>
+</view>

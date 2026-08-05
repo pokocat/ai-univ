@@ -1,0 +1,10 @@
+/* AI 诊断页版式。 */
+.dg-hero { padding: 24rpx 28rpx 28rpx; overflow: hidden; }
+.dg-title { font-size: 38rpx; font-weight: 700; margin: 12rpx 0 12rpx; }
+.dg-grade { flex: 0 0 160rpx; }
+.dg-grade-v { font-size: 98rpx; font-weight: 700; line-height: 1; }
+.dg-metric-v { display: block; margin-top: 6rpx; font-size: 28rpx; font-weight: 700; color: var(--signal-600); }
+.dg-advice-t { display: block; font-size: var(--fs-body); font-weight: 700; color: var(--ink-900); }
+.issue-row { display: flex; align-items: center; gap: 18rpx; padding: 12rpx 0; }
+.issue-dot { width: 11rpx; height: 11rpx; border-radius: 50%; flex: 0 0 11rpx; background: var(--signal-500); }
+.block { display: block; }

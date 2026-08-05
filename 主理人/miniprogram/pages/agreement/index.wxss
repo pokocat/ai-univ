@@ -1,0 +1,21 @@
+/* 协议页：长文排版，重可读性——段间距大、行高松、正文不加粗。
+   这一页在上一次视觉基线切换时被漏掉，仍停在冷灰体系（#111111 / #787774 / #F0EFEC）。 */
+
+.doc-intro { font-size: var(--fs-body); line-height: 1.8; color: var(--ink-700); }
+
+.doc-h {
+  font-family: var(--font-zh);
+  font-size: 30rpx; font-weight: 600; color: var(--ink-900);
+  letter-spacing: -0.5rpx;
+  margin-bottom: 18rpx;
+}
+.doc-p { margin-bottom: 18rpx; line-height: 1.85; color: var(--ink-700); }
+.doc-p:last-child { margin-bottom: 0; }
+
+.doc-others { padding-bottom: 10rpx; }
+.doc-other-row {
+  padding: 22rpx 0;
+  border-top: 1rpx solid var(--line-soft);
+}
+
+.doc-foot { margin: 8rpx var(--gutter) 20rpx; }

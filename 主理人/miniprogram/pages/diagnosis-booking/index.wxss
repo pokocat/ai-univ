@@ -1,0 +1,5 @@
+/* 诊断预约页版式。 */
+.db-hero { padding: 28rpx; overflow: hidden; }
+.db-title { font-size: 47rpx; font-weight: 700; }
+.block { display: block; }
+.cta--busy { opacity: 0.72; }

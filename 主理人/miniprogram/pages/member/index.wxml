@@ -1,0 +1,162 @@
+<view class="screen screen--tab">
+  <view class="ambience" />
+  <view class="layer">
+    <ui-apphead pro="{{me.hasPaidEntitlement}}" big="{{true}}" />
+
+    <ui-errbar wx:if="{{err}}" msg="{{err}}" retrying="{{retrying}}" bind:retry="load" />
+
+    <view wx:if="{{loading}}" class="card card-pad"><view class="skeleton skeleton-block" /></view>
+
+    <block wx:else>
+      <!-- 数字会员卡 -->
+      <view class="mcard">
+        <view class="f-between mb-12">
+          <view class="f" style="gap:12rpx;">
+            <ui-icon name="shield" size="{{30}}" color="pulse-300" />
+            <text class="mcard-h">数字会员卡</text>
+          </view>
+          <text wx:if="{{tierLabel}}" class="mcard-pro">{{tierLabel}}</text>
+          <text wx:else class="tag tag--gray tag--round">未开通</text>
+        </view>
+
+        <view class="f-start" style="gap:24rpx;">
+          <view class="f-1">
+            <view class="f mb-12" style="gap:21rpx;">
+              <ui-avatar name="{{me.name}}" path="{{me.avatarPath}}" size="{{108}}" ring="{{true}}" />
+              <view class="f-1">
+                <view class="f" style="gap:10rpx;">
+                  <text class="mcard-name">{{me.name || '主理人'}}</text>
+                  <ui-icon wx:if="{{me.hasPaidEntitlement}}" name="shield" size="{{28}}" color="pulse-300" />
+                </view>
+                <text class="mc-role">{{identityLabel}}</text>
+              </view>
+            </view>
+            <view class="mc-info">
+              <view wx:for="{{info}}" wx:key="label" class="mc-row">
+                <ui-icon name="{{item.icon}}" size="{{26}}" color="signal" />
+                <text class="mc-l">{{item.label}}</text>
+                <text class="mc-v {{item.mono ? 'mono' : ''}}">{{item.value}}</text>
+              </view>
+            </view>
+          </view>
+          <view class="mcard-side">
+            <ui-art kind="medallion" w="{{168}}" glyph="{{growth.glyph}}" variant="mc" />
+            <view class="mcard-code" bind:tap="openCode">
+              <ui-icon name="qr" size="{{52}}" color="signal-600" />
+              <view class="f" style="gap:6rpx;">
+                <text class="mcard-code-t">会员码</text>
+                <ui-icon name="chev" size="{{20}}" color="signal" />
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 我的关系链 -->
+      <view class="card card-pad gap">
+        <view class="f mb-16" style="gap:12rpx;">
+          <ui-icon name="link" size="{{30}}" color="signal" />
+          <text class="col-h">我的关系链</text>
+        </view>
+        <view wx:if="{{chain.length}}" class="chain">
+          <block wx:for="{{chain}}" wx:key="index">
+            <view class="chain-p">
+              <text class="chain-label">{{item.label}}</text>
+              <ui-avatar name="{{item.name}}" size="{{80}}" />
+              <text class="chain-name">{{item.name}}</text>
+              <text class="chain-role">{{item.role}}</text>
+            </view>
+            <view wx:if="{{index < chain.length - 1}}" class="chain-arrow">
+              <ui-icon name="chev" size="{{28}}" color="ink-800" />
+            </view>
+          </block>
+        </view>
+        <view wx:else class="blank">
+          <view class="blank-mark"><ui-icon name="link" size="{{45}}" color="signal" /></view>
+          <text class="blank-title">还没有绑定推荐关系</text>
+          <text class="blank-hint">通过好友的邀请码注册会自动绑定；你也可以邀请好友，建立自己的关系链。</text>
+          <view class="btn-sm mt-16" data-url="/pages/invite/index" bind:tap="go">去邀请好友</view>
+        </view>
+      </view>
+
+      <!-- 权益中心 -->
+      <view class="card card-pad gap">
+        <view class="f-between mb-14">
+          <view class="f" style="gap:12rpx;">
+            <ui-icon name="crown" size="{{30}}" color="signal" />
+            <text class="col-h">会员权益中心</text>
+          </view>
+          <view class="link-trail" data-url="/pages/benefits/index" bind:tap="go">
+            <text>全部权益</text><ui-icon name="chev" size="{{22}}" color="ink-800" />
+          </view>
+        </view>
+        <view wx:if="{{benefits.length}}" class="ben-grid">
+          <view
+            wx:for="{{benefits}}"
+            wx:key="code"
+            class="ben-tile"
+            data-code="{{item.code}}"
+            data-page="{{item.action_page}}"
+            bind:tap="openBenefit"
+          >
+            <ui-icon name="{{item.icon}}" size="{{40}}" color="signal" />
+            <text class="bt-t">{{item.name}}</text>
+            <text class="bt-d">{{item.summary}}</text>
+            <ui-icon name="chev" size="{{22}}" color="ink-800" extStyle="position:absolute;right:12rpx;bottom:12rpx;" />
+          </view>
+        </view>
+        <view wx:else class="blank">
+          <view class="blank-mark"><ui-icon name="gem" size="{{45}}" color="signal" /></view>
+          <text class="blank-title">还没有可用权益</text>
+          <text class="blank-hint">开通会员后，资源库、专属课程、AI 诊断等权益会在这里解锁。</text>
+          <view class="btn-grad mt-16" data-url="/pages/subscribe/index" bind:tap="go">查看会员方案</view>
+        </view>
+      </view>
+
+      <!-- 有效期 + 成长值 -->
+      <view class="card card-pad gap">
+        <view class="f-start" style="gap:28rpx;">
+          <view class="f-1">
+            <text class="t-meta">会员有效期</text>
+            <view wx:if="{{membership.valid_until}}" class="f mt-6" style="gap:14rpx;">
+              <text class="mono expiry">{{expiryText}}</text>
+              <text class="t-tiny">到期</text>
+            </view>
+            <text wx:else class="mt-6 block t-sec">未开通</text>
+            <text wx:if="{{membership.days_left != null && membership.active}}" class="day-pill">剩余 {{membership.days_left}} 天</text>
+          </view>
+          <view class="f-1">
+            <view class="f-between">
+              <text class="t-meta">成长值</text>
+              <view class="btn-sm" data-url="/pages/points/index" bind:tap="go">明细</view>
+            </view>
+            <text class="mono growth-v">{{growth.growthText}}</text>
+          </view>
+        </view>
+        <view wx:if="{{growth.level != null}}" class="prog-wrap mt-16">
+          <view class="prog-track"><view class="prog-fill" style="{{growth.pctStyle}}" /></view>
+          <view class="prog-knob" style="left:{{growth.progressPct}}%;" />
+        </view>
+        <view wx:if="{{growth.level != null}}" class="f-between mt-10">
+          <text class="mono t-pulse fw-700">LV.{{growth.level}}</text>
+          <text wx:if="{{!growth.topLevel}}" class="t-tiny">
+            <text class="mono t-signal fw-700">LV.{{growth.nextLevel}}</text> 还需 <text class="mono">{{growth.remainText}}</text> 升级
+          </text>
+          <text wx:else class="t-tiny t-ok">已达最高等级</text>
+        </view>
+      </view>
+    </block>
+  </view>
+
+  <!-- 底部动作条 -->
+  <view class="action-bar">
+    <view class="action-row">
+      <view class="cta cta--primary" bind:tap="openCode">
+        <ui-icon name="qr" size="{{35}}" color="on-signal" /><text>出示会员码</text>
+      </view>
+      <view class="cta cta--ghost" data-url="/pages/benefits/index" bind:tap="go">
+        <ui-icon name="gem" size="{{32}}" color="signal" /><text>查看全部权益</text>
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,59 @@
+<view class="screen">
+  <view class="statusbar" style="height: {{padTop}}px"></view>
+
+  <view class="head">
+    <view class="nav">
+      <view class="nav__back hit" bindtap="back">
+        <view class="ic ic-26 ic-back"></view>
+      </view>
+      <view class="title">经营诊断报告</view>
+    </view>
+  </view>
+
+  <scroll-view class="body" scroll-y enable-flex>
+    <view class="stack stack--tight">
+
+      <!-- 结论 + 健康分 -->
+      <view class="card card--pad16">
+        <view class="verdict">
+          <view class="verdict__left">
+            <view class="kicker">{{dx.regId}}</view>
+            <view class="verdict__h">{{dx.headline}}</view>
+          </view>
+          <view class="verdict__score">
+            <view class="score__n">{{dx.score}}</view>
+            <view class="score__cap">健康分 / 100</view>
+          </view>
+        </view>
+        <view class="hr hr--v"></view>
+        <view class="lede">{{dx.summary}}</view>
+      </view>
+
+      <!-- 三件能马上动手的事：每条都挂一个本 App 内的动作按钮 -->
+      <view class="card" wx:for="{{dx.issues}}" wx:key="no">
+        <view class="issue__top">
+          <view class="issue__no issue__no--{{item.urgent ? 'r' : 'a'}}">{{item.no}}</view>
+          <view class="h2">{{item.title}}</view>
+          <view wx:if="{{item.urgent}}" class="pill pill--r issue__flag">最急</view>
+        </view>
+        <view class="body-s">{{item.body}}</view>
+
+        <view class="act act--{{item.tone === 'teal' ? 't' : 'p'}} mt12">
+          <view class="act__body">
+            <view class="act__lead">{{item.action}}</view>
+            <view class="act__meta">{{item.meta}}</view>
+          </view>
+          <view
+            class="btn-s btn-s--{{item.tone === 'teal' ? 't' : 'p'}} hit"
+            data-url="{{item.route}}"
+            data-tab="{{item.tab}}"
+            bindtap="goto"
+          >{{item.btn}}</view>
+        </view>
+      </view>
+
+    </view>
+  </scroll-view>
+
+  <tabbar selected="{{tab}}" />
+</view>

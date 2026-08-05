@@ -1,0 +1,102 @@
+{
+  "appid": "wx12ec2c2e0dd7767f",
+  "projectname": "wenquan-ai-super-app",
+  "description": "温泉酒店 AI 超级应用 · 2026 温泉协会大会路演演示",
+  "compileType": "miniprogram",
+  "miniprogramRoot": "./",
+  "setting": {
+    "urlCheck": false,
+    "es6": true,
+    "enhance": true,
+    "postcss": true,
+    "minified": false,
+    "coverView": true,
+    "lazyloadPlaceholderEnable": false,
+    "preloadBackgroundData": false,
+    "autoAudits": false,
+    "uglifyFileName": false,
+    "uploadWithSourceMap": true,
+    "enableEngineNative": false,
+    "useIsolateContext": true,
+    "userConfirmedBundleSwitch": false,
+    "packNpmManually": false,
+    "packNpmRelationList": [],
+    "minifyWXSS": true,
+    "showES6CompileOption": false,
+    "checkInvalidKey": true,
+    "babelSetting": {
+      "ignore": [],
+      "disablePlugins": [],
+      "outputPath": ""
+    }
+  },
+  "packOptions": {
+    "ignore": [
+      {
+        "type": "suffix",
+        "value": ".png"
+      },
+      {
+        "type": "file",
+        "value": "assets/ICONS-LICENSE.txt"
+      }
+    ],
+    "include": []
+  },
+  "condition": {
+    "miniprogram": {
+      "list": [
+        {
+          "name": "01 首页 · 经营主线",
+          "pathName": "pages/mainline/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "02 AI 军师 · 诊断报告",
+          "pathName": "pages/diagnosis/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "03 AI 出片 · 模板库",
+          "pathName": "pages/studio/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "04 AI 出片 · 出片与分发",
+          "pathName": "pages/produce/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "05 数字资产库",
+          "pathName": "pages/assets/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "06 拉新 · 扫码进私域",
+          "pathName": "pages/crowd/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "07 会员与权益",
+          "pathName": "pages/member/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "08 复购 · 经营账",
+          "pathName": "pages/ledger/index",
+          "query": "",
+          "scene": null
+        }
+      ]
+    }
+  },
+  "libVersion": "3.5.5",
+  "srcMiniprogramRoot": "./"
+}

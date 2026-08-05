@@ -1,0 +1,84 @@
+<view class="screen">
+  <view class="statusbar" style="height: {{padTop}}px"></view>
+
+  <view class="head">
+    <view class="head__row">
+      <view class="title">{{l.month}}</view>
+      <view class="meta">{{l.vs}}</view>
+    </view>
+  </view>
+
+  <scroll-view class="body" scroll-y enable-flex>
+    <view class="stack">
+
+      <!-- 钱从哪几处进来。后三项是这套系统新增的收入 -->
+      <view class="card card--pad16">
+        <view class="kicker">总营收</view>
+        <view class="tot">
+          <view class="tot__n">{{l.total}}<text class="tot__u">{{l.totalUnit}}</text></view>
+          <view class="pill pill--g tot__d">{{l.delta}}</view>
+        </view>
+
+        <view class="stackbar">
+          <view
+            wx:for="{{l.sources}}"
+            wx:key="name"
+            class="stackbar__seg"
+            style="flex: {{item.flex}}; background: {{item.color}}"
+          ></view>
+        </view>
+
+        <view class="srcs">
+          <view class="src" wx:for="{{l.sources}}" wx:key="name">
+            <view class="src__dot" style="background: {{item.color}}"></view>
+            <view class="src__n">{{item.name}}</view>
+            <view class="src__v">{{item.v}}</view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 两个诊断前后对比读数 -->
+      <view class="duo">
+        <view class="card" wx:for="{{l.kpis}}" wx:key="k">
+          <view class="kicker">{{item.k}}</view>
+          <view class="kpi__v">
+            <text class="kpi__n">{{item.v}}</text>
+            <text class="kpi__u">{{item.unit}}</text>
+          </view>
+          <view class="kpi__was">{{item.was}}</view>
+        </view>
+      </view>
+
+      <!-- 这个月的组合拳：把主线五步复述成老板的语言 -->
+      <view class="card--ink combo">
+        <view class="kicker--p">{{l.combo.kicker}}</view>
+        <view class="combo__list">
+          <view class="combo__row" wx:for="{{l.combo.steps}}" wx:key="*this">
+            <view class="combo__i">0{{index + 1}}</view>
+            <view class="combo__s">{{item}}</view>
+          </view>
+        </view>
+        <view class="hr--onink combo__hr"></view>
+        <view class="combo__foot">{{l.combo.foot}}</view>
+      </view>
+
+      <!-- 下一轮诊断：经营数据回流，闭环回到 ① -->
+      <view class="card next">
+        <view class="next__body">
+          <view class="next__t">{{l.next.title}}</view>
+          <view class="next__b">{{l.next.body}}</view>
+        </view>
+        <view
+          class="btn-s btn-s--p hit"
+          data-url="/pages/studio/index"
+          data-tab="1"
+          bindtap="goto"
+        >{{l.next.btn}}</view>
+      </view>
+
+    </view>
+  </scroll-view>
+
+  <!-- 框架 tabBar 是覆盖式的，这里留出等高空白 -->
+  <view class="tabpad" style="height: {{70 + safeBottom}}px"></view>
+</view>

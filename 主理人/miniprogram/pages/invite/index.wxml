@@ -1,0 +1,126 @@
+<view class="screen screen--bar">
+  <view class="ambience" />
+  <view class="layer">
+    <ui-subhead title="邀请推荐" home="/pages/mine/index" />
+
+    <ui-errbar wx:if="{{err}}" msg="{{err}}" retrying="{{retrying}}" bind:retry="load" />
+    <view wx:if="{{loading}}" class="card card-pad"><view class="skeleton skeleton-block" /></view>
+
+    <block wx:else>
+      <!-- hero -->
+      <view class="card card--hero iv-hero">
+        <view class="f-start" style="gap:8rpx;">
+          <view class="f-1">
+            <view class="iv-title">邀请好友 · <text class="title-grad">共创增长</text></view>
+            <text class="lead mt-8">邀请好友加入主理人公社，一起链接资源、共创价值</text>
+            <view class="ghost-pill mt-12" data-url="/pages/invite-poster/index" bind:tap="go">
+              <text>查看邀请规则</text><ui-icon name="arrow" size="{{26}}" color="signal" />
+            </view>
+          </view>
+          <ui-art kind="trophy" w="{{160}}" variant="iv" extStyle="margin-top:14rpx;" />
+        </view>
+      </view>
+
+      <!-- 三格读数（都有真实来源） -->
+      <view class="card three-col iv-stat gap">
+        <view class="stat-3-item">
+          <text class="s3-l">已邀请</text>
+          <text class="s3-v mono">{{influenceText}}<text class="s3-unit"> 人</text></text>
+          <text class="s3-d">含一至三级</text>
+        </view>
+        <view class="stat-3-item">
+          <text class="s3-l">已开通</text>
+          <text class="s3-v mono">{{paidCountText}}<text class="s3-unit"> 人</text></text>
+          <text class="s3-d">下线中已付费</text>
+        </view>
+        <view class="stat-3-item">
+          <text class="s3-l">邀请成长值</text>
+          <text class="s3-v mono t-signal">{{inviteGrowthText}}</text>
+          <text class="s3-d">累计已获得</text>
+        </view>
+      </view>
+
+      <!-- 邀请码 + 小程序码 -->
+      <view class="card card-pad gap">
+        <view class="f-start">
+          <view class="f-1">
+            <view class="f" style="gap:10rpx;">
+              <text class="t-meta">我的邀请码</text>
+              <ui-icon name="info" size="{{22}}" color="ink-600" />
+            </view>
+            <view class="f mt-8" style="gap:18rpx;">
+              <text class="iv-code mono">{{invite.inviteCode}}</text>
+              <view class="copy-pill" bind:tap="copyCode">复制</view>
+            </view>
+            <text class="t-tiny mt-8 block">
+              好友经你的码注册即绑定关系链，每位可得 <text class="mono">{{awardText}}</text> 成长值
+            </text>
+            <text wx:if="{{invite.inviteDailyCap}}" class="t-micro mt-4 block">
+              每日奖励上限 {{invite.inviteDailyCap}} 位，超出仅绑定关系不发奖励
+            </text>
+          </view>
+          <view class="ta-c">
+            <view wx:if="{{qrBase64}}" class="qr-frame iv-qr" bind:tap="previewQr">
+              <image class="qr-img" src="{{qrBase64}}" style="width:180rpx;height:180rpx;" mode="aspectFit" />
+            </view>
+            <view wx:else class="iv-qr-empty" bind:tap="loadQrcode">
+              <ui-icon name="qr" size="{{52}}" color="signal" />
+              <text class="t-micro mt-6">{{qrHint}}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 邀请记录（真实下线） -->
+      <view class="card card-pad gap">
+        <view class="f-between mb-8">
+          <text class="col-h">邀请记录</text>
+          <text class="t-tiny">最近 {{downline.length}} 位</text>
+        </view>
+        <block wx:if="{{downline.length}}">
+          <view wx:for="{{downline}}" wx:key="member_no" class="row-item">
+            <ui-avatar name="{{item.name}}" size="{{72}}" />
+            <view class="f-1">
+              <view class="f" style="gap:10rpx;">
+                <text class="iv-name">{{item.name || item.member_no}}</text>
+                <text class="tag tag--purple">{{item.levelText}}</text>
+              </view>
+              <text class="t-micro mono mt-4 block">{{item.boundText}}</text>
+            </view>
+            <view class="ta-r">
+              <text class="iv-st" style="color:var(--{{item.paid ? 'ok' : 'ink-600'}});">{{item.paid ? '已开通' : '已注册'}}</text>
+              <text wx:if="{{item.direct_downline}}" class="t-micro mt-4 block">直推 {{item.direct_downline}} 人</text>
+            </view>
+          </view>
+        </block>
+        <view wx:else class="blank">
+          <view class="blank-mark"><ui-icon name="members" size="{{45}}" color="signal" /></view>
+          <text class="blank-title">还没有人通过你的码加入</text>
+          <text class="blank-hint">把邀请码或小程序码分享给同频的朋友，他们注册后会出现在这里。</text>
+        </view>
+      </view>
+
+      <view class="box box--sunk gap">
+        <view class="f" style="gap:12rpx;">
+          <ui-icon name="shield" size="{{28}}" color="signal" />
+          <text class="t-sec fw-600">邀请规则</text>
+        </view>
+        <text class="t-tiny mt-6 block">
+          好友通过你的邀请码注册即绑定关系链（最多三级）。奖励为成长值等虚拟权益，
+          不涉及现金返利；平台不做返佣结算。
+        </text>
+      </view>
+    </block>
+  </view>
+
+  <view class="action-bar">
+    <view class="action-row">
+      <view class="cta cta--primary" data-url="/pages/invite-poster/index" bind:tap="go">
+        <ui-icon name="chart" size="{{32}}" color="on-signal" /><text>生成海报</text>
+      </view>
+      <button class="cta cta--ghost" open-type="share">
+        <ui-icon name="wechat" size="{{30}}" color="ok" /><text>微信分享</text>
+      </button>
+    </view>
+  </view>
+</view>

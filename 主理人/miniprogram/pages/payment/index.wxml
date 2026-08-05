@@ -1,0 +1,104 @@
+<view class="screen screen--bar">
+  <view class="ambience" />
+  <view class="layer">
+    <ui-subhead title="支付确认" home="/pages/member/index" />
+
+    <ui-errbar wx:if="{{err}}" msg="{{err}}" retrying="{{retrying}}" bind:retry="load" />
+
+    <view wx:if="{{loading}}" class="card card-pad"><view class="skeleton skeleton-block" /></view>
+
+    <block wx:elif="{{plan}}">
+      <!-- hero -->
+      <view class="card result-hero">
+        <view class="result-hero-text">
+          <view class="eyebrow"><ui-icon name="lock" size="{{26}}" color="signal" /><text>安全加密支付</text></view>
+          <view class="title-grad pay-title">支付确认</view>
+          <text class="t-sec mt-6 block">安全便捷 · 权益即时生效</text>
+        </view>
+        <view class="result-hero-art"><ui-art kind="check" w="{{230}}" variant="pay" /></view>
+      </view>
+
+      <!-- 已选方案 -->
+      <view class="card card-pad gap">
+        <text class="col-h mb-10 block">已选会员方案</text>
+        <view class="plan-box">
+          <view class="f-1">
+            <view class="f f-wrap" style="gap:14rpx;">
+              <text class="plan-name">{{plan.name}}</text>
+              <text wx:if="{{plan.badge}}" class="tag tag--amber">{{plan.badge}}</text>
+            </view>
+            <text wx:if="{{plan.summary}}" class="t-meta mt-8 block">{{plan.summary}}</text>
+            <text class="t-meta mt-4 block">有效期 {{plan.duration_days}} 天</text>
+          </view>
+          <view class="ta-r">
+            <view class="price">
+              <text class="price-cur">¥</text><text class="price-v mono">{{plan.priceText}}</text>
+            </view>
+            <text wx:if="{{plan.listText}}" class="mono t-micro mt-4 block">原价 ¥{{plan.listText}}</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 订单明细 -->
+      <view class="card card-pad gap">
+        <text class="col-h mb-12 block">订单明细</text>
+        <view wx:if="{{plan.listText}}" class="od-row">
+          <text>商品原价</text><text class="mono">¥{{plan.listText}}</text>
+        </view>
+        <view wx:if="{{plan.saveText}}" class="od-row">
+          <text>优惠</text><text class="mono t-pulse">-¥{{plan.saveText}}</text>
+        </view>
+        <view class="hr mt-10 mb-10" />
+        <view class="od-row od-row--total">
+          <text>应付金额</text>
+          <text class="mono pay-total">¥{{plan.priceText}}</text>
+        </view>
+      </view>
+
+      <!-- 支付方式：只列服务端确认可用的通道 -->
+      <view class="card card-pad gap">
+        <text class="col-h mb-10 block">支付方式</text>
+        <view class="pay-row pay-row--on">
+          <view class="pay-logo"><ui-icon name="wechat" size="{{30}}" color="on-signal" /></view>
+          <view class="f-1">
+            <text class="pay-t">{{pay.mode === 'mock' ? '演示支付（Mock）' : '微信支付'}}</text>
+            <text class="t-tiny mt-4 block">{{pay.hint}}</text>
+          </view>
+          <view class="radio radio--on"><view class="radio-i" /></view>
+        </view>
+        <view wx:if="{{iosBlocked}}" class="warn-box mt-12">
+          <ui-icon name="warn" size="{{32}}" color="danger" />
+          <text class="t-meta t-danger">当前 iOS 通道尚未开放，请在安卓/鸿蒙设备上开通，或联系服务老师协助。</text>
+        </view>
+      </view>
+
+      <!-- 续费与提醒口径 -->
+      <view class="card card-pad gap">
+        <view class="f" style="gap:12rpx;">
+          <ui-icon name="shield" size="{{30}}" color="signal" />
+          <text class="col-h">到期与续费说明</text>
+        </view>
+        <text class="t-meta mt-8 block">
+          有效期自支付成功起算。到期前会通过站内消息与微信服务通知提醒你续费；
+          本平台不做自动扣费，续费需你手动确认。已生效的权益可在「会员权益」中随时查看。
+        </text>
+      </view>
+    </block>
+
+    <view wx:else class="card card-pad">
+      <view class="blank">
+        <view class="blank-mark"><ui-icon name="warn" size="{{52}}" color="warn" /></view>
+        <text class="blank-title">这个方案已经不可购买</text>
+        <text class="blank-hint">套餐可能已下架或调整，请返回重新选择。</text>
+        <view class="btn-sm mt-16" bind:tap="backToPlans">重新选择方案</view>
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{plan}}" class="action-bar">
+    <view class="cta cta--primary {{paying ? 'cta--busy' : ''}}" bind:tap="submit">
+      <text>{{paying ? '处理中…' : '确认支付 ¥' + plan.priceText}}</text>
+      <view wx:if="{{!paying}}" class="cta-arrow"><ui-icon name="arrow" size="{{30}}" color="on-signal" /></view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,13 @@
+{
+  "navigationBarTitleText": "我的任务",
+  "enablePullDownRefresh": true,
+  "backgroundTextStyle": "dark",
+  "usingComponents": {
+    "ui-icon": "/components/icon/index",
+    "ui-errbar": "/components/errbar/index"
+  },
+  "backgroundColor": "#FFF7EC",
+  "navigationStyle": "default",
+  "navigationBarBackgroundColor": "#FFF7EC",
+  "navigationBarTextStyle": "black"
+}

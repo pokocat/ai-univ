@@ -1,0 +1,7 @@
+/* 工单进度页版式。 */
+.tr-title { font-size: 56rpx; letter-spacing: 2rpx; }
+/* 保留服务端的换行：用户的问题描述与老师的反馈都是多段文字 */
+.tr-desc { display: block; font-size: var(--fs-h4); color: var(--ink-800); line-height: 1.8; white-space: pre-line; }
+.tr-event-t { display: block; font-size: var(--fs-h4); font-weight: 700; color: var(--ink-900); }
+.tr-event { padding-top: 10rpx; }
+.block { display: block; }

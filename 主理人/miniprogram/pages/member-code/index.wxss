@@ -1,0 +1,24 @@
+/* 会员码页版式。 */
+.code-hero { padding: 28rpx; overflow: hidden; }
+.code-title { font-size: 59rpx; font-weight: 700; }
+.qr-fallback { display: flex; align-items: center; justify-content: center; }
+.codeprofile {
+  display: flex; align-items: center; gap: 21rpx; margin-top: 24rpx; padding: 21rpx;
+  border-radius: 24rpx; background: var(--sunk-2); border: 1rpx solid var(--line-strong);
+}
+.cp-name { font-size: 30rpx; font-weight: 700; color: var(--ink-900); }
+.status-chip {
+  flex: 1; display: flex; align-items: center; justify-content: center; gap: 9rpx;
+  padding: 14rpx; border-radius: 18rpx; font-size: var(--fs-meta); font-weight: 600;
+}
+.status-chip--purple { color: var(--signal-600); background: rgba(168, 85, 247, 0.12); border: 1rpx solid var(--line-signal); }
+.status-chip--green { color: var(--ok); background: var(--ok-wash); border: 1rpx solid var(--ok-line); }
+.status-chip--gray { color: var(--ink-700); background: var(--track); border: 1rpx solid var(--line-soft); }
+.scene-ico {
+  width: 84rpx; height: 84rpx; margin: 0 auto; border-radius: 24rpx;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(124, 58, 237, 0.08); border: 1rpx solid var(--line-strong);
+}
+.scene-t { display: block; margin-top: 14rpx; font-size: var(--fs-sec); font-weight: 700; color: var(--ink-900); }
+.scene-d { display: block; margin-top: 7rpx; font-size: var(--fs-micro); color: var(--ink-600); line-height: 1.4; }
+.block { display: block; }

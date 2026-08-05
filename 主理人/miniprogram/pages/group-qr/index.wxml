@@ -1,0 +1,139 @@
+<view class="screen screen--bar">
+  <view class="ambience" />
+  <view class="layer">
+    <ui-subhead title="进入班群" home="/pages/group/index" />
+
+    <ui-errbar wx:if="{{err}}" msg="{{err}}" retrying="{{retrying}}" bind:retry="load" />
+    <view wx:if="{{loading}}" class="card card-pad"><view class="skeleton skeleton-block" /></view>
+
+    <block wx:else>
+      <view class="card card--hero gq-hero">
+        <view class="f-start" style="gap:8rpx;">
+          <view class="f-1">
+            <view class="title-grad gq-title">{{heroTitle}}</view>
+            <text class="lead mt-8">{{heroDesc}}</text>
+            <view class="f mt-12" style="gap:14rpx;">
+              <view class="pill-outline"><ui-icon name="crown" size="{{21}}" color="signal" /><text>专属社群</text></view>
+              <view class="pill-outline"><ui-icon name="shield" size="{{21}}" color="signal-600" /><text>已锁定席位</text></view>
+            </view>
+          </view>
+          <ui-art kind="medallion" w="{{200}}" glyph="{{glyph}}" variant="gq" />
+        </view>
+      </view>
+
+      <!-- 班级信息 -->
+      <view wx:if="{{group.assignment}}" class="card card-pad gap">
+        <view class="f-between mb-12">
+          <view class="f" style="gap:12rpx;">
+            <ui-icon name="shield" size="{{28}}" color="signal" /><text class="col-h">班级信息</text>
+          </view>
+          <view class="tag tag--{{joined ? 'green' : 'amber'}} tag--round">{{group.assignment.status}}</view>
+        </view>
+        <view class="info-card">
+          <view class="ic-row">
+            <view class="ic-l"><ui-icon name="members" size="{{26}}" color="ink-800" /><text>班级</text></view>
+            <text class="ic-v">{{title}}</text>
+          </view>
+          <view wx:if="{{group.cohort && group.cohort.start_date}}" class="ic-row">
+            <view class="ic-l"><ui-icon name="calendar" size="{{26}}" color="ink-800" /><text>开班时间</text></view>
+            <text class="ic-v mono">{{startText}}</text>
+          </view>
+          <view class="ic-row">
+            <view class="ic-l"><ui-icon name="user" size="{{26}}" color="ink-800" /><text>班级人数</text></view>
+            <text class="ic-v mono">{{group.assignment.member_count}} 人</text>
+          </view>
+          <view wx:if="{{group.serviceTeacher}}" class="ic-row">
+            <view class="ic-l"><ui-icon name="headset" size="{{26}}" color="ink-800" /><text>服务老师</text></view>
+            <text class="ic-v">{{group.serviceTeacher.name}}</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 入群方式：按服务端给的真实通道分支，任何一支都不让人无路可走 -->
+      <!-- ① 顾问优先：必须先加顾问 -->
+      <view wx:if="{{stage === 'advisor'}}" class="card card-pad gap">
+        <view class="warn-box">
+          <ui-icon name="warn" size="{{32}}" color="warn" />
+          <view class="f-1">
+            <text class="t-sec fw-600">还需先添加服务顾问</text>
+            <text class="t-meta mt-6 block">{{group.joinHint}}</text>
+          </view>
+        </view>
+        <view class="cta cta--primary mt-16" data-url="/pages/advisor/index" bind:tap="go">
+          <ui-icon name="wechat" size="{{32}}" color="on-signal" /><text>去添加顾问</text>
+        </view>
+      </view>
+
+      <!-- ② 官方入群插件（企微群，可自助） -->
+      <view wx:elif="{{stage === 'plugin'}}" class="card qr-card gap">
+        <text class="gq-sec">· 一键加入班级群 ·</text>
+        <!-- 企微官方入群组件（materialPlugin）。**不能用自绘按钮代替**：
+             入群动作必须由官方组件发起，自绘按钮拿不到 completemessage 回执。 -->
+        <view class="join-cell mt-14">
+          <join-group-cell
+            url="{{group.groupJoinUrl}}"
+            contactText="加入群聊"
+            contactTextBlod="{{true}}"
+            paddingStyle="{{0}}"
+            bind:completemessage="handleJoinComplete"
+          ></join-group-cell>
+        </view>
+        <text class="t-tiny ta-c mt-12 block">由企业微信官方提供入群服务，按微信提示确认即可</text>
+      </view>
+
+      <!-- ③ 群二维码（个微群 / 兜底活码） -->
+      <view wx:elif="{{stage === 'qrcode'}}" class="card qr-card gap">
+        <text class="gq-sec">· 群二维码 ·</text>
+        <view class="qr-frame mt-14" bind:tap="previewQr">
+          <image class="qr-img" src="{{qrUrl}}" style="width:400rpx;height:400rpx;" mode="aspectFit" />
+        </view>
+        <view class="f-center mt-12" style="gap:10rpx;">
+          <ui-icon name="scan" size="{{26}}" color="ink-800" />
+          <text class="t-meta">点击放大后长按识别二维码加入</text>
+        </view>
+      </view>
+
+      <!-- ④ 还没到可入群的阶段：如实说明在等什么 -->
+      <view wx:else class="card card-pad gap">
+        <view class="blank">
+          <view class="blank-mark"><ui-icon name="clock" size="{{52}}" color="signal" /></view>
+          <text class="blank-title">{{waitTitle}}</text>
+          <text class="blank-hint">{{waitHint}}</text>
+          <view class="btn-sm mt-16" bind:tap="load">刷新状态</view>
+        </view>
+      </view>
+
+      <!-- 群内可获得 -->
+      <view class="card card-pad gap">
+        <view class="f mb-12" style="gap:12rpx;">
+          <ui-icon name="award" size="{{28}}" color="signal" /><text class="col-h">群内可获得</text>
+        </view>
+        <view class="three-col">
+          <view wx:for="{{gains}}" wx:key="title" class="tile">
+            <ui-icon name="{{item.icon}}" size="{{38}}" color="signal" />
+            <text class="gain-t">{{item.title}}</text>
+            <text class="gain-d">{{item.desc}}</text>
+          </view>
+        </view>
+      </view>
+    </block>
+  </view>
+
+  <view class="action-bar">
+    <view class="action-row">
+      <view wx:if="{{qrUrl}}" class="cta cta--primary" bind:tap="saveQr">
+        <ui-icon name="download" size="{{32}}" color="on-signal" /><text>保存二维码</text>
+      </view>
+      <view wx:else class="cta cta--primary" bind:tap="load">
+        <ui-icon name="refresh" size="{{32}}" color="on-signal" /><text>刷新状态</text>
+      </view>
+      <view class="cta cta--ghost" data-url="/pages/advisor/index" bind:tap="go">
+        <ui-icon name="headset" size="{{30}}" color="signal" /><text>联系老师</text>
+      </view>
+    </view>
+    <view class="f-center mt-12" style="gap:10rpx;">
+      <ui-icon name="shield" size="{{24}}" color="ink-600" />
+      <text class="t-micro">二维码失效时可联系服务老师重新获取</text>
+    </view>
+  </view>
+</view>

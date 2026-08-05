@@ -1,0 +1,47 @@
+/* 自带图标与尺寸，不依赖 app.wxss 能不能穿透组件样式隔离 —— 底部栏是
+   演示里唯一一直在屏幕上的东西，不能因为隔离规则出意外。 */
+@import "../../styles/icons.wxss";
+
+.tabbar {
+  flex-shrink: 0;
+  display: flex;
+  background: rgba(255, 255, 255, 0.96);
+  border-top: 1px solid #E6EAEC;
+  padding: 11px 6px 0;
+}
+
+.tabbar__item {
+  flex: 1;
+  height: 59px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+}
+
+.tabbar__item:active {
+  opacity: 0.62;
+}
+
+.ic {
+  display: block;
+  flex-shrink: 0;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100% 100%;
+}
+
+.ic-18 {
+  width: 18px;
+  height: 18px;
+}
+
+.tabbar__label {
+  font: 500 10px/1 -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+  color: #8B959C;
+}
+
+.tabbar__label.is-on {
+  font-weight: 700;
+  color: #7A5C9B;
+}

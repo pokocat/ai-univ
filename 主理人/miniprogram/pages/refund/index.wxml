@@ -1,0 +1,137 @@
+<view class="screen screen--bar">
+  <view class="ambience" />
+  <view class="layer">
+    <ui-subhead title="订单与退款" home="/pages/mine/index" />
+
+    <ui-errbar wx:if="{{err}}" msg="{{err}}" retrying="{{retrying}}" bind:retry="load" />
+    <view wx:if="{{loading}}" class="card card-pad"><view class="skeleton skeleton-block" /></view>
+
+    <block wx:else>
+      <view class="card result-hero">
+        <view class="result-hero-text">
+          <view class="title-grad rf-title">退款申请</view>
+          <text class="t-sec mt-8 block">提交原因后由平台审核，审核通过即回收权益并由支付渠道退回</text>
+          <view class="f mt-12" style="gap:10rpx;">
+            <view class="pill-outline"><ui-icon name="shield" size="{{21}}" color="ok" /><text>审批留痕</text></view>
+            <view class="pill-outline"><ui-icon name="lock" size="{{21}}" color="signal" /><text>信息保密</text></view>
+          </view>
+        </view>
+        <view class="result-hero-art"><ui-art kind="gem" w="{{220}}" icon="yrefund" variant="rf" /></view>
+      </view>
+
+      <!-- 可退款订单 -->
+      <view class="card card-pad gap">
+        <view class="f-between mb-12">
+          <text class="col-h">选择要退款的订单</text>
+          <text class="req">必填</text>
+        </view>
+        <block wx:if="{{orders.length}}">
+          <view
+            wx:for="{{orders}}"
+            wx:key="order_no"
+            class="rf-order {{selected === item.order_no ? 'rf-order--on' : ''}}"
+            data-no="{{item.order_no}}"
+            bind:tap="pickOrder"
+          >
+            <view class="radio {{selected === item.order_no ? 'radio--on' : ''}}">
+              <view wx:if="{{selected === item.order_no}}" class="radio-i" />
+            </view>
+            <view class="f-1">
+              <text class="rf-plan">{{item.plan_name}}</text>
+              <text class="t-tiny mono mt-4 block">{{item.order_no}} · {{item.paidText}}</text>
+            </view>
+            <view class="price">
+              <text class="price-cur">¥</text><text class="price-v mono">{{item.amountText}}</text>
+            </view>
+          </view>
+        </block>
+        <view wx:else class="blank">
+          <view class="blank-mark"><ui-icon name="receipt" size="{{45}}" color="signal" /></view>
+          <text class="blank-title">没有可申请退款的订单</text>
+          <text class="blank-hint">只有「已支付」的订单可以申请退款。退款中与已退款的订单可在下方记录里查看进度。</text>
+        </view>
+      </view>
+
+      <!-- 退款原因 -->
+      <view wx:if="{{orders.length}}" class="card card-pad gap">
+        <view class="mb-12">
+          <text class="col-h">退款原因</text><text class="star"> *</text>
+        </view>
+        <view class="four-col">
+          <view
+            wx:for="{{reasons}}"
+            wx:key="label"
+            class="pick {{reason === item.label ? 'pick--on' : ''}}"
+            data-label="{{item.label}}"
+            bind:tap="pickReason"
+          >
+            <ui-icon name="{{item.icon}}" size="{{38}}" color="{{reason === item.label ? 'signal' : 'ink-800'}}" />
+            <text class="pick-t">{{item.label}}</text>
+          </view>
+        </view>
+        <view class="mt-16 mb-10">
+          <text class="t-h4">补充说明</text><text class="t-tiny">（选填）</text>
+        </view>
+        <textarea class="textarea" value="{{note}}" placeholder="补充说明有助于加快审核" maxlength="200" bindinput="onInput" />
+        <view class="ta-r mt-6"><text class="t-micro mono">{{note.length}}/200</text></view>
+      </view>
+
+      <!-- 退款流程 -->
+      <view wx:if="{{orders.length}}" class="card card-pad gap">
+        <text class="col-h mb-16 block">退款流程</text>
+        <view class="flow3">
+          <block wx:for="{{flow}}" wx:key="title">
+            <view class="flow-item">
+              <text class="flow-n mono">{{index + 1}}</text>
+              <view class="flow-ico"><ui-icon name="{{item.icon}}" size="{{38}}" color="signal" /></view>
+              <text class="flow-t">{{item.title}}</text>
+              <text class="flow-d">{{item.desc}}</text>
+            </view>
+            <view wx:if="{{index < flow.length - 1}}" class="flow-line" />
+          </block>
+        </view>
+      </view>
+
+      <view wx:if="{{orders.length}}" class="warn-box gap">
+        <ui-icon name="warn" size="{{32}}" color="danger" />
+        <text class="t-meta t-danger">
+          提交后订单进入「退款中」，本单授予的会员时长会在审核通过时回收。
+          已使用的权益可能影响审核结果，请如实填写原因。
+        </text>
+      </view>
+
+      <!-- 退款/订单记录 -->
+      <view wx:if="{{history.length}}" class="card card-pad gap">
+        <text class="col-h mb-8 block">订单记录</text>
+        <view
+          wx:for="{{history}}"
+          wx:key="order_no"
+          class="row-item"
+          data-url="/pages/refund-result/index?orderNo={{item.order_no}}"
+          bind:tap="go"
+        >
+          <view class="row-ico"><ui-icon name="receipt" size="{{32}}" color="signal" /></view>
+          <view class="f-1">
+            <text class="rf-plan">{{item.plan_name}}</text>
+            <text class="t-micro mono mt-4 block">{{item.order_no}}</text>
+          </view>
+          <view class="ta-r">
+            <text class="tag tag--{{item.tagColor}}">{{item.status}}</text>
+            <text class="t-micro mono mt-6 block">¥{{item.amountText}}</text>
+          </view>
+        </view>
+      </view>
+    </block>
+  </view>
+
+  <view wx:if="{{orders.length}}" class="action-bar">
+    <view class="action-row">
+      <view class="cta cta--primary {{submitting ? 'cta--busy' : ''}}" bind:tap="submit">
+        <ui-icon name="edit" size="{{32}}" color="on-signal" /><text>{{submitting ? '提交中…' : '提交退款申请'}}</text>
+      </view>
+      <view class="cta cta--ghost" data-url="/pages/advisor/index" bind:tap="go">
+        <ui-icon name="headset" size="{{30}}" color="signal" /><text>先问老师</text>
+      </view>
+    </view>
+  </view>
+</view>

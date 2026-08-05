@@ -1,0 +1,27 @@
+<view wx:if="{{!hidden}}" class="tabbar">
+  <view
+    wx:for="{{list}}"
+    wx:key="path"
+    class="tab {{selected === index ? 'tab--on' : ''}} {{item.center ? 'tab--center' : ''}}"
+    data-index="{{index}}"
+    data-path="{{item.path}}"
+    bind:tap="switchTab"
+  >
+    <block wx:if="{{item.center}}">
+      <!-- 圆钮外面这层占位盒与其余四格的 .tab-ico-box 等高（42rpx），
+           圆钮自己绝对定位、底边对齐——这样「会员」两个字与另外四个词天然同一条基线，
+           不靠 margin 去凑（上一版靠 margin 凑，差 5rpx 谁也看不出是哪来的）。 -->
+      <view class="tab-knob-box">
+        <view class="tab-knob"><view class="tab-ico" style="{{item.centerIco}}" /></view>
+      </view>
+      <text class="tab-label">{{item.text}}</text>
+    </block>
+    <block wx:else>
+      <view class="tab-ico-box">
+        <view class="tab-ico" style="{{selected === index ? item.on : item.off}}" />
+        <text wx:if="{{item.text === '消息' && unread > 0}}" class="tab-badge">{{unread > 99 ? '99+' : unread}}</text>
+      </view>
+      <text class="tab-label">{{item.text}}</text>
+    </block>
+  </view>
+</view>

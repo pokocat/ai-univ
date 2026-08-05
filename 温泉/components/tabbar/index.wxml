@@ -1,0 +1,12 @@
+<view class="tabbar" style="padding-bottom: {{safeBottom}}px">
+  <view
+    wx:for="{{tabs}}"
+    wx:key="key"
+    class="tabbar__item hit"
+    data-i="{{index}}"
+    bindtap="onTap"
+  >
+    <view class="ic ic-18 ic-tab-{{item.key}}{{index === selected ? '-on' : ''}}"></view>
+    <view class="tabbar__label {{index === selected ? 'is-on' : ''}}">{{item.label}}</view>
+  </view>
+</view>

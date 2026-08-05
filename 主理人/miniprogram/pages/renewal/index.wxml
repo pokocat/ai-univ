@@ -1,0 +1,128 @@
+<view class="screen screen--bar">
+  <view class="ambience" />
+  <view class="layer">
+    <ui-subhead title="会员与续费" home="/pages/member/index" />
+
+    <ui-errbar wx:if="{{err}}" msg="{{err}}" retrying="{{retrying}}" bind:retry="load" />
+    <view wx:if="{{loading}}" class="card card-pad"><view class="skeleton skeleton-block" /></view>
+
+    <block wx:else>
+      <!-- hero：到期与倒计时 -->
+      <view class="card card--hero rn-hero">
+        <view class="f-start" style="gap:8rpx;">
+          <view class="f-1">
+            <text class="t-meta">{{headline}}</text>
+            <view class="title-grad rn-title">{{active ? '及时续费 · 不断成长' : '开通会员 · 解锁权益'}}</view>
+            <text class="lead">持续享受优质资源与专属服务</text>
+          </view>
+          <ui-art kind="gem" w="{{220}}" icon="crown" variant="rn" />
+        </view>
+        <block wx:if="{{active}}">
+          <view class="mt-14">
+            <text class="t-tiny">到期时间</text>
+            <text class="rn-expiry mono">{{expiryText}}</text>
+          </view>
+          <text class="t-tiny mt-10 block">剩余时间</text>
+          <view class="f mt-6" style="gap:12rpx;">
+            <text class="cd-box mono">{{cd.d}}</text><text class="t-meta">天</text>
+            <text class="cd-box mono">{{cd.h}}</text><text class="t-meta">时</text>
+            <text class="cd-box mono">{{cd.m}}</text><text class="t-meta">分</text>
+          </view>
+        </block>
+      </view>
+
+      <!-- 当前方案 -->
+      <view wx:if="{{current}}" class="card card-pad gap">
+        <view class="f mb-12" style="gap:12rpx;">
+          <text class="col-h">当前会员方案</text>
+          <text wx:if="{{tier}}" class="mcard-pro">{{tier}}</text>
+        </view>
+        <view class="f" style="gap:21rpx;">
+          <ui-art kind="medallion" w="{{110}}" glyph="{{glyph}}" variant="rncur" />
+          <view class="f-1">
+            <view class="f f-wrap" style="gap:14rpx;">
+              <text class="t-h3">{{current.name}}</text>
+              <text wx:if="{{current.badge}}" class="tag tag--amber">{{current.badge}}</text>
+            </view>
+            <view class="f-between mt-8">
+              <text class="t-tiny mono">有效期至 {{expiryText}}</text>
+              <text class="t-tiny mono">{{currentPriceText}}</text>
+            </view>
+            <view class="f-between mt-4">
+              <text class="t-tiny mono">开通于 {{startText}}</text>
+              <view class="link-trail" data-url="/pages/member/index" bind:tap="go">
+                <text>会员卡</text><ui-icon name="chev" size="{{22}}" color="ink-800" />
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 续费方案 -->
+      <view class="card card-pad gap">
+        <text class="col-h mb-12 block">{{active ? '续费方案' : '会员方案'}}</text>
+        <block wx:if="{{plans.length}}">
+          <view
+            wx:for="{{plans}}"
+            wx:key="plan_code"
+            class="rn-plan {{selected === item.plan_code ? 'rn-plan--on' : ''}}"
+            data-code="{{item.plan_code}}"
+            bind:tap="pick"
+          >
+            <view class="radio {{selected === item.plan_code ? 'radio--on' : ''}}">
+              <view wx:if="{{selected === item.plan_code}}" class="radio-i" />
+            </view>
+            <view class="f-1">
+              <view class="f f-wrap" style="gap:12rpx;">
+                <text class="t-h4">{{item.name}}</text>
+                <text wx:if="{{item.recommended}}" class="tag tag--purple">推荐</text>
+                <text wx:if="{{item.badge}}" class="tag tag--amber">{{item.badge}}</text>
+              </view>
+              <text class="t-tiny mt-4 block">{{item.duration_days}} 天{{item.summary ? ' · ' + item.summary : ''}}</text>
+            </view>
+            <view class="ta-r">
+              <view class="price"><text class="price-cur">¥</text><text class="price-v mono">{{item.priceText}}</text></view>
+              <text wx:if="{{item.saveText}}" class="mono save">省 ¥{{item.saveText}}</text>
+            </view>
+          </view>
+        </block>
+        <view wx:else class="blank">
+          <view class="blank-mark"><ui-icon name="crown" size="{{45}}" color="signal" /></view>
+          <text class="blank-title">暂无可购买的方案</text>
+          <text class="blank-hint">运营还没有上架套餐，可以联系服务老师了解。</text>
+        </view>
+      </view>
+
+      <!-- 续费后继续享受：来自真实权益目录 -->
+      <view wx:if="{{keep.length}}" class="card card-pad gap">
+        <text class="col-h mb-12 block">{{active ? '续费后继续享受' : '开通后可享受'}}</text>
+        <view class="keep-grid">
+          <view wx:for="{{keep}}" wx:key="code" class="keep-tile">
+            <view class="keep-ico"><ui-icon name="{{item.icon}}" size="{{38}}" color="signal" /></view>
+            <text class="keep-t">{{item.name}}</text>
+            <text class="keep-d">{{item.quotaTotal ? '每月 ' + item.quotaTotal + ' 次' : item.status_hint}}</text>
+          </view>
+        </view>
+      </view>
+
+      <view class="box box--sunk gap">
+        <view class="f" style="gap:12rpx;">
+          <ui-icon name="shield" size="{{28}}" color="signal" />
+          <text class="t-sec fw-600">续费与到期口径</text>
+        </view>
+        <text class="t-tiny mt-6 block">
+          续费后有效期从当前到期日顺延，不覆盖剩余天数。本平台不做自动扣费；
+          到期前会通过站内消息与微信服务通知提醒你。
+        </text>
+      </view>
+    </block>
+  </view>
+
+  <view wx:if="{{plans.length}}" class="action-bar">
+    <view class="cta cta--primary" bind:tap="renew">
+      <text wx:if="{{active}}" class="cta-flag">继续成长</text>
+      <text>{{active ? '立即续费' : '立即开通'}}</text>
+      <view class="cta-arrow"><ui-icon name="arrow" size="{{30}}" color="on-signal" /></view>
+    </view>
+  </view>
+</view>

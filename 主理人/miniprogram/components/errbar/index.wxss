@@ -1,0 +1,22 @@
+/* 组件样式隔离（默认 isolated）：全局 app.wxss 的**类**不作用于组件内部，
+   但 CSS 自定义属性会正常继承进来，所以颜色照样走 token。 */
+.errbar { margin: 20rpx 40rpx; }
+.errbar-body {
+  display: flex; align-items: flex-start; gap: 18rpx;
+  padding: 24rpx 26rpx;
+  background: var(--danger-wash);
+  border: 1rpx solid var(--danger-line);
+  border-radius: 22rpx;
+}
+.errbar-dot {
+  width: 14rpx; height: 14rpx; border-radius: 50%;
+  background: var(--danger); margin-top: 10rpx; flex-shrink: 0;
+}
+.errbar-text { flex: 1; min-width: 0; }
+.errbar-title { display: block; font-size: 26rpx; font-weight: 600; color: var(--danger); }
+.errbar-msg { display: block; font-size: 22rpx; color: var(--ink-700); margin-top: 6rpx; line-height: 1.5; }
+.errbar-btn {
+  flex-shrink: 0; padding: 12rpx 24rpx; border-radius: 12rpx;
+  background: var(--danger); color: var(--on-signal); font-size: 22rpx; font-weight: 600;
+}
+.errbar-btn--busy { opacity: 0.6; }

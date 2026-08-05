@@ -1,0 +1,34 @@
+/* 支付确认页版式。 */
+
+.pay-title { font-size: 66rpx; letter-spacing: 3rpx; }
+.plan-box {
+  display: flex; align-items: center; gap: 21rpx;
+  padding: 24rpx; border-radius: var(--r-box);
+  background: var(--sunk-2); border: 1rpx solid var(--line-brand);
+}
+.plan-name { font-size: 30rpx; font-weight: 700; color: var(--ink-900); }
+
+.od-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10rpx 0; font-size: var(--fs-sec); color: var(--ink-700);
+}
+.od-row--total { font-size: var(--fs-h3); font-weight: 700; color: var(--ink-900); }
+.pay-total { font-size: 42rpx; font-weight: 700; color: var(--signal-600); }
+
+.pay-row {
+  display: flex; align-items: center; gap: 21rpx;
+  padding: 23rpx 24rpx; border-radius: var(--r-box);
+  background: var(--sunk); border: 1rpx solid var(--line);
+}
+.pay-row--on { border-color: var(--signal-600); background: var(--sunk-3); }
+.pay-logo {
+  width: 56rpx; height: 56rpx; flex: 0 0 56rpx; border-radius: 16rpx;
+  display: flex; align-items: center; justify-content: center;
+  /* #1AAD19 是**微信支付的品牌绿**，不是状态色，所以刻意写字面值：
+     换成 --ok-fill（设计体系的成功绿 #22A070）会让支付方式看起来像个"成功"标签，
+     也把第三方品牌标识画错。这是护栏 42 之外的一处合法字面色值。 */
+  background: #1AAD19;
+}
+.pay-t { display: block; font-size: var(--fs-h4); color: var(--ink-900); font-weight: 600; }
+.block { display: block; }
+.cta--busy { opacity: 0.72; }

@@ -1,0 +1,24 @@
+/* flex-shrink:0 必须写在 :host 上：flex 项是宿主节点，不是内层 view。
+   内层那条 inline flex-shrink 保不住宿主，宿主被压窄时内层会溢出，
+   表现是图标叠到旁边文字上、间距看起来不对。图标/插画永远不该被压缩。 */
+:host { display: inline-flex; line-height: 0; flex-shrink: 0; }
+/* 相对定位的容器：叠加层绝对定位在它中心。盒子尺寸由 js 的 box 内联给出 */
+.art { display: block; position: relative; }
+.art-img { width: 100%; height: 100%; display: block; }
+
+/* 中心叠加：字形与图标共用一套居中口径，改一处两处都动 */
+.art-glyph,
+.art-ico {
+  position: absolute;
+  left: 0; right: 0; top: 0; bottom: 0;
+  display: flex; align-items: center; justify-content: center;
+}
+.art-glyph {
+  font-weight: 900;
+  color: var(--on-signal);
+  letter-spacing: 1rpx;
+  line-height: 1;
+  /* 素材中心是中紫平面，奶油字够读；这一层极淡的暗影只用于兜住浅色高光落在字下面的情况。
+     注意是文字阴影，不是 data-URI 背景图上的滤镜——护栏 45 禁的是后者。 */
+  text-shadow: 0 1rpx 3rpx rgba(51, 33, 15, 0.28);
+}

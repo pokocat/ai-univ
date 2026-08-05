@@ -1,0 +1,76 @@
+/* 数字会员卡页版式。 */
+
+.mcard {
+  position: relative; overflow: hidden;
+  border-radius: 35rpx; padding: 28rpx;
+  background: var(--grad-hero);
+  border: 1rpx solid var(--line-signal);
+  box-shadow: 0 18rpx 70rpx rgba(126, 92, 150, 0.15), var(--sheen);
+}
+/* 右上角暖紫光斑：卡面需要一点纵深，否则大面积渐变会显得平 */
+.mcard::after {
+  content: ""; position: absolute; right: -70rpx; top: -52rpx;
+  width: 384rpx; height: 384rpx; border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(168, 85, 247, 0.22), rgba(168, 85, 247, 0));
+  pointer-events: none;
+}
+.mcard-h { font-size: var(--fs-h4); font-weight: 700; color: var(--signal-800); }
+.mcard-pro {
+  font-family: var(--font-mono); font-weight: 700; font-size: var(--fs-meta);
+  color: var(--on-signal); padding: 7rpx 21rpx; border-radius: 14rpx;
+  background: linear-gradient(120deg, #7C3AED, #6D28D9);
+  box-shadow: 0 7rpx 21rpx rgba(109, 40, 217, 0.3);
+}
+.mcard-name { font-size: 42rpx; font-weight: 700; color: var(--ink-900); }
+.mc-role {
+  display: inline-block; margin-top: 10rpx;
+  font-size: var(--fs-meta); color: var(--signal-800);
+  padding: 5rpx 21rpx; border-radius: var(--r-pill);
+  background: rgba(255, 255, 255, 0.5); border: 1rpx solid var(--line-strong);
+}
+.mc-info { display: flex; flex-direction: column; gap: 16rpx; }
+.mc-row { display: flex; align-items: center; gap: 14rpx; }
+.mc-l { font-size: var(--fs-sec); color: var(--ink-700); flex: 0 0 112rpx; }
+.mc-v {
+  flex: 1; min-width: 0; font-size: var(--fs-sec); color: var(--ink-900); font-weight: 500;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.mcard-side { flex: 0 0 168rpx; display: flex; flex-direction: column; align-items: center; gap: 14rpx; }
+.mcard-code {
+  display: flex; flex-direction: column; align-items: center; gap: 6rpx;
+  padding: 14rpx 21rpx; border-radius: 18rpx;
+  background: rgba(255, 255, 255, 0.6); border: 1rpx solid var(--line-strong);
+}
+.mcard-code-t { font-size: var(--fs-tiny); color: var(--signal-800); }
+
+/* 关系链 */
+.chain { display: flex; align-items: flex-start; }
+.chain-p { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 10rpx; }
+.chain-label { font-size: var(--fs-meta); color: var(--ink-600); }
+.chain-name {
+  font-size: var(--fs-body); font-weight: 700; color: var(--ink-900);
+  max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.chain-role { font-size: var(--fs-tiny); color: var(--ink-600); }
+.chain-arrow { flex: 0 0 28rpx; margin-top: 56rpx; }
+
+/* 权益宫格：三列 */
+.ben-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 18rpx; }
+.ben-tile {
+  position: relative; border-radius: var(--r-box); padding: 19rpx 19rpx 16rpx;
+  min-height: 140rpx; box-sizing: border-box;
+  background: rgba(255, 252, 246, 0.7); border: 1rpx solid var(--line);
+}
+.bt-t { display: block; margin-top: 10rpx; font-size: var(--fs-body); font-weight: 700; color: var(--ink-900); }
+.bt-d { display: block; margin-top: 5rpx; font-size: var(--fs-micro); color: var(--ink-600); line-height: 1.35; }
+
+/* 有效期 / 成长值 */
+.expiry { font-size: 33rpx; font-weight: 700; color: var(--ink-900); }
+.day-pill {
+  display: inline-block; margin-top: 14rpx;
+  font-size: var(--fs-tiny); color: var(--signal-800);
+  padding: 5rpx 18rpx; border-radius: var(--r-pill);
+  background: var(--sunk-3); border: 1rpx solid var(--line-signal);
+}
+.growth-v { display: block; margin-top: 10rpx; font-size: 45rpx; font-weight: 700; color: var(--ink-900); }
+.block { display: block; }

@@ -1,0 +1,101 @@
+<view class="screen screen--bar">
+  <view class="ambience" />
+  <view class="layer">
+    <ui-subhead title="权益详情" home="/pages/benefits/index" />
+
+    <ui-errbar wx:if="{{err}}" msg="{{err}}" retrying="{{retrying}}" bind:retry="load" />
+    <view wx:if="{{loading}}" class="card card-pad"><view class="skeleton skeleton-block" /></view>
+
+    <block wx:elif="{{benefit}}">
+      <view class="card card--hero bd-hero">
+        <view class="f-start" style="gap:8rpx;">
+          <view class="f-1">
+            <text class="tag tag--{{benefit.available ? 'purple' : 'gray'}} tag--round">
+              {{benefit.available ? (benefit.min_identity ? benefit.min_identity + ' 专享' : '全体会员') : '未解锁'}}
+            </text>
+            <view class="title-grad bd-title">{{benefit.name}}</view>
+            <text class="lead">{{benefit.summary}}</text>
+            <view class="f f-wrap mt-12" style="gap:10rpx;">
+              <view wx:if="{{benefit.quotaTotal}}" class="pill-outline">
+                <ui-icon name="calendar" size="{{21}}" color="signal" /><text>每月 {{benefit.quotaTotal}} 次</text>
+              </view>
+              <view class="pill-outline">
+                <ui-icon name="shield" size="{{21}}" color="signal-600" /><text>{{benefit.status_hint}}</text>
+              </view>
+            </view>
+          </view>
+          <ui-art kind="aigem" w="{{220}}" variant="bd" />
+        </view>
+      </view>
+
+      <!-- 权益详情行：来自 membership_benefit.detail，运营可维护 -->
+      <view wx:if="{{detail.length}}" class="card card-pad gap">
+        <text class="col-h mb-8 block">权益详情</text>
+        <view wx:for="{{detail}}" wx:key="label" class="detail-row">
+          <view class="detail-l">
+            <ui-icon name="doc" size="{{30}}" color="signal" /><text>{{item.label}}</text>
+          </view>
+          <text class="detail-v">{{item.value}}</text>
+        </view>
+      </view>
+
+      <!-- 三格状态 -->
+      <view class="card three-col bd-stat gap">
+        <view class="stat-3-item">
+          <ui-icon name="star2" size="{{42}}" color="signal" extStyle="margin:0 auto;" />
+          <text class="s3-l">本月剩余</text>
+          <text class="s3-v">{{quotaLeftText}}</text>
+          <text class="s3-d">{{quotaUsedText}}</text>
+        </view>
+        <view class="stat-3-item">
+          <ui-icon name="shield" size="{{42}}" color="{{benefit.available ? 'ok' : 'ink-500'}}" extStyle="margin:0 auto;" />
+          <text class="s3-l">当前状态</text>
+          <text class="s3-v" style="color:var(--{{benefit.available ? 'ok' : 'ink-600'}});">{{benefit.available ? '可使用' : '未解锁'}}</text>
+          <text class="s3-d">{{benefit.available ? benefit.status_hint : benefit.lockReason}}</text>
+        </view>
+        <view class="stat-3-item">
+          <ui-icon name="clock" size="{{42}}" color="signal" extStyle="margin:0 auto;" />
+          <text class="s3-l">最近使用</text>
+          <text class="s3-v">{{lastUsedText}}</text>
+          <text class="s3-d">{{lastUsedHint}}</text>
+        </view>
+      </view>
+
+      <!-- 使用流程（AI 诊断有真实三步；其他权益不摆一个编的流程） -->
+      <view wx:if="{{flow.length}}" class="card card-pad gap">
+        <text class="col-h mb-16 block">使用流程</text>
+        <view class="flow3">
+          <block wx:for="{{flow}}" wx:key="title">
+            <view class="flow-item">
+              <text class="flow-n mono">{{index + 1}}</text>
+              <view class="flow-ico"><ui-icon name="{{item.icon}}" size="{{38}}" color="signal" /></view>
+              <text class="flow-t">{{item.title}}</text>
+              <text class="flow-d">{{item.desc}}</text>
+            </view>
+            <view wx:if="{{index < flow.length - 1}}" class="flow-line" />
+          </block>
+        </view>
+      </view>
+    </block>
+
+    <view wx:else class="card card-pad">
+      <view class="blank">
+        <view class="blank-mark"><ui-icon name="gem" size="{{52}}" color="signal" /></view>
+        <text class="blank-title">这个权益不存在或已下架</text>
+        <text class="blank-hint">返回权益中心看看当前开放的权益。</text>
+        <view class="btn-sm mt-16" data-url="/pages/benefits/index" bind:tap="go">返回权益中心</view>
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{benefit}}" class="action-bar">
+    <view class="action-row">
+      <view class="cta cta--primary" bind:tap="use">
+        <ui-icon name="pulse" size="{{32}}" color="on-signal" /><text>{{ctaText}}</text>
+      </view>
+      <view class="cta cta--ghost" data-url="/pages/benefits/index" bind:tap="go">
+        <ui-icon name="gem" size="{{30}}" color="signal" /><text>全部权益</text>
+      </view>
+    </view>
+  </view>
+</view>

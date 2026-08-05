@@ -1,0 +1,125 @@
+<view class="screen">
+  <view class="statusbar" style="height: {{padTop}}px"></view>
+
+  <view class="head">
+    <view class="nav">
+      <view class="nav__back hit" bindtap="back">
+        <view class="ic ic-26 ic-back"></view>
+      </view>
+      <view class="meta">{{p.templateName}}</view>
+    </view>
+
+    <!-- 固定四步：选模板 → 传照片 → 后台生成 → 一键分发 -->
+    <view class="steps3">
+      <view class="s3 is-on">
+        <view class="s3__n">1</view>
+        <view class="s3__t">选模板</view>
+      </view>
+      <view class="s3__seg is-on"></view>
+      <view class="s3 is-on">
+        <view class="s3__n">2</view>
+        <view class="s3__t">传照片</view>
+      </view>
+      <view class="s3__seg"></view>
+      <view class="s3">
+        <view class="s3__n">3</view>
+        <view class="s3__t">分发</view>
+      </view>
+    </view>
+  </view>
+
+  <scroll-view class="body" scroll-y enable-flex>
+    <view class="stack stack--loose">
+
+      <!-- 换进来的人 -->
+      <view class="card">
+        <view class="h2 mb11">换进来的人</view>
+        <view class="faces">
+          <view class="face" wx:for="{{p.faces}}" wx:key="label">
+            <image class="face__img" src="{{item.src}}" mode="aspectFill" lazy-load />
+            <view class="face__cap">{{item.label}}</view>
+          </view>
+          <view class="face face--add hit" bindtap="toast" data-msg="演示版：从相册选一张正面照即可">
+            <view class="ic ic-20 ic-plus"></view>
+            <view class="face__addt">加一张</view>
+          </view>
+        </view>
+        <view class="note note--soft mt12">
+          <view class="ic ic-12 ic-info"></view>
+          <view class="note__t">{{p.faceHint}}</view>
+        </view>
+      </view>
+
+      <!-- 正在出片 -->
+      <view class="card">
+        <view class="row-between mb12">
+          <view class="h2">正在出片</view>
+          <view class="prog__n">{{done}} / {{total}} 条</view>
+        </view>
+        <view class="bar bar--thin mb12">
+          <view class="bar__fill" style="width: {{pct}}%; background: var(--purple)"></view>
+        </view>
+        <view class="clips">
+          <image
+            wx:for="{{p.clips}}"
+            wx:key="*this"
+            class="clip"
+            src="{{item}}"
+            mode="aspectFill"
+            lazy-load
+          />
+          <view class="clip clip--wip">
+            <view class="clip__pct">{{p.pendingPct}}%</view>
+          </view>
+        </view>
+        <view class="row-between mt13">
+          <view class="meta">{{p.spend}}</view>
+          <view class="prog__hint">后台跑，可以退出</view>
+        </view>
+      </view>
+
+      <!-- 出完发到哪 -->
+      <view class="card hit" bindtap="toast" data-msg="演示版：8 条已排入分发队列">
+        <view class="h2 mb12">出完发到哪</view>
+        <view class="chans">
+          <view class="chan" wx:for="{{p.channels}}" wx:key="name">
+            <view class="chan__dot chan__dot--{{item.tone}}"></view>
+            <view class="chan__n">{{item.name}}</view>
+            <view class="meta-s">{{item.count}}</view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 游客自助出片：拉新环节本身就赚钱。关掉这个开关做对比讲解 -->
+      <view wx:if="{{selfServe}}" class="selfserve">
+        <view class="row-between mb9">
+          <view class="ss__t">{{p.selfServe.title}}</view>
+          <switch
+            class="ss__sw"
+            checked="{{selfServe}}"
+            color="#3E96A3"
+            bindchange="toggleSelfServe"
+          />
+        </view>
+        <view class="ss__b">
+          <text>{{p.selfServe.pre}}</text><text class="ss__b--b">{{p.selfServe.bold}}</text><text>{{p.selfServe.post}}</text>
+        </view>
+      </view>
+      <view wx:else class="card card--dash ss__off">
+        <view class="ss__offbody">
+          <view class="ss__offt">{{p.selfServe.offTitle}}</view>
+          <view class="ss__offb">{{p.selfServe.offBody}}</view>
+        </view>
+        <switch
+          class="ss__sw"
+          checked="{{selfServe}}"
+          color="#3E96A3"
+          bindchange="toggleSelfServe"
+        />
+      </view>
+
+    </view>
+  </scroll-view>
+
+  <tabbar selected="{{tab}}" />
+</view>

@@ -1,0 +1,6 @@
+/* 邀请海报页版式。 */
+.poster-wrap { position: relative; padding: 24rpx; overflow: hidden; }
+.poster-canvas { display: block; margin: 0 auto; border-radius: 24rpx; }
+.poster-mask { position: absolute; left: 24rpx; right: 24rpx; top: 24rpx; bottom: 24rpx; }
+.rule-t { display: block; font-size: var(--fs-h4); font-weight: 700; color: var(--ink-900); }
+.block { display: block; }

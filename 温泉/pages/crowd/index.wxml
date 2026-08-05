@@ -1,0 +1,95 @@
+<view class="screen">
+  <view class="statusbar" style="height: {{padTop}}px"></view>
+
+  <view class="head">
+    <view class="head__row">
+      <view class="title">客人是怎么进来的</view>
+      <view
+        class="jump hit"
+        data-url="/pages/member/index"
+        bindtap="goto"
+      >
+        <text>会员</text>
+        <view class="ic ic-14 ic-chev-p"></view>
+      </view>
+    </view>
+  </view>
+
+  <scroll-view class="body" scroll-y enable-flex>
+    <view class="stack">
+
+      <!-- 漏斗四层：扫码 → 生成 → 加企微 → 进群。掉得最狠那层回到①成为下一条诊断 -->
+      <view class="card">
+        <view class="row-between mb14">
+          <view class="h2">本月转化漏斗</view>
+          <view class="meta-s">{{c.period}}</view>
+        </view>
+        <view class="funnel">
+          <view class="fn" wx:for="{{c.funnel}}" wx:key="name">
+            <view class="fn__row">
+              <view class="fn__n fn__n--{{item.tone}}">{{item.name}}</view>
+              <view class="fn__v fn__v--{{item.tone}}">{{item.v}}</view>
+            </view>
+            <view class="bar">
+              <view
+                class="bar__fill"
+                style="width: {{item.pct}}%; background: {{item.tone === 'amber' ? '#C08320' : '#7A5C9B'}}"
+              ></view>
+            </view>
+          </view>
+        </view>
+        <view class="note note--amber mt13">
+          <view class="ic ic-12 ic-warn"></view>
+          <view class="note__t">{{c.funnelHint}}</view>
+        </view>
+      </view>
+
+      <!-- 社群机器人日志：写成人话，不是后台报表 -->
+      <view class="card">
+        <view class="row-between mb12">
+          <view class="bot__head">
+            <view class="ic ic-18 ic-robot"></view>
+            <view class="h2">4 个客户群 · 机器人今天干了什么</view>
+          </view>
+          <view class="live">
+            <view class="live__dot"></view>
+            <view class="live__t">在跑</view>
+          </view>
+        </view>
+        <view class="log">
+          <view class="log__row" wx:for="{{c.botLog}}" wx:key="t">
+            <view class="log__t">{{item.t}}</view>
+            <view class="log__s">{{item.s}}</view>
+          </view>
+        </view>
+        <view class="act act--p mt13">
+          <view class="act__lead act__flex">{{c.leadHint}}</view>
+          <view
+            class="btn-s btn-s--p hit"
+            bindtap="toast"
+            data-msg="演示版：机器人已把 6 条线索标为「企业客户」"
+          >去看</view>
+        </view>
+      </view>
+
+      <!-- 扫码入口：台卡 / 前台收银 / 美团 -->
+      <view class="card">
+        <view class="h2 mb12">扫码入口</view>
+        <view class="entries">
+          <view class="entry" wx:for="{{c.entries}}" wx:key="name">
+            <view class="entry__top">
+              <view class="entry__n">{{item.name}}</view>
+              <view class="ic ic-14 {{item.icon}}"></view>
+            </view>
+            <view class="entry__v entry__v--{{item.tone}}">{{item.v}}</view>
+            <view class="entry__u">{{item.unit}}</view>
+          </view>
+        </view>
+      </view>
+
+    </view>
+  </scroll-view>
+
+  <!-- 框架 tabBar 是覆盖式的，这里留出等高空白 -->
+  <view class="tabpad" style="height: {{70 + safeBottom}}px"></view>
+</view>

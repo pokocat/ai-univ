@@ -1,0 +1,156 @@
+<view class="screen screen--bar">
+  <view class="ambience" />
+  <view class="layer">
+    <ui-subhead title="AI 诊断" home="/pages/index/index" />
+
+    <ui-errbar wx:if="{{err}}" msg="{{err}}" retrying="{{retrying}}" bind:retry="load" />
+    <view wx:if="{{loading}}" class="card card-pad"><view class="skeleton skeleton-block" /></view>
+
+    <block wx:else>
+      <view class="topseg">
+        <view class="topseg-item {{tab === 'report' ? 'topseg-item--on' : ''}}" data-tab="report" bind:tap="switchTab">诊断报告</view>
+        <view class="topseg-item {{tab === 'log' ? 'topseg-item--on' : ''}}" data-tab="log" bind:tap="switchTab">
+          <text>诊断记录</text>
+          <text wx:if="{{bookings.length}}" class="seg-badge">{{bookings.length}}</text>
+        </view>
+      </view>
+
+      <!-- hero -->
+      <view class="card card--hero dg-hero">
+        <view class="eyebrow"><ui-icon name="sparkle" size="{{26}}" color="signal" /><text>AI 智能诊断</text></view>
+        <view class="f-start" style="gap:8rpx;">
+          <view class="f-1">
+            <view class="title-grad dg-title">洞察问题 · 驱动增长</view>
+            <text class="lead">结合你的社群与业务数据，输出增长、活跃、转化与服务四个维度的诊断建议。</text>
+          </view>
+          <ui-art kind="aigem" w="{{215}}" variant="dg" />
+        </view>
+        <view wx:if="{{benefit}}" class="box box--sunk mt-14">
+          <view class="f-between">
+            <text class="t-sec fw-600">{{quotaTitle}}</text>
+            <view class="link-trail link-trail--signal" data-url="/pages/benefit-detail/index?code=ai_diagnosis" bind:tap="go">
+              <text>权益说明</text><ui-icon name="chev" size="{{22}}" color="signal" />
+            </view>
+          </view>
+          <text class="t-tiny mt-6 block">{{quotaHint}}</text>
+        </view>
+      </view>
+
+      <block wx:if="{{tab === 'report'}}">
+        <!-- 在途预约优先：他现在最想知道的是「排到哪一步了」 -->
+        <view wx:if="{{pending}}" class="card card-pad gap" data-url="/pages/booking-result/index?bookingNo={{pending.booking_no}}" bind:tap="go">
+          <view class="f-between mb-12">
+            <text class="col-h">进行中的诊断</text>
+            <view class="tag tag--purple">{{pending.status}}</view>
+          </view>
+          <text class="t-sec">{{pending.core_problem}}</text>
+          <view class="f-between mt-12">
+            <text class="t-tiny mono">提交于 {{pendingAt}}</text>
+            <view class="link-trail"><text>查看进度</text><ui-icon name="chev" size="{{22}}" color="ink-800" /></view>
+          </view>
+        </view>
+
+        <!-- 有报告：真实评分与建议 -->
+        <block wx:if="{{report}}">
+          <view class="card card-pad gap">
+            <view class="f-between mb-14">
+              <text class="col-h">综合评分</text>
+              <text class="t-tiny mono">诊断于 {{reportAt}}</text>
+            </view>
+            <view class="f" style="gap:14rpx;">
+              <view class="dg-grade ta-c">
+                <view class="title-grad dg-grade-v">{{report.grade || '—'}}</view>
+                <text wx:if="{{report.percentile != null}}" class="t-tiny mt-6 block">
+                  超过 <text class="mono">{{report.percentile}}%</text> 的主理人
+                </text>
+              </view>
+              <view wx:if="{{metrics.length}}" class="f-1 f" style="gap:6rpx;">
+                <view wx:for="{{metrics}}" wx:key="label" class="f-1 ta-c">
+                  <ui-ring pct="{{item.pct}}" size="{{100}}" color="{{item.color}}" label="{{item.label}}" extStyle="margin:0 auto;" />
+                  <text class="dg-metric-v mono">{{item.valueText}}</text>
+                  <text class="t-micro">{{item.note}}</text>
+                </view>
+              </view>
+            </view>
+            <text wx:if="{{report.summary}}" class="t-meta mt-14 block">{{report.summary}}</text>
+          </view>
+
+          <view wx:if="{{issues.length}}" class="card card-pad gap">
+            <view class="f mb-12" style="gap:12rpx;">
+              <ui-icon name="warn" size="{{28}}" color="pulse" /><text class="col-h">问题识别</text>
+            </view>
+            <view wx:for="{{issues}}" wx:key="text" class="issue-row">
+              <view class="issue-dot" />
+              <text class="f-1 t-sec">{{item.text}}</text>
+              <text class="tag tag--{{item.tagColor}}">{{item.level}}</text>
+            </view>
+          </view>
+
+          <view wx:if="{{advices.length}}" class="card card-pad gap">
+            <view class="f mb-8" style="gap:12rpx;">
+              <ui-icon name="star2" size="{{28}}" color="signal" /><text class="col-h">建议动作</text>
+            </view>
+            <view wx:for="{{advices}}" wx:key="title" class="row-item">
+              <view class="row-ico"><ui-icon name="{{item.icon}}" size="{{32}}" color="signal" /></view>
+              <view class="f-1">
+                <text class="dg-advice-t">{{item.title}}</text>
+                <text class="t-tiny mt-4 block">{{item.desc}}</text>
+              </view>
+              <text wx:if="{{item.level}}" class="tag tag--{{item.tagColor}}">{{item.level}}</text>
+            </view>
+          </view>
+        </block>
+
+        <!-- 没有报告：如实说明它是怎么来的，不显示一个 0 分的假报告 -->
+        <view wx:else class="card card-pad gap">
+          <view class="blank">
+            <view class="blank-mark"><ui-icon name="sparkle" size="{{52}}" color="signal" /></view>
+            <text class="blank-title">还没有你的诊断报告</text>
+            <text class="blank-hint">
+              诊断报告不是自动算出来的：提交需求后由服务老师结合你的数据出具，
+              一般 2 个工作日内反馈。提交一次即可。
+            </text>
+          </view>
+        </view>
+      </block>
+
+      <!-- 诊断记录 -->
+      <block wx:else>
+        <view wx:if="{{bookings.length}}" class="card card-pad">
+          <text class="col-h mb-8 block">诊断记录</text>
+          <view
+            wx:for="{{bookings}}"
+            wx:key="booking_no"
+            class="row-item"
+            data-url="/pages/booking-result/index?bookingNo={{item.booking_no}}"
+            bind:tap="go"
+          >
+            <view class="row-ico"><ui-icon name="doc" size="{{32}}" color="signal" /></view>
+            <view class="f-1">
+              <text class="dg-advice-t">{{item.typeText}}</text>
+              <text class="t-tiny mono mt-4 block">{{item.timeText}}</text>
+            </view>
+            <view class="ta-r">
+              <text class="tag tag--{{item.status === '已生成报告' ? 'green' : (item.status === '已取消' ? 'gray' : 'purple')}}">{{item.status}}</text>
+              <text wx:if="{{item.advisor_name}}" class="t-micro mt-6 block">{{item.advisor_name}}</text>
+            </view>
+          </view>
+        </view>
+        <view wx:else class="card card-pad">
+          <view class="blank">
+            <view class="blank-mark"><ui-icon name="clock" size="{{52}}" color="signal" /></view>
+            <text class="blank-title">还没有诊断记录</text>
+            <text class="blank-hint">提交第一次诊断需求后，进度与历史都会出现在这里。</text>
+          </view>
+        </view>
+      </block>
+    </block>
+  </view>
+
+  <view class="action-bar">
+    <view class="cta cta--primary" bind:tap="book">
+      <text>{{ctaText}}</text>
+      <view class="cta-arrow"><ui-icon name="arrow" size="{{30}}" color="on-signal" /></view>
+    </view>
+  </view>
+</view>

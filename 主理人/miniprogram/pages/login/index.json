@@ -1,0 +1,12 @@
+{
+  "navigationStyle": "custom",
+  "navigationBarTitleText": "登录",
+  "enablePullDownRefresh": false,
+  "backgroundTextStyle": "dark",
+  "backgroundColor": "#FFF7EC",
+  "usingComponents": {
+    "ui-icon": "/components/icon/index",
+    "ui-profile-edit": "/components/profile-edit/index",
+    "ui-privacy": "/components/privacy/index"
+  }
+}

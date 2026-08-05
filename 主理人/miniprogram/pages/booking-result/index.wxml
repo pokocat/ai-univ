@@ -1,0 +1,143 @@
+<view class="screen screen--bar">
+  <view class="ambience" />
+  <view class="layer">
+    <ui-subhead title="预约详情" home="/pages/diagnosis/index" />
+
+    <ui-errbar wx:if="{{err}}" msg="{{err}}" retrying="{{retrying}}" bind:retry="load" />
+    <view wx:if="{{loading}}" class="card card-pad"><view class="skeleton skeleton-block" /></view>
+
+    <block wx:elif="{{booking}}">
+      <view class="card result-hero">
+        <view class="result-hero-text">
+          <view class="title-grad br-title">{{heroTitle}}</view>
+          <text class="t-sec mt-8 block">{{heroDesc}}</text>
+          <view class="f f-wrap mt-12" style="gap:10rpx;">
+            <view class="pill-outline"><ui-icon name="sparkle" size="{{21}}" color="signal" /><text>{{booking.status}}</text></view>
+            <view wx:if="{{feedbackText}}" class="pill-outline pill-outline--pulse">
+              <ui-icon name="clock" size="{{21}}" color="pulse" /><text>{{feedbackText}} 前反馈</text>
+            </view>
+          </view>
+        </view>
+        <view class="result-hero-art"><ui-art kind="check" w="{{230}}" variant="br" /></view>
+      </view>
+
+      <!-- 四步进度：由服务端 status 推导，与诊断状态一一对应 -->
+      <view class="card card-pad gap">
+        <view class="f-between mb-16">
+          <text class="col-h">预约进度</text>
+          <view class="link-trail" bind:tap="load"><text>实时更新</text><ui-icon name="refresh" size="{{22}}" color="ink-800" /></view>
+        </view>
+        <view class="hprog">
+          <block wx:for="{{booking.steps}}" wx:key="title">
+            <view class="hprog-step">
+              <view class="hprog-node {{item.done ? 'hprog-node--done' : (item.active ? 'hprog-node--active' : '')}}">
+                <ui-icon name="{{stepIcons[index]}}" size="{{32}}" color="{{item.done || item.active ? 'on-signal' : 'ink-800'}}" />
+              </view>
+              <text class="hprog-t {{item.done || item.active ? '' : 'hprog-t--off'}}">{{item.title}}</text>
+              <text class="hprog-s" style="{{item.active ? 'color:var(--signal-800);' : ''}}">{{item.state}}</text>
+            </view>
+            <view wx:if="{{index < booking.steps.length - 1}}" class="hprog-line {{item.done ? 'hprog-line--on' : ''}}" />
+          </block>
+        </view>
+      </view>
+
+      <!-- 预约信息 -->
+      <view class="card card-pad gap">
+        <view class="f-between mb-8">
+          <text class="col-h">预约信息</text>
+          <view class="pill-outline" bind:tap="copyNo">
+            <ui-icon name="copy" size="{{21}}" color="signal" /><text>复制编号</text>
+          </view>
+        </view>
+        <view class="info-card">
+          <view class="ic-row">
+            <view class="ic-l"><ui-icon name="doc" size="{{26}}" color="ink-800" /><text>预约编号</text></view>
+            <text class="ic-v mono">{{booking.booking_no}}</text>
+          </view>
+          <view class="ic-row">
+            <view class="ic-l"><ui-icon name="crown" size="{{26}}" color="ink-800" /><text>诊断类型</text></view>
+            <text class="ic-v">{{typeText}}</text>
+          </view>
+          <view class="ic-row">
+            <view class="ic-l"><ui-icon name="clock" size="{{26}}" color="ink-800" /><text>提交时间</text></view>
+            <text class="ic-v mono">{{submitText}}</text>
+          </view>
+          <view wx:if="{{booking.city}}" class="ic-row">
+            <view class="ic-l"><ui-icon name="pin" size="{{26}}" color="ink-800" /><text>所在城市</text></view>
+            <text class="ic-v">{{booking.city}}</text>
+          </view>
+          <view class="ic-row">
+            <view class="ic-l"><ui-icon name="target" size="{{26}}" color="ink-800" /><text>当前状态</text></view>
+            <text class="ic-v t-signal">{{booking.status}}</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 我提交的内容 -->
+      <view class="card card-pad gap">
+        <text class="col-h mb-10 block">我提交的内容</text>
+        <view class="detail-row">
+          <view class="detail-l"><ui-icon name="info" size="{{30}}" color="signal" /><text>核心问题</text></view>
+          <text class="detail-v">{{booking.core_problem}}</text>
+        </view>
+        <view class="detail-row">
+          <view class="detail-l"><ui-icon name="target" size="{{30}}" color="signal" /><text>期望目标</text></view>
+          <text class="detail-v">{{booking.expect_goal}}</text>
+        </view>
+      </view>
+
+      <!-- 服务老师：只在真的分配了才显示 -->
+      <view wx:if="{{booking.advisor_name}}" class="card card-pad gap">
+        <text class="col-h mb-12 block">为你分配的服务老师</text>
+        <view class="f" style="gap:21rpx;">
+          <ui-avatar name="{{booking.advisor_name}}" size="{{100}}" ring="{{true}}" />
+          <view class="f-1">
+            <view class="f" style="gap:12rpx;">
+              <text class="t-h3">{{booking.advisor_name}}</text>
+              <text class="tag tag--purple">专属服务</text>
+            </view>
+            <text wx:if="{{booking.advisor_title}}" class="t-tiny mt-6 block">{{booking.advisor_title}}</text>
+          </view>
+          <view class="btn-soft" data-url="/pages/advisor/index" bind:tap="go">联系</view>
+        </view>
+      </view>
+      <view wx:elif="{{!ended}}" class="box box--sunk gap">
+        <view class="f" style="gap:12rpx;">
+          <ui-icon name="clock" size="{{28}}" color="signal" />
+          <text class="t-sec fw-600">服务老师匹配中</text>
+        </view>
+        <text class="t-tiny mt-6 block">匹配完成后会在这里显示，并通过站内消息通知你。</text>
+      </view>
+
+      <!-- 报告已出：直接给入口 -->
+      <view wx:if="{{booking.report_no}}" class="card card--signal gap br-report" data-url="/pages/diagnosis/index" bind:tap="go">
+        <ui-icon name="chart" size="{{45}}" color="on-signal" />
+        <view class="f-1">
+          <text class="br-report-t">诊断报告已生成</text>
+          <text class="br-report-d">报告编号 {{booking.report_no}}</text>
+        </view>
+        <view class="br-report-btn"><text>去查看</text><ui-icon name="arrow" size="{{24}}" color="on-signal" /></view>
+      </view>
+    </block>
+
+    <view wx:else class="card card-pad">
+      <view class="blank">
+        <view class="blank-mark"><ui-icon name="doc" size="{{52}}" color="signal" /></view>
+        <text class="blank-title">找不到这条预约</text>
+        <text class="blank-hint">它可能不属于你，或编号不正确。</text>
+        <view class="btn-sm mt-16" data-url="/pages/diagnosis/index" bind:tap="go">返回 AI 诊断</view>
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{booking}}" class="action-bar">
+    <view class="action-row">
+      <view wx:if="{{!ended}}" class="cta cta--ghost" bind:tap="cancel">
+        <ui-icon name="xcircle" size="{{30}}" color="signal" /><text>取消预约</text>
+      </view>
+      <view class="cta cta--primary" data-url="/pages/diagnosis/index" bind:tap="go">
+        <ui-icon name="sparkle" size="{{32}}" color="on-signal" /><text>返回 AI 诊断</text>
+      </view>
+    </view>
+  </view>
+</view>

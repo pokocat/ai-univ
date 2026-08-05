@@ -1,0 +1,113 @@
+<view class="screen screen--bar">
+  <view class="ambience" />
+  <view class="layer">
+    <ui-subhead title="成长值明细" home="/pages/member/index" />
+
+    <ui-errbar wx:if="{{err}}" msg="{{err}}" retrying="{{retrying}}" bind:retry="load" />
+    <view wx:if="{{loading}}" class="card card-pad"><view class="skeleton skeleton-block" /></view>
+
+    <block wx:else>
+      <!-- hero -->
+      <view class="card card--hero pt-hero">
+        <view class="f-start">
+          <view class="f-1">
+            <view class="pill-outline"><ui-icon name="crown" size="{{24}}" color="signal" /><text>会员成长体系</text></view>
+            <view class="title-grad pt-title">成长值</view>
+            <view class="f" style="gap:12rpx;">
+              <text class="title-grad pt-num mono">{{growth.growthText}}</text>
+              <ui-icon name="gem" size="{{35}}" color="signal" />
+            </view>
+            <text class="t-meta mt-6 block">活跃、学习、共创都会累计成长值</text>
+          </view>
+          <ui-art kind="gem" w="{{220}}" icon="star2" variant="pt" />
+        </view>
+        <view class="stat-3">
+          <view class="stat-3-item">
+            <text class="s3-l">当前等级</text>
+            <text class="s3-v title-grad mono">{{growth.levelText}}</text>
+            <text class="s3-d">{{growth.levelName || '等级未配置'}}</text>
+          </view>
+          <view class="stat-3-item">
+            <text class="s3-l">距离升级</text>
+            <text class="s3-v mono">{{growth.topLevel ? '已满级' : growth.remainText}}</text>
+            <text class="s3-d">{{growth.nextHint}}</text>
+          </view>
+          <view class="stat-3-item">
+            <text class="s3-l">本月新增</text>
+            <text class="s3-v mono t-signal">+{{growth.monthText}}</text>
+            <text class="s3-d">{{growth.rateText}}</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 明细流水 -->
+      <view class="card card-pad gap">
+        <view class="f-between mb-8">
+          <text class="col-h">成长值明细</text>
+          <text class="t-tiny">最近 {{growth.ledger.length}} 条</text>
+        </view>
+        <view wx:if="{{growth.ledger.length}}" class="timeline">
+          <view wx:for="{{growth.ledger}}" wx:key="id" class="tl-item">
+            <view class="tl-rail">
+              <view class="tl-node" />
+              <view wx:if="{{index < growth.ledger.length - 1}}" class="tl-line" />
+            </view>
+            <view class="tl-icon"><ui-icon name="{{item.icon}}" size="{{35}}" color="signal" /></view>
+            <view class="f-1">
+              <text class="pt-item-t">{{item.reason}}</text>
+              <text wx:if="{{item.refText}}" class="t-tiny mt-2 block">{{item.refText}}</text>
+              <text class="t-micro mono mt-4 block">{{item.timeText}}</text>
+            </view>
+            <text class="pt-delta mono" style="color:var(--{{item.delta >= 0 ? 'pulse-600' : 'danger'}});">{{item.deltaText}}</text>
+          </view>
+        </view>
+        <view wx:else class="blank">
+          <view class="blank-mark"><ui-icon name="star2" size="{{45}}" color="signal" /></view>
+          <text class="blank-title">还没有成长值记录</text>
+          <text class="blank-hint">完成班级任务、参加课程、邀请好友都会累计成长值。</text>
+          <view class="btn-sm mt-16" data-url="/pages/tasks/index" bind:tap="go">去看任务</view>
+        </view>
+      </view>
+
+      <!-- 等级权益 -->
+      <view wx:if="{{growth.level != null}}" class="card card-pad gap">
+        <view class="f mb-14" style="gap:12rpx;">
+          <ui-icon name="shield" size="{{30}}" color="signal" />
+          <text class="col-h">等级权益</text>
+        </view>
+        <view class="f-between">
+          <view>
+            <text class="title-grad lv-cur mono">{{growth.levelText}}</text>
+            <text class="t-tiny block">{{growth.levelName}}</text>
+          </view>
+          <text wx:if="{{!growth.topLevel}}" class="t-meta">还需 <text class="mono">{{growth.remainText}}</text> 升级</text>
+          <view wx:if="{{!growth.topLevel}}" class="ta-r">
+            <text class="lv-next mono">LV.{{growth.nextLevel}}</text>
+            <text class="t-tiny block t-signal">{{growth.nextLevelName}}</text>
+          </view>
+        </view>
+        <view class="prog-wrap mt-14">
+          <view class="prog-track"><view class="prog-fill" style="{{growth.pctStyle}}" /></view>
+          <view class="prog-knob" style="left:{{growth.progressPct}}%;" />
+        </view>
+        <view wx:if="{{perks.length}}" class="box box--sunk mt-16">
+          <text class="t-sec fw-600">本档包含</text>
+          <view class="f f-wrap mt-8" style="gap:10rpx;">
+            <text wx:for="{{perks}}" wx:key="*this" class="tag tag--purple">{{item}}</text>
+          </view>
+        </view>
+      </view>
+    </block>
+  </view>
+
+  <view class="action-bar">
+    <view class="action-row">
+      <view class="cta cta--ghost" data-url="/pages/benefits/index" bind:tap="go">
+        <ui-icon name="gem" size="{{30}}" color="signal" /><text>会员权益</text>
+      </view>
+      <view class="cta cta--primary" data-url="/pages/invite/index" bind:tap="go">
+        <ui-icon name="sparkle" size="{{32}}" color="on-signal" /><text>去赚成长值</text>
+      </view>
+    </view>
+  </view>
+</view>

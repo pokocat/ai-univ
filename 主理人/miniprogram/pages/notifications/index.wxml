@@ -1,0 +1,137 @@
+<view class="screen screen--tab">
+  <view class="ambience" />
+  <view class="layer">
+    <ui-apphead sub="连接主理人 · 共创新商业" />
+
+    <view class="topseg">
+      <view class="topseg-item {{tab === 'ann' ? 'topseg-item--on' : ''}}" data-tab="ann" bind:tap="switchTab">
+        <text>公告中心</text>
+        <text wx:if="{{annUnread}}" class="seg-badge">{{annUnread}}</text>
+      </view>
+      <view class="topseg-item {{tab === 'msg' ? 'topseg-item--on' : ''}}" data-tab="msg" bind:tap="switchTab">
+        <text>通知消息</text>
+        <text wx:if="{{msgUnread}}" class="seg-badge">{{msgUnread}}</text>
+      </view>
+    </view>
+
+    <ui-errbar wx:if="{{err}}" msg="{{err}}" retrying="{{retrying}}" bind:retry="load" />
+
+    <!-- ───────── 公告中心 ───────── -->
+    <block wx:if="{{tab === 'ann'}}">
+      <view wx:if="{{loading}}" class="card card-pad"><view class="skeleton skeleton-block" /></view>
+
+      <block wx:elif="{{announcements.length}}">
+        <!-- 置顶重要公告 -->
+        <view wx:if="{{featured}}" class="card card--hero-3 ann-hero" data-no="{{featured.ann_no}}" bind:tap="openAnn">
+          <text class="tag tag--pink tag--round">{{featured.category}} · 重要</text>
+          <view class="f-start mt-10" style="gap:10rpx;">
+            <view class="f-1">
+              <text class="ann-hero-t">{{featured.title}}</text>
+              <text class="lead mt-8 clamp-3">{{featured.summary}}</text>
+              <view class="ghost-pill mt-12">
+                <text>查看详情</text><ui-icon name="arrow" size="{{26}}" color="signal" />
+              </view>
+            </view>
+            <ui-art kind="megaphone" w="{{196}}" extStyle="margin-top:8rpx;" />
+          </view>
+        </view>
+
+        <!-- 全部公告 -->
+        <view class="card card-pad gap">
+          <view class="f-between mb-8">
+            <text class="col-h">全部公告</text>
+            <view class="f" style="gap:10rpx;">
+              <view
+                wx:for="{{filters}}"
+                wx:key="value"
+                class="chip {{category === item.value ? 'chip--on' : ''}}"
+                data-value="{{item.value}}"
+                bind:tap="filterCategory"
+              >{{item.label}}</view>
+            </view>
+          </view>
+
+          <view
+            wx:for="{{announcements}}"
+            wx:key="ann_no"
+            class="ann-row"
+            data-no="{{item.ann_no}}"
+            bind:tap="openAnn"
+          >
+            <view class="row-ico row-ico--lg"><ui-icon name="{{item.icon}}" size="{{38}}" color="signal" /></view>
+            <view class="f-1">
+              <view class="f" style="gap:10rpx;">
+                <text class="tag tag--{{item.tagColor}}">{{item.category}}</text>
+                <text class="ann-t truncate f-1">{{item.title}}</text>
+                <view wx:if="{{!item.read}}" class="red-dot" />
+              </view>
+              <text class="t-meta mt-6 clamp-2 block">{{item.summary}}</text>
+              <view class="f mt-8" style="gap:21rpx;">
+                <text class="t-tiny">{{item.source_name}}</text>
+                <text class="t-tiny mono">{{item.timeText}}</text>
+                <text wx:if="{{item.read_count}}" class="t-tiny mono">{{item.read_count}} 人已读</text>
+              </view>
+            </view>
+            <ui-icon name="chev" size="{{28}}" color="ink-800" extStyle="align-self:center;" />
+          </view>
+
+          <view wx:if="{{truncated}}" class="ta-c mt-12">
+            <text class="t-tiny">仅显示最近 {{announcements.length}} 条，更多历史公告可联系服务老师查询</text>
+          </view>
+        </view>
+      </block>
+
+      <view wx:else class="card card-pad">
+        <view class="blank">
+          <view class="blank-mark"><ui-icon name="megaphone" size="{{52}}" color="signal" /></view>
+          <text class="blank-title">{{category ? '这个分类下还没有公告' : '还没有公告'}}</text>
+          <text class="blank-hint">{{category ? '换一个分类看看，或者查看全部。' : '平台通知、课程与班级公告会出现在这里。'}}</text>
+          <view wx:if="{{category}}" class="btn-sm mt-16" data-value="" bind:tap="filterCategory">看全部</view>
+        </view>
+      </view>
+    </block>
+
+    <!-- ───────── 通知消息（站内待办，来自后台状态变化） ───────── -->
+    <block wx:else>
+      <view wx:if="{{loading}}" class="card card-pad"><view class="skeleton skeleton-block" /></view>
+
+      <block wx:elif="{{messages.length}}">
+        <view class="card card-pad">
+          <view class="f-between mb-8">
+            <text class="col-h">通知消息</text>
+            <view wx:if="{{msgUnread}}" class="btn-sm" bind:tap="readAll">全部标已读</view>
+          </view>
+          <view wx:for="{{messages}}" wx:key="id" class="row-item" data-id="{{item.id}}" bind:tap="readMsg">
+            <view class="row-ico"><ui-icon name="{{item.icon}}" size="{{32}}" color="signal" /></view>
+            <view class="f-1">
+              <view class="f" style="gap:10rpx;">
+                <text class="msg-t f-1 truncate">{{item.title}}</text>
+                <view wx:if="{{!item.read_at}}" class="red-dot" />
+              </view>
+              <text class="t-meta mt-4 clamp-2 block">{{item.body}}</text>
+              <text class="t-tiny mono mt-4 block">{{item.timeText}}</text>
+            </view>
+          </view>
+        </view>
+      </block>
+
+      <view wx:else class="card card-pad">
+        <view class="blank">
+          <view class="blank-mark"><ui-icon name="bell" size="{{52}}" color="signal" /></view>
+          <text class="blank-title">没有新通知</text>
+          <text class="blank-hint">订单、入群、课程、工单的状态变化会在这里通知你，不依赖微信订阅授权。</text>
+        </view>
+      </view>
+    </block>
+
+    <!-- 订阅提醒：只在服务端确认模板已配置时才出现 -->
+    <view wx:if="{{subscribable}}" class="card card--signal sub-banner gap" bind:tap="requestSubscribe">
+      <ui-icon name="bell" size="{{45}}" color="on-signal" />
+      <view class="f-1">
+        <text class="sub-t">开启微信服务通知</text>
+        <text class="sub-d">开课、入群、工单结果会通过微信提醒你，不错过重要节点</text>
+      </view>
+      <view class="sub-btn"><text>开启</text><ui-icon name="arrow" size="{{24}}" color="on-signal" /></view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,12 @@
+{
+  "navigationBarTitleText": "开通成功",
+  "backgroundTextStyle": "dark",
+  "backgroundColor": "#FFF7EC",
+  "usingComponents": {
+    "ui-icon": "/components/icon/index",
+    "ui-art": "/components/art/index",
+    "ui-avatar": "/components/avatar/index",
+    "ui-apphead": "/components/apphead/index",
+    "ui-errbar": "/components/errbar/index"
+  }
+}

@@ -1,0 +1,110 @@
+<view class="screen">
+  <view class="statusbar" style="height: {{padTop}}px"></view>
+
+  <!-- 问候 + 积分余额 -->
+  <view class="head">
+    <view class="head__row">
+      <view>
+        <view class="hi">早上好，{{tw.ownerTitle}}</view>
+        <view class="title">{{tw.hotelName}}</view>
+      </view>
+      <view class="points hit" bindtap="toast" data-msg="积分可用于出片、抵扣商城消费">
+        <view class="points__dot"></view>
+        <view class="points__n">{{tw.points}}</view>
+      </view>
+    </view>
+  </view>
+
+  <scroll-view class="body" scroll-y enable-flex>
+    <view class="stack">
+
+      <!-- ① 军师算出的「今天该做的一件事」———— 开屏只有这个和主线读数 -->
+      <view class="card--ink today">
+        <view class="today__kicker">
+          <view class="ic ic-12 ic-spark"></view>
+          <view class="kicker--p">AI 军师 · 今天该做的一件事</view>
+        </view>
+        <view class="today__title">{{action.title}}</view>
+        <view class="today__body">{{action.body}}</view>
+        <view class="today__cta">
+          <view
+            class="btn btn--p today__go hit"
+            data-url="/pages/produce/index"
+            bindtap="goto"
+          >{{action.cta}}</view>
+          <view
+            class="btn btn--onink hit"
+            data-url="/pages/diagnosis/index"
+            bindtap="goto"
+          >{{action.ctaAlt}}</view>
+        </view>
+      </view>
+
+      <!-- ② 五步主线：诊断 → 内容 → 拉新 → 会员 → 复购 -->
+      <view class="card">
+        <view class="row-between mb14">
+          <view class="h2">我的经营主线</view>
+          <view class="sub">本周 · 第 {{line.stuckAt}} 步卡住了</view>
+        </view>
+
+        <view class="rail">
+          <block wx:for="{{line.steps}}" wx:key="name">
+            <view class="rail__dot rail__dot--{{item.state}}"></view>
+            <view
+              wx:if="{{index < line.steps.length - 1}}"
+              class="rail__seg {{item.state === 'done' ? 'is-on' : ''}}"
+            ></view>
+          </block>
+        </view>
+
+        <view class="steps">
+          <view class="steps__col" wx:for="{{line.steps}}" wx:key="name">
+            <view class="steps__name steps__name--{{item.state}}">{{item.name}}</view>
+            <view class="steps__val steps__val--{{item.state}}">{{item.value}}</view>
+          </view>
+        </view>
+
+        <view class="note note--amber mt13">
+          <view class="ic ic-12 ic-warn"></view>
+          <view class="note__t">{{line.hint}}</view>
+        </view>
+      </view>
+
+      <!-- ③ 两个读数 -->
+      <view class="duo">
+        <view class="card card--sm" wx:for="{{stats}}" wx:key="k">
+          <view class="kicker">{{item.k}}</view>
+          <view class="stat__v">
+            <text class="num stat__num">{{item.v}}</text>
+            <text wx:if="{{item.unit}}" class="unit">{{item.unit}}</text>
+          </view>
+          <view class="stat__foot {{item.green ? 'pos' : ''}}">{{item.foot}}</view>
+        </view>
+      </view>
+
+      <!-- ④ 常用 —— 四个原本独立的 App，在这里只是主线上的动作入口 -->
+      <view class="card">
+        <view class="h3 mb12">常用</view>
+        <view class="grid4">
+          <view
+            class="sc hit"
+            wx:for="{{shortcuts}}"
+            wx:key="name"
+            data-url="{{item.route}}"
+            data-tab="{{item.tab}}"
+            bindtap="goto"
+          >
+            <view class="tile tile--{{item.bg}}">
+              <view class="ic ic-22 {{item.icon}}"></view>
+            </view>
+            <view class="sc__name">{{item.name}}</view>
+          </view>
+        </view>
+      </view>
+
+    </view>
+  </scroll-view>
+
+  <!-- 框架 tabBar 是覆盖式的，这里留出等高空白 -->
+  <view class="tabpad" style="height: {{70 + safeBottom}}px"></view>
+</view>
