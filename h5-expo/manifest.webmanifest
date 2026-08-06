@@ -1,0 +1,16 @@
+{
+  "name": "第34届北京国际美博会 · 观众预登记",
+  "short_name": "北京美博会",
+  "description": "观众预登记、电子入场证与同期论坛报名",
+  "start_url": "./index.html#/home",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FAF7F2",
+  "theme_color": "#FAF7F2",
+  "lang": "zh-CN",
+  "icons": [
+    { "src": "assets/icon-180.png", "sizes": "180x180", "type": "image/png" },
+    { "src": "assets/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

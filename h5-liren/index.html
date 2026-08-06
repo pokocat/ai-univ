@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>丽人公社 · AI 学习社群</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,maximum-scale=1">
+<meta name="theme-color" content="#FAF7F2">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="format-detection" content="telephone=no,email=no,address=no">
+<meta name="description" content="丽人公社 · AI 学习社群：消息、社群广场、AI 军师、经营诊断报告、会员方案、门店经营台">
+<link rel="icon" type="image/png" sizes="512x512" href="assets/icon-512.png">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/icon-180.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="stylesheet" href="styles/app.css">
+</head>
+<body>
+
+<div class="app" id="app">
+  <header class="appbar" id="appbar">
+    <button class="appbar__back" id="back" type="button" aria-label="返回"><i></i></button>
+    <h1 class="appbar__title" id="appbar-title">消息</h1>
+    <div class="appbar__slot" id="appbar-slot"></div>
+  </header>
+
+  <main class="view" id="view" tabindex="-1"></main>
+
+  <nav class="tabbar" id="tabbar" aria-label="主导航"></nav>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<div class="sheet" id="sheet" hidden>
+  <div class="sheet__mask" data-act="sheet-close"></div>
+  <div class="sheet__panel" role="dialog" aria-modal="true" aria-labelledby="sheet-title">
+    <div class="sheet__grip"></div>
+    <div class="sheet__head"><span id="sheet-title">标题</span><button type="button" class="sheet__x" data-act="sheet-close" aria-label="关闭">×</button></div>
+    <div class="sheet__body" id="sheet-body"></div>
+  </div>
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
