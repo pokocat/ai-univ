@@ -8,6 +8,7 @@
 - `温泉/`：温泉项目。
 - `h5-expo/`：北京国际美博会观众预登记 H5，包含展会首页、登记、入场证与论坛报名。
 - `h5-liren/`：丽人公社 H5，包含消息、社群、AI 军师、诊断报告、会员与门店经营台。
+- `h5-admin/`：统一运营后台 H5（桌面端），包含工作台、活动、运营计划、渠道、参展商、订单与分账、社群与 AI 七个视图。
 - `AGENTS.md`：供 Codex 等 AI 助手读取的项目地图、修改边界和验证命令。
 - `.github/CODEOWNERS`：目录审核责任人。当前由仓库主理人统一审核；后续可按项目指定设计师、产品经理和研发负责人。
 
@@ -33,15 +34,15 @@ git sparse-checkout set 主理人
 
 将最后一行改为 `温泉`，即可只拉取温泉项目。Git 历史和权限仍由同一个仓库统一管理。
 
-其他项目同理，例如只拉取两个纯静态 H5：
+其他项目同理，例如只拉取三个纯静态 H5：
 
 ```bash
-git sparse-checkout set h5-expo h5-liren
+git sparse-checkout set h5-expo h5-liren h5-admin
 ```
 
 ## H5 本地预览
 
-`h5-expo/` 和 `h5-liren/` 是无构建、无依赖的纯静态工程。两个项目会互相跳转并通过同源 `localStorage` 共享演示状态，因此建议在仓库根目录统一启动：
+`h5-expo/`、`h5-liren/` 和 `h5-admin/` 都是无构建、无依赖的纯静态工程。`h5-expo` 与 `h5-liren` 会互相跳转并通过同源 `localStorage` 共享演示状态，因此建议在仓库根目录统一启动：
 
 ```bash
 cd ai-univ
@@ -52,6 +53,7 @@ python3 -m http.server 8765
 
 - 展会预登记：`http://localhost:8765/h5-expo/`
 - 丽人公社：`http://localhost:8765/h5-liren/`
+- 统一运营后台（桌面端，≥960px）：`http://localhost:8765/h5-admin/`
 - 演示话术模式：在地址末尾加 `?script=1`
 
 推荐使用浏览器手机视图，画布选择 iPhone 390×844。具体页面、交互和演示口径见两个目录内各自的 `README.md`。
