@@ -1,0 +1,446 @@
+/* 附赠小样：铂银复合膜小袋。顶部拉条（压齿封口 + 压纹带）沿齿孔撕下，
+   撕口跟手、拉条卷离；撕开后日程插页从袋口抽出。
+   膜面是位图（textures.ts：--tex-foil 复合膜、--tex-foil-crimp 封口压纹带），不用 CSS 条纹去仿；
+   位图还没落地时退回平印铂色（--m-sachet-foil），不画假材质。 */
+
+.sachet {
+  position: relative;
+  margin: 0 auto;
+  max-width: 340px;
+}
+
+.sachet__pouch {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  /* 小袋的投影：有偏移、有柔化，落在珠光面板上 */
+  filter: drop-shadow(0 14px 18px rgba(17, 26, 44, 0.22)) drop-shadow(0 2px 2px rgba(17, 26, 44, 0.12));
+}
+
+/* —— 顶部拉条：28 节，每节一段同一张膜 —— */
+.sachet__top {
+  position: relative;
+  z-index: 3;
+  height: 34px;
+  transition:
+    transform 380ms var(--ease-out),
+    opacity 300ms var(--ease-out);
+}
+.sachet__strip {
+  position: absolute;
+  inset: 0;
+  /* 撕下的那段朝人卷起：每一节各自按这枚透视投影 */
+  perspective: 520px;
+  perspective-origin: 60% 50%;
+}
+.sachet__seg {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  transform-origin: 0 50%;
+  /* 膜面：封口压纹带位图叠在复合膜位图上，底下垫平印铂色；
+     三层的尺寸与位置由行内样式按整条拉条排好，每节只露自己那一段 */
+  background-image: var(--tex-foil-crimp, none), var(--tex-foil, none), var(--m-sachet-foil);
+  background-repeat: repeat-x, no-repeat, no-repeat;
+  /* 顶边压齿：10px 一齿；每节的齿位由行内 mask-position 对齐到整条 */
+  -webkit-mask:
+    conic-gradient(from 135deg at top, #0000, #000 1deg 89deg, #0000 90deg) 0 0 / 10px 6px repeat-x,
+    linear-gradient(#000 0 0) 0 100% / 100% calc(100% - 6px) no-repeat;
+  mask:
+    conic-gradient(from 135deg at top, #0000, #000 1deg 89deg, #0000 90deg) 0 0 / 10px 6px repeat-x,
+    linear-gradient(#000 0 0) 0 100% / 100% calc(100% - 6px) no-repeat;
+  will-change: transform;
+  transition: transform 90ms linear;
+}
+.sachet__seg::after {
+  /* 卷起来的那几节背光：越卷越暗，读得出弧度 */
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--c-ink);
+  opacity: var(--shade, 0);
+}
+/* 易撕口：最右一节切出 V 口的上半 */
+.sachet__seg--notch {
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 6px), calc(100% - 7px) 100%, 0 100%);
+}
+.sachet--dragging .sachet__seg {
+  transition-duration: 60ms;
+}
+
+/* 齿孔：每节之间一个连接点，撕口经过时逐个断开 */
+.sachet__perf {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  pointer-events: none;
+}
+.sachet__dot {
+  position: absolute;
+  top: 0;
+  width: 4px;
+  height: 1px;
+  margin-left: -2px;
+  background: rgba(17, 26, 44, 0.5);
+  transition:
+    transform 160ms var(--ease-out),
+    opacity 160ms var(--ease-out),
+    background-color 160ms linear;
+}
+.sachet__dot.is-front {
+  /* 正在被撕开的那一孔：绷紧 */
+  transform: scaleX(1.8);
+  background: var(--c-ink);
+}
+.sachet__dot.is-split {
+  transform: translateY(1px) scaleX(0.4);
+  opacity: 0.35;
+}
+
+/* 手势热区：比拉条上下各多出一截，够一根手指按住；纵向拖仍交给页面滚动 */
+.sachet__hit {
+  position: absolute;
+  left: -8px;
+  right: -8px;
+  top: -12px;
+  bottom: -16px;
+  z-index: 2;
+  touch-action: pan-y;
+  cursor: grab;
+  -webkit-user-select: none;
+  user-select: none;
+}
+.sachet--dragging .sachet__hit {
+  cursor: grabbing;
+}
+
+/* 拉条撕到底：整条飞离 */
+.sachet--off .sachet__top {
+  transform: translate(28px, -64px) rotate(-9deg);
+  opacity: 0;
+}
+
+/* —— 袋身 —— */
+.sachet__body {
+  position: relative;
+  z-index: 2;
+  padding: 22px 24px 34px;
+  color: var(--c-ink);
+  /* 平印铂色：复合膜位图没落地时的样子 */
+  background: var(--m-sachet-foil);
+  /* 底边压齿 */
+  -webkit-mask:
+    linear-gradient(#000 0 0) 0 0 / 100% calc(100% - 6px) no-repeat,
+    conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 0 100% / 10px 6px repeat-x;
+  mask:
+    linear-gradient(#000 0 0) 0 0 / 100% calc(100% - 6px) no-repeat,
+    conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 0 100% / 10px 6px repeat-x;
+  /* 易撕口：V 口的下半 */
+  clip-path: polygon(0 0, calc(100% - 7px) 0, 100% 6px, 100% 100%, 0 100%);
+}
+/* 复合膜位图：上面压一层珠光白底印（软包装印刷在镀铝膜上先铺的那层白墨），
+   让墨色小字在膜面最暗的反光带上也保持 AA；白底印只有 42%，膜的纹理与反光照样透出来 */
+.sachet.has-tex .sachet__body {
+  background:
+    linear-gradient(rgba(251, 250, 247, 0.42), rgba(251, 250, 247, 0.42)),
+    var(--tex-foil) center / cover no-repeat,
+    var(--m-sachet-foil);
+}
+/* 撕开的袋口：一道暗缝，跟着撕口往左长 */
+.sachet__mouth {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 7px;
+  max-width: 100%;
+  background: linear-gradient(180deg, rgba(11, 17, 30, 0.55), rgba(11, 17, 30, 0));
+  pointer-events: none;
+}
+.sachet__tearlabel {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  font-size: var(--fs-micro);
+  line-height: var(--lh-micro);
+  color: var(--c-ink-soft);
+}
+/* 底边封口压纹带：压纹带位图按原始比例横向平铺；位图没落地时只是一道略深的平印带 */
+.sachet__crimp {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 16px;
+  background: var(--tex-foil-crimp, linear-gradient(rgba(17, 26, 44, 0.06), rgba(17, 26, 44, 0.06))) 0 0 / auto 100% repeat-x;
+}
+.sachet__crimp--bottom {
+  bottom: 6px;
+}
+
+.sachet__print {
+  padding-top: 18px;
+}
+.sachet__title .stamp,
+.sachet__fine .stamp {
+  --stamp: var(--c-ink-soft);
+}
+.sachet__title {
+  display: flex;
+  align-items: center;
+  font-family: var(--font-zh);
+  font-size: var(--fs-display);
+  line-height: var(--lh-display);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+.sachet__sub {
+  margin-top: var(--s2);
+  color: var(--c-ink-soft);
+}
+
+/* 小样背面的成分与用法：一个字号，层级只靠字重 */
+.sachet__inci,
+.sachet__usage,
+.sachet__fine {
+  margin-top: var(--s3);
+  padding-top: var(--s3);
+  border-top: var(--hair) solid rgba(17, 26, 44, 0.3);
+  font-size: var(--fs-meta);
+  line-height: var(--lh-meta);
+  color: var(--c-ink-soft);
+}
+.sachet__inci .inci-run {
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
+}
+.sachet__inci .inci-run b,
+.sachet__usage-head {
+  font-weight: 600;
+  color: var(--c-ink);
+}
+.sachet__usage ol {
+  margin-top: 2px;
+}
+.sachet__usage li {
+  display: grid;
+  grid-template-columns: 1.2em 1fr;
+  column-gap: var(--s1);
+}
+.sachet__usage .num {
+  font-weight: 600;
+  color: var(--c-ink);
+}
+
+/* —— 袋外的操作区 —— */
+.sachet__act {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--s3);
+  margin-top: var(--s5);
+}
+.sachet__hint {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: var(--fs-meta);
+  line-height: var(--lh-meta);
+  color: var(--text-dim);
+}
+.sachet__btn {
+  width: 100%;
+}
+.sachet__btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.sachet__note {
+  display: grid;
+  grid-template-columns: 18px 1fr;
+  column-gap: var(--s2);
+  padding: var(--s3) 0;
+  border-top: var(--hair) solid var(--line);
+  border-bottom: var(--hair) solid var(--line);
+  color: var(--text);
+}
+.sachet__note .icon {
+  margin-top: 4px;
+}
+.sachet__status {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: var(--s2);
+  row-gap: var(--s1);
+  font-size: var(--fs-meta);
+  line-height: var(--lh-meta);
+  color: var(--text-dim);
+}
+
+/* 「已存到本机」：印上去的章，不是提示条 */
+.sachet__saved {
+  flex: none;
+}
+.insert__foot {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--s3);
+  margin-top: var(--s3);
+}
+.insert__foot .insert__fine {
+  flex: 1 1 auto;
+  margin-top: 0;
+}
+.insert__mark {
+  flex: none;
+  transform: rotate(-6deg);
+  transform-origin: 100% 100%;
+}
+.insert__mark .stamp {
+  height: 26px;
+  padding: 0 10px;
+  font-size: var(--fs-meta);
+  outline: var(--hair) solid currentColor;
+  outline-offset: 2px;
+  background: rgba(251, 250, 247, 0.7);
+}
+
+/* —— 日程插页：从袋口抽出的一张印刷卡 —— */
+.sachet__insert-wrap {
+  position: relative;
+  z-index: 1;
+  /* 插页下缘压进袋口 28px */
+  margin: 0 10px -28px;
+  will-change: transform, clip-path;
+}
+.insert {
+  position: relative;
+  padding: var(--s4) var(--s4) calc(var(--s5) + 28px);
+  background-color: var(--c-panel-object);
+  box-shadow: inset 0 0 0 var(--hair) var(--c-foil-on-panel);
+}
+.insert::after {
+  /* 还在袋里的那一截：袋口投下的暗影 */
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 44px;
+  background: linear-gradient(180deg, rgba(17, 26, 44, 0), rgba(17, 26, 44, 0.14));
+  pointer-events: none;
+}
+.insert__head {
+  /* 标题下留 12px 再压粗线：撕开后焦点落在标题上，2px 焦点框（外扩 2px）与这道粗线之间留 8px，不叠成双线 */
+  padding-bottom: var(--s3);
+  border-bottom: 2px solid var(--c-ink);
+}
+.insert__title {
+  font-family: var(--font-zh);
+  font-size: var(--fs-lead);
+  line-height: var(--lh-lead);
+  font-weight: 600;
+  /* 只在空格与标点处断行：「展期」不被劈成两半 */
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+  scroll-margin-top: var(--s7);
+}
+.insert__title:focus-visible {
+  outline-offset: 2px;
+}
+.insert__notice {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s2);
+  margin-top: var(--s3);
+  font-size: var(--fs-meta);
+  line-height: var(--lh-meta);
+  color: var(--c-ink-soft);
+}
+.insert__notice .stamp {
+  flex: none;
+  margin: 0;
+}
+
+/* 日程本体：整块一个字号（16px），日期反白，时间等宽列 */
+.insert__days {
+  margin-top: var(--s3);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+}
+.insert__day + .insert__day {
+  margin-top: var(--s3);
+}
+.insert__date {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  padding: var(--s1) 0;
+  border-bottom: var(--hair) solid var(--c-ink);
+  font-weight: 600;
+}
+.insert__flag {
+  padding: 0 var(--s1);
+  background: var(--c-ink);
+  color: var(--c-panel);
+  font-weight: 600;
+  border-radius: var(--r-tag);
+}
+.insert__item {
+  padding: var(--s2) 0 var(--s3);
+  border-bottom: var(--hair) solid var(--c-foil-on-panel);
+}
+/* 时间一行：等宽数字 + 拟定章，章靠右对齐成一列 */
+.insert__when {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s3);
+}
+.insert__when .stamp {
+  --stamp: var(--c-ink-mute);
+  margin: 0;
+}
+.insert__time {
+  font-weight: 500;
+  color: var(--c-ink);
+  white-space: nowrap;
+}
+.insert__name {
+  font-family: var(--font-zh);
+  font-weight: 600;
+}
+.insert__venue {
+  color: var(--c-ink-mute);
+}
+.insert__go {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  min-height: 44px;
+  color: var(--c-ink);
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-color: var(--c-foil-on-panel);
+  text-underline-offset: 5px;
+}
+.insert__fine {
+  margin-top: var(--s3);
+  font-size: var(--fs-meta);
+  line-height: var(--lh-meta);
+  color: var(--c-ink-soft);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sachet__seg,
+  .sachet__dot,
+  .sachet__top {
+    transition: none;
+  }
+}

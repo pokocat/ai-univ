@@ -1,0 +1,216 @@
+/* 课程详情：说明书。封面（黛蓝）/ 说明页（珠光白，按折线分栏，单一字号） */
+
+/* —— 封面 —— */
+.lf-cover {
+  position: relative;
+  padding: var(--s5) var(--gutter) var(--s6);
+  /* 盖住外层盒面的颗粒，只留自己这一层（见 world.css） */
+  background-color: var(--c-carton-ground);
+  background-image: radial-gradient(110% 60% at 50% 30%, rgba(36, 48, 72, 0.9) 0%, rgba(17, 26, 44, 0) 66%),
+    var(--m-grain-img);
+  background-size: auto, 160px 160px;
+}
+/* 文字封面：超细宽字距，铂色，四角裁切标框住 */
+.lf-art {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: fit-content;
+  max-width: 100%;
+  /* 封面顶上不压期号（批号在末页印刷信息里）；上方留出右上角「样张」章那一行 */
+  margin: var(--s7) auto var(--s4);
+  padding: var(--s4) var(--s6);
+}
+.lf-art__line {
+  display: block;
+  font-family: var(--font-display);
+  font-size: clamp(46px, 15vw, 64px);
+  line-height: 1.16;
+  font-weight: 200;
+  letter-spacing: 0.24em;
+  margin-right: -0.24em;
+  color: var(--c-foil);
+  white-space: nowrap;
+}
+.lf-cover__fold {
+  margin: 0 calc(var(--gutter) * -1);
+}
+
+.lf-title {
+  margin-top: var(--s5);
+  /* 展示字体只有 200 / 400 两档；写 600 会被浏览器拿 400 伪粗 */
+  font-family: var(--font-display);
+  font-size: var(--fs-title);
+  line-height: var(--lh-title);
+  font-weight: 400;
+  color: var(--c-on-carton);
+  /* 中文长标题用 pretty：balance 会把「开篇」这类词拆到两行 */
+  text-wrap: pretty;
+}
+.lf-by {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-top: var(--s2);
+  color: var(--c-on-carton-dim);
+}
+.lf-marks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s2);
+  margin-top: var(--s4);
+}
+.lf-mark {
+  padding: 0 var(--s2);
+  font-size: var(--fs-meta);
+  line-height: 24px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--c-foil);
+  border: 1px solid rgba(205, 209, 216, 0.6);
+  border-radius: var(--r-tag);
+}
+.lf-mark--solid {
+  /* 反白：铂底黛字 */
+  color: var(--c-carton);
+  background: var(--c-foil);
+  border-color: var(--c-foil);
+}
+
+/* —— 说明页：一张纸，按折线分栏；奇偶栏的折痕受光不同 —— */
+.lf-sheet {
+  position: relative;
+  padding-bottom: calc(var(--s7) + env(safe-area-inset-bottom));
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+}
+.lf-fold {
+  position: relative;
+  padding: var(--s6) var(--gutter);
+}
+.lf-fold__line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+}
+/* 谷折：折痕处落一层极淡的阴影；山折：折痕处一道受光 */
+.lf-fold:nth-child(odd) {
+  background-image: linear-gradient(180deg, rgba(17, 26, 44, 0.05) 0, rgba(17, 26, 44, 0) 28px);
+}
+.lf-fold:nth-child(even) {
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.7) 0, rgba(255, 255, 255, 0) 22px);
+}
+.lf-fold--first {
+  padding-top: var(--s6);
+}
+
+.lf-h {
+  font-family: var(--font-zh);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--c-ink);
+}
+.lf-h span {
+  color: var(--c-ink-mute);
+  font-weight: 400;
+}
+.lf-h span:first-child {
+  margin-left: -0.5em;
+}
+
+.lf-text {
+  margin-top: var(--s3);
+  max-width: 36em;
+  color: var(--c-ink);
+}
+.lf-dim {
+  color: var(--c-ink-mute);
+}
+
+/* 用法用量：一格一行，标签弱墨，值正墨，同一字号 */
+.lf-dl {
+  margin-top: var(--s3);
+  border-top: var(--hair) solid var(--c-ink);
+}
+.lf-dl__row {
+  display: grid;
+  grid-template-columns: 3.5em 1fr;
+  column-gap: var(--s3);
+  padding: var(--s3) 0;
+  border-bottom: var(--hair) solid var(--c-foil-on-panel);
+}
+.lf-dl dt {
+  color: var(--c-ink-mute);
+}
+.lf-dl dd {
+  min-width: 0;
+  color: var(--c-ink);
+}
+.lf-dl .num {
+  font-weight: 500;
+}
+.lf-go {
+  margin-top: var(--s5);
+}
+
+.lf-list {
+  margin-top: var(--s3);
+  border-top: var(--hair) solid var(--c-ink);
+}
+.lf-list li {
+  position: relative;
+  padding: var(--s3) 0 var(--s3) var(--s4);
+  border-bottom: var(--hair) solid var(--c-foil-on-panel);
+  color: var(--c-ink-soft);
+}
+.lf-list li::before {
+  /* 说明书的条目刻点：一小段墨线，不是字符 */
+  content: '';
+  position: absolute;
+  left: 0;
+  top: calc(var(--s3) + 12px);
+  width: 8px;
+  height: 1px;
+  background: var(--c-ink);
+}
+.lf-list .stamp.lf-list__stamp {
+  margin: 0 6px 0 0;
+}
+
+/* 末尾印刷信息：裁切线 + 批号 */
+.lf-imprint {
+  position: relative;
+  margin-top: var(--s5);
+  padding: var(--s5) var(--gutter) 0;
+}
+.lf-imprint__cut {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+}
+.lf-imprint__print {
+  display: flex;
+  gap: var(--s3);
+  font-size: var(--fs-meta);
+  line-height: var(--lh-meta);
+  color: var(--c-ink-mute);
+}
+.lf-imprint__print .num {
+  color: var(--c-ink);
+  letter-spacing: 0.08em;
+}
+.lf-back {
+  margin-top: var(--s4);
+  margin-left: calc(var(--s5) * -1);
+  gap: var(--s1);
+}
+
+/* —— 找不到这门课 —— */
+.lf-missing {
+  padding: calc(var(--s8) + env(safe-area-inset-top)) var(--gutter) var(--s8);
+}

@@ -1,0 +1,606 @@
+/* 会员方案：柜台（盒子 + 规格 + 标签）/ 侧板「规格说明」 */
+
+/* —— 柜台：黛蓝盒面，一盏灯打在盒子上 —— */
+.pl-counter {
+  position: relative;
+  padding: calc(var(--s6) + env(safe-area-inset-top)) var(--gutter) var(--s7);
+  /* 盖住外层盒面的颗粒，只留自己这一层（见 world.css） */
+  background-color: var(--c-carton-ground);
+  background-image: radial-gradient(95% 42% at 50% 31%, rgba(36, 48, 72, 0.92) 0%, rgba(17, 26, 44, 0) 70%),
+    var(--m-grain-img);
+  background-size: auto, 160px 160px;
+}
+
+.pl-title {
+  /* 标题上方不再压期号（批号印在侧板末尾）；右上角让给「样张」章 */
+  margin-top: var(--s3);
+  padding-right: 72px;
+  font-family: var(--font-display);
+  font-size: var(--fs-display);
+  line-height: var(--lh-display);
+  font-weight: 200;
+  letter-spacing: 0.16em;
+  color: var(--c-foil);
+}
+.pl-lede {
+  margin-top: var(--s1);
+  font-size: var(--fs-meta);
+  line-height: var(--lh-meta);
+  color: var(--c-on-carton-dim);
+}
+
+/* —— 柜台上的盒子：斜二测，正面 + 侧面 + 顶面，比例由 --w / --h / --dx 决定 —— */
+.pl-stage {
+  /* 选规格时盒子真的改尺寸（标签文字要按新宽度重排，transform 缩放会把字拉变形），
+     所以动的是 width / height；舞台高度固定并做布局隔离，重排不出这一块 */
+  contain: layout;
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  height: 220px;
+  margin-top: var(--s2);
+  padding-bottom: 18px;
+}
+.pl-stage::before {
+  /* 柜台边沿：一条铂色细线横贯，盒子立在上面 */
+  content: '';
+  position: absolute;
+  left: calc(var(--gutter) * -1);
+  right: calc(var(--gutter) * -1);
+  bottom: 18px;
+  height: var(--hair);
+  background: rgba(205, 209, 216, 0.28);
+}
+.pl-box {
+  --dy: calc(var(--dx) * 0.625);
+  position: relative;
+  width: calc(var(--w) + var(--dx));
+  height: calc(var(--h) + var(--dy));
+  transition: width var(--dur-move) var(--ease-out), height var(--dur-move) var(--ease-out);
+}
+.pl-box > span {
+  /* 绝对定位即块级化，不必再写 display */
+  position: absolute;
+  transition: width var(--dur-move) var(--ease-out), height var(--dur-move) var(--ease-out),
+    left var(--dur-move) var(--ease-out), bottom var(--dur-move) var(--ease-out);
+}
+.pl-box__shadow {
+  /* 落影：偏向右后方，柔边 */
+  left: 6%;
+  right: -14%;
+  bottom: -9px;
+  height: 20px;
+  background: radial-gradient(closest-side, rgba(3, 6, 12, 0.7), rgba(3, 6, 12, 0));
+  filter: blur(3px);
+}
+.pl-box__front {
+  left: 0;
+  bottom: 0;
+  width: var(--w);
+  height: var(--h);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding: 10px 8px 8px;
+  background-color: var(--c-carton-raised);
+  background-image: linear-gradient(104deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0) 46%),
+    var(--m-grain-img);
+  background-size: auto, 160px 160px;
+  box-shadow: inset 0 0 0 1px rgba(205, 209, 216, 0.5);
+}
+.pl-box__side {
+  left: var(--w);
+  bottom: 0;
+  width: var(--dx);
+  height: var(--h);
+  transform-origin: 0 50%;
+  transform: skewY(-32deg);
+  background-color: var(--c-carton-deep);
+  background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.18) 0%, rgba(0, 0, 0, 0) 70%);
+  box-shadow: inset 0 0 0 1px rgba(205, 209, 216, 0.34);
+  overflow: hidden;
+}
+.pl-box__spine {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  writing-mode: vertical-rl;
+  white-space: nowrap;
+  color: var(--c-on-carton-dim);
+}
+.pl-box__top {
+  left: 0;
+  bottom: var(--h);
+  width: var(--w);
+  height: var(--dy);
+  transform-origin: 50% 100%;
+  transform: skewX(-58deg);
+  background-color: var(--c-carton-raised);
+  background-image: linear-gradient(0deg, rgba(205, 209, 216, 0.12), rgba(205, 209, 216, 0.04));
+  box-shadow: inset 0 0 0 1px rgba(205, 209, 216, 0.5);
+}
+.pl-box__top::after {
+  /* 插舌折线 */
+  content: '';
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  bottom: 36%;
+  height: 1px;
+  background-image: linear-gradient(90deg, rgba(205, 209, 216, 0.45) 0 4px, transparent 4px 7px);
+  background-size: 7px 1px;
+}
+.pl-box__mark {
+  display: block;
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: var(--fs-micro);
+  line-height: var(--lh-micro);
+  font-weight: 200;
+  letter-spacing: 0.3em;
+  margin-right: -0.3em;
+  color: var(--c-foil);
+  white-space: nowrap;
+}
+.pl-box__mark,
+.pl-box__label {
+  /* 压在礼盒盒盖那层半透明面之上 */
+  position: relative;
+}
+.pl-box__label {
+  /* 珠光白贴标：规格名、期别、净含量 */
+  --stamp: var(--c-ink-mute);
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 6px 4px;
+  color: var(--c-ink);
+  background: var(--c-panel);
+  text-align: center;
+}
+.pl-box__size {
+  font-family: var(--font-zh);
+  font-size: var(--fs-body);
+  line-height: 22px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+.pl-box__term {
+  font-size: var(--fs-micro);
+  line-height: var(--lh-micro);
+  color: var(--c-ink-mute);
+}
+.pl-box__net {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-self: stretch;
+  margin-top: 4px;
+  padding-top: 4px;
+  border-top: var(--hair) solid var(--c-ink);
+  font-size: var(--fs-micro);
+  line-height: var(--lh-micro);
+  color: var(--c-ink-soft);
+  white-space: nowrap;
+}
+.pl-box__net .num {
+  font-weight: 600;
+  color: var(--c-ink);
+}
+.pl-box__net .stamp--sample {
+  width: 16px;
+  height: 16px;
+}
+
+/* 礼盒：宽、矮、带盒盖；贴标横排 */
+.pl-box--gift .pl-box__front::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 26%;
+  border-bottom: var(--hair) solid rgba(205, 209, 216, 0.6);
+  background: rgba(205, 209, 216, 0.05);
+  pointer-events: none;
+}
+.pl-box--gift .pl-box__side::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 26%;
+  border-top: var(--hair) solid rgba(205, 209, 216, 0.45);
+}
+.pl-box--gift .pl-box__label {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  column-gap: 8px;
+  align-items: center;
+  padding: 6px 8px;
+  text-align: left;
+}
+.pl-box--gift .pl-box__size,
+.pl-box--gift .pl-box__term {
+  grid-column: 1;
+  justify-self: start;
+}
+.pl-box--gift .pl-box__net {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  margin: 0;
+  padding: 0 0 0 8px;
+  border-top: 0;
+  border-left: var(--hair) solid var(--c-ink);
+}
+
+/* —— 规格：柜台上的规格牌 —— */
+.pl-sizes {
+  margin-top: var(--s3);
+}
+.pl-sizes__label {
+  font-size: var(--fs-meta);
+  line-height: var(--lh-meta);
+  letter-spacing: 0.08em;
+  color: var(--c-on-carton-dim);
+}
+.pl-sizes__row {
+  display: grid;
+  grid-template-columns: repeat(var(--n, 3), minmax(0, 1fr));
+  gap: var(--s2);
+  margin-top: var(--s2);
+}
+.pl-size {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60px;
+  padding: var(--s3) var(--s1) var(--s2);
+  color: var(--c-on-carton);
+  border: 1px solid rgba(205, 209, 216, 0.42);
+  border-radius: var(--r-tag);
+  transition: background-color var(--dur-press) var(--ease-out), color var(--dur-press) var(--ease-out),
+    border-color var(--dur-press) var(--ease-out);
+}
+.pl-size:active {
+  background-color: rgba(205, 209, 216, 0.08);
+}
+.pl-size.is-on {
+  color: var(--c-carton);
+  background: var(--c-foil);
+  border-color: var(--c-foil);
+}
+.pl-size__head {
+  font-family: var(--font-zh);
+  font-size: var(--fs-body);
+  line-height: 22px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+.pl-size__tail {
+  font-size: var(--fs-micro);
+  line-height: var(--lh-micro);
+  color: var(--c-on-carton-dim);
+}
+.pl-size.is-on .pl-size__tail {
+  color: var(--c-ink-soft);
+}
+.pl-size__badge {
+  /* 印在规格牌上沿的推荐签：铂色描边，不用胭脂（胭脂只给开通） */
+  position: absolute;
+  top: -9px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0 6px;
+  font-size: var(--fs-micro);
+  line-height: 16px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+  color: var(--c-foil);
+  background: var(--c-carton);
+  border: 1px solid var(--c-foil);
+}
+
+/* —— 选中规格的标签 —— */
+.pl-label {
+  position: relative;
+  margin-top: var(--s5);
+  padding-top: var(--s4);
+}
+.pl-label__fold {
+  position: absolute;
+  top: 0;
+  left: calc(var(--gutter) * -1);
+  right: calc(var(--gutter) * -1);
+}
+.pl-label__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s2) var(--s3);
+}
+.pl-label__name {
+  font-family: var(--font-zh);
+  font-size: var(--fs-title);
+  line-height: var(--lh-title);
+  font-weight: 600;
+  color: var(--c-on-carton);
+}
+.pl-badge {
+  padding: 1px 6px;
+  font-size: var(--fs-micro);
+  line-height: var(--lh-micro);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: var(--c-foil);
+  border: 1px solid var(--c-foil);
+}
+.pl-label__meta {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  margin-top: var(--s1);
+  font-size: var(--fs-meta);
+  line-height: var(--lh-meta);
+  color: var(--c-on-carton-dim);
+}
+.pl-label__meta .num {
+  color: var(--c-on-carton);
+  font-weight: 500;
+}
+.pl-label__sep {
+  width: 1px;
+  height: 12px;
+  background: rgba(205, 209, 216, 0.4);
+}
+.pl-label__summary {
+  margin-top: var(--s3);
+  max-width: 34em;
+  color: var(--c-on-carton-dim);
+}
+
+.pl-price {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--s1) var(--s4);
+  margin-top: var(--s3);
+}
+.pl-price__now {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  color: var(--c-on-carton);
+}
+.pl-price__cur {
+  font-family: var(--font-latin);
+  font-size: var(--fs-lead);
+  line-height: 1;
+  font-weight: 300;
+}
+.pl-price__now .num-wrap {
+  align-items: baseline;
+}
+.pl-price__now .num {
+  font-size: clamp(34px, 10vw, 42px);
+  line-height: 1.05;
+  font-weight: 300;
+  font-stretch: 118%;
+  letter-spacing: -0.01em;
+}
+.pl-price__now .stamp {
+  align-self: center;
+  margin-left: 8px;
+}
+.pl-price__list {
+  color: var(--c-on-carton-dim);
+}
+.pl-price__list .num {
+  text-decoration: line-through;
+  text-decoration-thickness: 1px;
+}
+.pl-price__ios {
+  margin-top: var(--s2);
+  font-size: var(--fs-meta);
+  line-height: var(--lh-meta);
+  color: var(--c-on-carton-dim);
+}
+.pl-notice {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: var(--s2);
+  font-size: var(--fs-meta);
+  line-height: var(--lh-meta);
+  color: var(--c-on-carton-dim);
+}
+.pl-notice .stamp {
+  flex: none;
+  margin: 0;
+}
+.pl-cta {
+  width: 100%;
+  margin-top: var(--s4);
+  justify-content: space-between;
+  min-height: 52px;
+  padding: 0 var(--s4) 0 var(--s5);
+}
+
+/* —— 规格说明：单一字号对照表 —— */
+.pl-spec-panel {
+  padding-bottom: var(--s7);
+}
+.pl-spec {
+  --col: 4.5em;
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  border-top: var(--hair) solid var(--line);
+}
+.pl-spec__row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) repeat(var(--n, 3), var(--col));
+  border-bottom: var(--hair) solid var(--line-soft);
+}
+.pl-spec__rh {
+  min-width: 0;
+  padding: var(--s3) var(--s2) var(--s3) 0;
+  color: var(--c-ink-mute);
+}
+.pl-spec__rh b {
+  font-family: var(--font-zh);
+  font-weight: 600;
+  color: var(--c-ink);
+}
+.pl-spec__cell {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: var(--s3) 0;
+  color: var(--c-ink);
+  white-space: nowrap;
+}
+.pl-spec__cell.is-on {
+  background: rgba(17, 26, 44, 0.05);
+}
+.pl-spec__cell .num {
+  font-weight: 500;
+  font-size: inherit;
+}
+.pl-spec__cell .stamp--sample {
+  margin-left: 3px;
+}
+
+/* 表头：规格名可点，选中那列反白 */
+.pl-spec__row--head .pl-spec__rh {
+  align-self: center;
+  padding: 0;
+}
+.pl-spec__row--head .pl-spec__cell {
+  padding: 0;
+  align-items: stretch;
+}
+.pl-spec__pick {
+  width: 100%;
+  min-height: 48px;
+  font-family: var(--font-zh);
+  font-weight: 600;
+  color: var(--c-ink);
+  transition: background-color var(--dur-press) var(--ease-out), color var(--dur-press) var(--ease-out);
+}
+.pl-spec__row--head .is-on .pl-spec__pick {
+  color: var(--c-panel);
+  background: var(--c-ink);
+}
+
+/* 分组行：整行反白，字号不变 */
+.pl-spec__row--group {
+  border-bottom: 0;
+}
+.pl-spec__group {
+  grid-column: 1 / -1;
+  margin-top: var(--s4);
+  padding: 0 var(--s2);
+  font-family: var(--font-zh);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--c-panel);
+  background: var(--c-ink);
+}
+
+/* 权益行：名称一行 + 说明整宽；三格落在第一行，名称给它们让位 */
+.pl-spec__row--benefit .pl-spec__rh {
+  grid-column: 1 / -1;
+  grid-row: 1;
+  padding-right: 0;
+}
+.pl-spec__row--benefit .pl-spec__rh b {
+  display: block;
+  padding-right: calc(var(--n, 3) * var(--col) + var(--s2));
+}
+.pl-spec__note {
+  display: block;
+  color: var(--c-ink-mute);
+}
+.pl-spec__note .num {
+  color: var(--c-ink);
+  font-weight: 500;
+}
+.pl-spec__gate {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 0 4px;
+  font-weight: 600;
+  color: var(--c-ink-soft);
+  border: 1px solid var(--c-foil-on-panel);
+  border-radius: var(--r-tag);
+  line-height: 22px;
+}
+.pl-spec__row--benefit .pl-spec__cell {
+  grid-row: 1;
+  align-self: stretch;
+}
+.pl-spec__yes {
+  margin-top: 3px;
+  color: var(--c-ink);
+}
+.pl-spec__no {
+  display: block;
+  width: 12px;
+  height: 1px;
+  margin-top: 13px;
+  background: var(--c-ink-mute);
+}
+
+.pl-spec__foot {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  margin-top: var(--s4);
+  font-size: var(--fs-meta);
+  line-height: var(--lh-meta);
+  color: var(--c-ink-mute);
+}
+.pl-spec__foot .stamp {
+  flex: none;
+  margin: 1px 0 0;
+}
+.pl-spec__more {
+  margin-top: var(--s5);
+}
+
+/* 侧板末尾的印刷信息：裁切线 + 批号，与课程说明书的末页同一套印法 */
+.pl-imprint {
+  position: relative;
+  margin-top: var(--s6);
+  padding-top: var(--s4);
+}
+.pl-imprint__cut {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+}
+.pl-imprint__print {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: var(--s3);
+  font-size: var(--fs-meta);
+  line-height: var(--lh-meta);
+  color: var(--c-ink-mute);
+}
+.pl-imprint__print .num {
+  color: var(--c-ink);
+  letter-spacing: 0.08em;
+}
+
+.pl-empty {
+  padding: calc(var(--s8) + env(safe-area-inset-top)) var(--gutter) var(--s8);
+}

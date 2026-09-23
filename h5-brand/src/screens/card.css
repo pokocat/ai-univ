@@ -1,0 +1,322 @@
+/* 会员证样张：黛蓝盒面上贴一张镭射防伪标。卡面珠光，二维码纯白底。 */
+
+.card-screen {
+  padding: calc(var(--s4) + env(safe-area-inset-top)) var(--gutter) var(--s7);
+}
+
+/* 标题上方不再压期号（批号印在页底）；留出右上角「样张」章那一行的高度 */
+.card-screen .panel-head {
+  margin-top: var(--s7);
+}
+.card-lede {
+  color: var(--c-on-carton-dim);
+}
+
+/* —— 贴纸：四角裁切标 + 一圈模切压痕 —— */
+.card-sticker {
+  position: relative;
+  max-width: 340px;
+  margin: calc(var(--s6) + 10px) auto 0;
+}
+.card-cut {
+  position: relative;
+}
+.mcard {
+  position: relative;
+  overflow: hidden;
+  color: var(--c-ink);
+  background-color: var(--c-panel-object);
+  background-image: var(--m-grain-img-ink), var(--m-pearl-sheen);
+  background-size:
+    160px 160px,
+    auto;
+  border-radius: 10px;
+  box-shadow:
+    0 0 0 var(--hair) rgba(205, 209, 216, 0.6),
+    0 18px 32px -18px rgba(3, 6, 12, 0.85),
+    0 2px 4px rgba(3, 6, 12, 0.35);
+  touch-action: pan-y;
+  --line: var(--c-ink);
+  --line-soft: var(--c-foil-on-panel);
+  --text: var(--c-ink);
+  --text-dim: var(--c-ink-mute);
+  --stamp: var(--c-ink-mute);
+}
+.mcard::after {
+  /* 模切压痕：离卡边 5px 的一圈细线，像贴纸半穿的刀口 */
+  content: '';
+  position: absolute;
+  inset: 5px;
+  border: var(--hair) dashed rgba(17, 26, 44, 0.18);
+  border-radius: 6px;
+  pointer-events: none;
+}
+.mcard ::selection {
+  background: var(--c-ink);
+  color: var(--c-panel);
+}
+
+/* 镭射带 */
+.mcard .holo {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  min-height: 76px;
+  padding: var(--s3) var(--s5);
+  border-bottom: var(--hair) solid rgba(17, 26, 44, 0.2);
+}
+.holo__seal {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  font-family: var(--font-zh);
+  font-size: var(--fs-micro);
+  line-height: 15px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--c-ink);
+  /* 扭索纹：同心细环 */
+  background:
+    repeating-radial-gradient(circle, rgba(17, 26, 44, 0) 0 2px, rgba(17, 26, 44, 0.16) 2px 2.6px),
+    rgba(255, 255, 255, 0.35);
+  box-shadow:
+    inset 0 0 0 1px rgba(17, 26, 44, 0.45),
+    0 0 0 3px rgba(255, 255, 255, 0.35),
+    0 0 0 4px rgba(17, 26, 44, 0.3);
+}
+.holo__label {
+  color: var(--c-ink-soft);
+}
+
+/* 卡面 */
+.mcard__face {
+  position: relative;
+  padding: var(--s4) var(--s5) var(--s5);
+}
+.mcard__brand {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s3);
+}
+.mcard__name {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  font-family: var(--font-zh);
+}
+.mcard__word {
+  font-family: var(--font-display);
+  font-size: var(--fs-title);
+  line-height: var(--lh-title);
+  font-weight: 200;
+  letter-spacing: 0.3em;
+}
+.mcard__note {
+  font-size: var(--fs-micro);
+  line-height: var(--lh-micro);
+  letter-spacing: 0.12em;
+  color: var(--c-ink-mute);
+}
+.mcard__latin {
+  flex: none;
+  color: var(--c-ink-mute);
+}
+.mcard__aud {
+  margin-top: 2px;
+  font-size: var(--fs-meta);
+  line-height: var(--lh-meta);
+  color: var(--c-ink-mute);
+}
+
+/* 档位：卡面上最大的一行 */
+.mcard__tier {
+  display: flex;
+  flex-direction: column;
+  margin-top: var(--s4);
+  padding-top: var(--s3);
+  border-top: 2px solid var(--c-ink);
+  position: relative;
+}
+.mcard__tier::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 3px;
+  border-top: var(--hair) solid var(--c-ink);
+}
+.mcard__tier-label {
+  font-size: var(--fs-micro);
+  line-height: var(--lh-micro);
+  letter-spacing: 0.16em;
+  color: var(--c-ink-mute);
+}
+.mcard__tier-value {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-zh);
+  font-size: var(--fs-display);
+  line-height: var(--lh-display);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+/* 其余各栏：成分表的印法，整块一个字号 */
+.mcard__rows {
+  margin-top: var(--s3);
+  border-top: var(--hair) solid var(--c-ink);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+}
+.mcard__row {
+  display: grid;
+  grid-template-columns: 3.6em 1fr;
+  column-gap: var(--s3);
+  padding: var(--s2) 0;
+  border-bottom: var(--hair) solid var(--c-foil-on-panel);
+}
+.mcard__row dt {
+  color: var(--c-ink-mute);
+}
+.mcard__row dd {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  font-weight: 600;
+  font-family: var(--font-zh);
+}
+
+/* 二维码：纯白底，四周留白，不压任何纹理 */
+.mcard__code {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--s2);
+  margin-top: var(--s5);
+}
+.mcard__qr {
+  padding: 12px;
+  background: var(--c-qr-ground);
+  border-radius: var(--r-tag);
+  box-shadow:
+    0 0 0 var(--hair) var(--c-foil-on-panel),
+    0 10px 20px -16px rgba(17, 26, 44, 0.6);
+}
+.mcard__qr .qr {
+  width: 168px;
+  height: 168px;
+}
+/* 编号：盒底批号的印法——拉丁宽体、等宽、字距拉开 */
+.mcard__no {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  margin-top: var(--s1);
+}
+.mcard__no-label {
+  font-size: var(--fs-micro);
+  line-height: var(--lh-micro);
+  letter-spacing: 0.16em;
+  color: var(--c-ink-mute);
+}
+.mcard__no-value {
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  font-weight: 500;
+  font-stretch: 125%;
+  letter-spacing: 0.18em;
+}
+.mcard__qr-cap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--fs-meta);
+  line-height: var(--lh-meta);
+  color: var(--c-ink-mute);
+}
+.mcard__qr-cap .stamp {
+  margin: 0;
+}
+
+/* 「样张」大章：压在各栏之上、避开二维码；墨色、正片叠底，像盖上去的 */
+.mcard__void {
+  position: absolute;
+  left: 50%;
+  top: 43%;
+  transform: translate(-50%, -50%) rotate(-12deg);
+  pointer-events: none;
+  mix-blend-mode: multiply;
+}
+.mcard__void span {
+  display: block;
+  white-space: nowrap;
+  padding: 6px 18px 6px 26px;
+  font-family: var(--font-zh);
+  font-size: 44px;
+  line-height: 1.2;
+  font-weight: 600;
+  letter-spacing: 0.4em;
+  color: rgba(60, 70, 88, 0.5);
+  border: 2px solid rgba(60, 70, 88, 0.5);
+  outline: var(--hair) solid rgba(60, 70, 88, 0.5);
+  outline-offset: 3px;
+  border-radius: var(--r-tag);
+}
+
+.card-caption {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s3);
+  margin-top: calc(var(--s5) + 10px);
+  color: var(--c-on-carton);
+}
+.card-caption .stamp {
+  flex: none;
+  margin-top: 1px;
+}
+
+.card-act {
+  margin-top: var(--s6);
+}
+.card-cta {
+  width: 100%;
+  justify-content: space-between;
+  text-align: left;
+}
+.card-act__note {
+  margin-top: var(--s3);
+  font-size: var(--fs-meta);
+  line-height: var(--lh-meta);
+  color: var(--c-on-carton-dim);
+}
+
+/* 页底的印刷信息：裁切线 + 批号 */
+.card-imprint {
+  position: relative;
+  margin-top: var(--s7);
+  padding-top: var(--s4);
+}
+.card-imprint__cut {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+}
+.card-imprint__print {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: var(--s3);
+  font-size: var(--fs-meta);
+  line-height: var(--lh-meta);
+  color: var(--c-on-carton-dim);
+}
+.card-imprint__print .num {
+  color: var(--c-on-carton);
+  letter-spacing: 0.08em;
+}

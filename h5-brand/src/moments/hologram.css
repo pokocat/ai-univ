@@ -1,0 +1,109 @@
+/* 镭射防伪带：膜面是产出的镭射位图（textures.ts：--tex-holo），不用 CSS 彩虹渐变去仿。
+   位图按 320% 铺开，只露一角；指针移动时改 background-position，露出的那一角跟着走，
+   就是镭射膜换个角度就换一片光的样子。位图没落地时退回平印铂色（印刷版的防伪带），不画假镭射。
+   --hx / --hy（0–1）由指针写入；注册成 <number> 才能平滑过渡，不支持 @property 的浏览器直接跳变。 */
+@property --hx {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0.5;
+}
+@property --hy {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0.5;
+}
+
+.holo {
+  --hx: 0.5;
+  --hy: 0.5;
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  color: var(--c-ink);
+  /* 自下而上：平印铂色 → 镭射位图（位置跟指针）→ 一层 22% 的珠光白底印，保住膜上墨字的可读性 */
+  background-color: transparent;
+  background-image:
+    linear-gradient(rgba(251, 250, 247, 0.22), rgba(251, 250, 247, 0.22)),
+    var(--tex-holo, none),
+    var(--m-sachet-foil);
+  background-size: 100% 100%, 320% auto, 100% 100%;
+  background-repeat: no-repeat;
+  background-position:
+    0 0,
+    calc(var(--hx) * 100%) calc(var(--hy) * 100%),
+    0 0;
+  transition:
+    --hx 700ms var(--ease-out),
+    --hy 700ms var(--ease-out);
+}
+.holo.is-live {
+  transition-duration: 120ms;
+}
+
+/* 缩微字：上下两行，同一个字号，错位排开，像压在膜里的纹；中间留给封印与标签 */
+.holo__micro {
+  position: absolute;
+  inset: -2px -40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 4px 0;
+  font-family: var(--font-zh);
+  font-size: var(--fs-micro);
+  line-height: var(--lh-micro);
+  letter-spacing: 0.3em;
+  white-space: nowrap;
+  color: rgba(17, 26, 44, 0.24);
+  pointer-events: none;
+  z-index: -1;
+}
+.holo__micro span:nth-child(2) {
+  transform: translateX(-3.4em);
+}
+
+/* 没有指针时：同一张镭射位图盖在上面，自己很慢地平移（一次 7s，来回），像卡片在手里轻轻转。
+   指针一来就淡出，露出底下跟指针走的那一层。动的是 background-position，不依赖 @property */
+.holo__shimmer {
+  position: absolute;
+  inset: 0;
+  /* 在缩微字（-1）之下：位图不透明，压在上面会把缩微字整行盖掉 */
+  z-index: -2;
+  pointer-events: none;
+}
+/* 只在位图落地时才有这一层；平印版不需要平移，也不该再叠一层白底印 */
+.holo.has-tex .holo__shimmer {
+  background-image:
+    linear-gradient(rgba(251, 250, 247, 0.22), rgba(251, 250, 247, 0.22)),
+    var(--tex-holo);
+  background-size: 100% 100%, 320% auto;
+  background-repeat: no-repeat;
+  background-position: 0 0, 15% 40%;
+  animation: holo-idle 7s ease-in-out infinite alternate;
+  transition: opacity 400ms var(--ease-out);
+}
+.holo.is-live .holo__shimmer {
+  opacity: 0;
+}
+@keyframes holo-idle {
+  from {
+    background-position: 0 0, 15% 40%;
+  }
+  to {
+    background-position: 0 0, 85% 60%;
+  }
+}
+
+/* 减少动态效果：一张静止的镭射面，不平移、不跟指针（Hologram.tsx 此时也不挂指针监听） */
+html.is-reduced .holo.has-tex .holo__shimmer {
+  animation: none;
+  background-position: 0 0, 50% 50%;
+}
+@media (prefers-reduced-motion: reduce) {
+  .holo {
+    transition: none;
+  }
+  .holo.has-tex .holo__shimmer {
+    animation: none;
+    background-position: 0 0, 50% 50%;
+  }
+}

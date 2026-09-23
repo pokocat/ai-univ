@@ -1,0 +1,172 @@
+{
+  "schemaVersion": 1,
+  "meta": {
+    "sample": true,
+    "asOf": "2026-10-01T09:00:00+08:00",
+    "timezone": "Asia/Shanghai",
+    "devNote": "preview.json 整份为演示数据，排序按 asOf 这一刻的服务端规则排好；界面按 status 字段原样渲染课程状态，不用设备时钟推算。"
+  },
+  "terminology": {
+    "sample": false,
+    "identity": {
+      "PRO会员": "会员",
+      "尊享官": "尊享会员"
+    }
+  },
+  "apiFields": [
+    { "path": "announcements.items[].publish_at", "treatment": "stamp", "sample": true, "devNote": "演示发布日期" },
+    { "path": "announcements.items[].read_count", "treatment": "hide", "sample": true, "devNote": "阅读人数属于读数，游客态不展示；值恒为 0 只为保持形状" },
+    { "path": "courses[].id", "treatment": "structural", "sample": false, "devNote": "主键，只用于路由与关联" },
+    { "path": "courses[].speaker", "treatment": "fictional", "sample": true, "devNote": "虚构讲师，所在屏须有样张章" },
+    { "path": "courses[].speaker_title", "treatment": "fictional", "sample": true, "devNote": "虚构头衔，随讲师一起处理" },
+    { "path": "courses[].scheduled_at", "treatment": "stamp", "sample": true, "devNote": "演示排期" },
+    { "path": "courses[].ends_at", "treatment": "stamp", "sample": true, "devNote": "演示排期" },
+    { "path": "courses[].total_minutes", "treatment": "stamp", "sample": true, "devNote": "演示时长" },
+    { "path": "courses[].chapter_count", "treatment": "stamp", "sample": true, "devNote": "演示讲次" },
+    { "path": "courses[].enrolled_count", "treatment": "hide", "sample": true, "devNote": "报名人数属于读数，不编会员数；值恒为 0 只为保持形状" },
+    { "path": "courseTypes[].sort_order", "treatment": "structural", "sample": false, "devNote": "字典排序键" },
+    { "path": "plans[].duration_days", "treatment": "stamp", "sample": true, "devNote": "演示档期" },
+    { "path": "plans[].price_cents", "treatment": "stamp", "sample": true, "devNote": "演示定价，单位分" },
+    { "path": "plans[].ios_price_cents", "treatment": "stamp", "sample": true, "devNote": "为 null 表示与安卓同价" },
+    { "path": "plans[].list_price_cents", "treatment": "stamp", "sample": true, "devNote": "为 null 表示无划线价，界面不显示原价与省多少" },
+    { "path": "plans[].sort_order", "treatment": "structural", "sample": false, "devNote": "排序键" },
+    { "path": "benefits[].quota_per_month", "treatment": "stamp", "sample": true, "devNote": "演示配额，是目录值不是个人余量" },
+    { "path": "benefits[].sort_order", "treatment": "structural", "sample": false, "devNote": "排序键" }
+  ],
+  "expo": {
+    "status": "拟定",
+    "window": { "from": "2026-10-10", "to": "2026-10-12" },
+    "factKeys": ["expo.name", "expo.dates", "expo.venue", "expo.zone", "expo.conference"]
+  },
+  "plansNotice": {
+    "sample": true,
+    "text": "价格为演示，正式定价与开通以小程序内为准"
+  },
+  "special": {
+    "sample": false,
+    "tag": "体重管理特辑",
+    "title": "体重管理特辑",
+    "dek": "给体重管理工作室，也给兼做体重管理的美容门店：把服务流程、顾客沟通和合规边界做扎实。",
+    "disclaimer": "特辑只讨论门店服务流程、顾客沟通与合规边界，不涉及任何效果承诺，不展示个人身体信息。",
+    "schedule": {
+      "status": "拟定",
+      "timezone": "Asia/Shanghai",
+      "calendarName": "体重管理特辑 · 展期日程（拟定）",
+      "eventPrefix": "【拟定】",
+      "eventNote": "本日程为拟定，时间与地点以开展前的通知为准。",
+      "notice": "以下日程均为拟定，时间与地点以开展前的通知为准；存到本机不等于报名。",
+      "items": [
+        {
+          "id": "ts-01",
+          "date": "2026-10-10",
+          "start": "10:30",
+          "end": "11:30",
+          "title": "展区同行导览",
+          "venue": "北京国际会议中心 · 体重管理展区（集合点开展前通知）",
+          "kind": "onsite",
+          "status": "拟定",
+          "note": "按门店类型分组走展，只看服务与经营相关的展位",
+          "courseId": null
+        },
+        {
+          "id": "ts-02",
+          "date": "2026-10-10",
+          "start": "20:30",
+          "end": "21:30",
+          "title": "特辑直播：服务流程",
+          "venue": "线上直播 · 小程序内观看",
+          "kind": "online",
+          "status": "拟定",
+          "note": null,
+          "courseId": 3403
+        },
+        {
+          "id": "ts-03",
+          "date": "2026-10-11",
+          "start": "14:00",
+          "end": "15:30",
+          "title": "闭门分享：门店服务合规自查",
+          "venue": "北京国际会议中心周边 · 地点待定",
+          "kind": "onsite",
+          "status": "拟定",
+          "note": "尊享会员按场次预约，地点以预约确认为准",
+          "courseId": null
+        },
+        {
+          "id": "ts-04",
+          "date": "2026-10-11",
+          "start": "20:30",
+          "end": "21:30",
+          "title": "特辑直播：顾客沟通",
+          "venue": "线上直播 · 小程序内观看",
+          "kind": "online",
+          "status": "拟定",
+          "note": null,
+          "courseId": 3404
+        },
+        {
+          "id": "ts-05",
+          "date": "2026-10-12",
+          "start": "10:00",
+          "end": "11:00",
+          "title": "特辑现场答疑",
+          "venue": "北京国际会议中心 · 集合点待定",
+          "kind": "onsite",
+          "status": "拟定",
+          "note": "带着三天里遇到的问题来，特辑讲师现场答疑",
+          "courseId": null
+        }
+      ]
+    },
+    "sachet": {
+      "sample": false,
+      "kicker": "附赠小样",
+      "title": "体重管理特辑",
+      "dek": "展期三天的同行日程，撕开存进手机日历",
+      "ingredients": [
+        { "label": "展区同行导览", "refs": ["ts-01"], "sample": false },
+        { "label": "特辑直播", "refs": ["ts-02", "ts-04"], "sample": false },
+        { "label": "闭门分享", "refs": ["ts-03"], "sample": false },
+        { "label": "现场答疑", "refs": ["ts-05"], "sample": false }
+      ],
+      "usage": ["沿虚线撕开", "选择加入日历，日程存到本机", "日程为拟定，以开展前的通知为准"],
+      "tearHint": "沿虚线撕开",
+      "tearAction": "撕下存日程",
+      "tornStamp": "已存到本机"
+    }
+  },
+  "contents": [
+    { "label": "直播课", "detail": "晚间线上直播，错过可看回放", "source": "courseType:直播课", "sample": false },
+    { "label": "录播课", "detail": "按讲次整理，配套课件", "source": "courseType:录播课", "sample": false },
+    { "label": "训练营", "detail": "按周上课，作业由服务老师点评", "source": "courseType:训练营", "sample": false },
+    { "label": "班级群", "detail": "按门店类型与城市分班", "source": "benefit:cohort_group", "sample": false },
+    { "label": "服务老师", "detail": "开通后一对一答疑", "source": "benefit:advisor", "sample": false },
+    { "label": "权益目录", "detail": "按会员档位写明可用范围", "source": "benefits", "sample": false },
+    { "label": "体重管理特辑", "detail": "附赠小样：展期同行日程（拟定）", "source": "special", "sample": false }
+  ],
+  "joinGuide": {
+    "sample": false,
+    "title": "开通后，怎么进班级群",
+    "steps": [
+      { "no": 1, "title": "在小程序开通", "detail": "选择会员方案并完成支付。本页只做说明，不登录、不收款。", "sample": false },
+      { "no": 2, "title": "添加服务老师", "detail": "开通后按页面提示，添加专属服务老师的企业微信。", "sample": false },
+      { "no": 3, "title": "安排班级", "detail": "服务老师按门店类型与所在城市安排班级。", "sample": false },
+      { "no": 4, "title": "进入班级群", "detail": "按服务老师发来的邀请，或小程序里显示的入群码进群；入群后先看群公告里的本月课表。", "sample": false }
+    ],
+    "qr": { "sample": true, "caption": "入群码样张 · 扫码不会进群" },
+    "notice": "入群码只在小程序内开通后显示；本页的二维码为样张。"
+  },
+  "memberCard": {
+    "sample": true,
+    "stamp": "样张",
+    "laser": "防伪样张",
+    "fields": [
+      { "label": "会员", "value": "林小满", "sample": true },
+      { "label": "门店", "value": "护肤工作室 · 北京", "sample": true },
+      { "label": "档位", "value": "正装 · 年度", "sample": true },
+      { "label": "有效期", "value": "开通之日起 365 天", "sample": true },
+      { "label": "编号", "value": "No. 000000", "sample": true }
+    ],
+    "footnote": "样张仅作展示，不对应任何真实会员，不能用于核验。"
+  }
+}

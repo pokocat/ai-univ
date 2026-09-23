@@ -1,0 +1,169 @@
+{
+  "schemaVersion": 1,
+  "world": "skincare-carton",
+  "themeColor": "#111A2C",
+  "tokens": {
+    "color": {
+      "carton": "#111A2C",
+      "carton-ground": "#081123",
+      "carton-raised": "#18233A",
+      "carton-deep": "#0B111E",
+      "on-carton": "#CDD1D8",
+      "on-carton-dim": "#8E97A6",
+      "foil": "#CDD1D8",
+      "foil-on-panel": "#A9B0BB",
+      "panel": "#F4F2ED",
+      "panel-object": "#FBFAF7",
+      "panel-alt": "#E9E6DF",
+      "ink": "#111A2C",
+      "ink-soft": "#3C4658",
+      "ink-mute": "#5A6475",
+      "rule": "rgba(17, 26, 44, 0.16)",
+      "action": "#B8283F",
+      "on-action": "#FBF5F1",
+      "action-ink": "#A3223A",
+      "ok": "#2F6A45",
+      "warn": "#8A5A12",
+      "glass-dark": "rgba(11, 17, 30, 0.58)",
+      "glass-panel": "rgba(244, 242, 237, 0.80)",
+      "qr-ground": "#FFFFFF",
+      "stage": "#070B14"
+    },
+    "font": {
+      "zh": "\"PingFang SC\", \"HarmonyOS Sans SC\", \"MiSans\", \"Noto Sans CJK SC\", \"Source Han Sans SC\", \"Microsoft YaHei\", sans-serif",
+      "latin": "\"Archivo Brand\", \"PingFang SC\", \"HarmonyOS Sans SC\", \"MiSans\", \"Noto Sans CJK SC\", \"Microsoft YaHei\", sans-serif"
+    },
+    "type": {
+      "micro": [
+        "12px",
+        "16px"
+      ],
+      "meta": [
+        "13px",
+        "20px"
+      ],
+      "body": [
+        "16px",
+        "26px"
+      ],
+      "lead": [
+        "18px",
+        "28px"
+      ],
+      "title": [
+        "22px",
+        "30px"
+      ],
+      "display": [
+        "28px",
+        "36px"
+      ],
+      "wordmark": [
+        "clamp(34px, 10.6vw, 46px)",
+        "1.1"
+      ]
+    },
+    "tracking": {
+      "wordmark": "0.42em",
+      "caps": "0.16em",
+      "label": "0.08em"
+    },
+    "space": {
+      "1": "4px",
+      "2": "8px",
+      "3": "12px",
+      "4": "16px",
+      "5": "24px",
+      "6": "32px",
+      "7": "48px",
+      "8": "64px",
+      "9": "96px"
+    },
+    "radius": {
+      "carton": "0px",
+      "tag": "2px",
+      "sheet": "16px"
+    },
+    "material": {
+      "grain": "0.04",
+      "hair": "1px",
+      "pearl-sheen": "linear-gradient(168deg, #F7F5F1 0%, #F3F1EC 38%, #F1F1F0 62%, #F5F1EE 100%)",
+      "foil-sheen": "linear-gradient(100deg, rgba(255,255,255,0) 30%, rgba(255,255,255,0.85) 50%, rgba(255,255,255,0) 70%)",
+      "glass-blur": "18px",
+      "sachet-foil": "linear-gradient(118deg, #C9CED6 0%, #EEF0F3 34%, #D5D9DF 52%, #F3F4F6 70%, #C3C8D0 100%)"
+    },
+    "motion": {
+      "press": "140ms",
+      "move": "360ms",
+      "sheet": "420ms",
+      "ceremony": "900ms",
+      "ease-out": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "ease-in": "cubic-bezier(0.4, 0, 1, 1)"
+    }
+  },
+  "facts": [
+    {
+      "key": "expo.name",
+      "label": "展会",
+      "value": "第34届北京国际美博会",
+      "status": "confirmed",
+      "source": "北京美博会官网秋季展公告（2026-06-04）"
+    },
+    {
+      "key": "expo.dates",
+      "label": "展期",
+      "value": "2026.10.10 – 10.12",
+      "status": "拟定",
+      "source": "官网公告；演示按拟定口径展示，以主办方最终公布为准"
+    },
+    {
+      "key": "expo.venue",
+      "label": "场馆",
+      "value": "北京国际会议中心",
+      "status": "拟定",
+      "source": "官网公告；演示按拟定口径展示，以主办方最终公布为准"
+    },
+    {
+      "key": "expo.zone",
+      "label": "展区",
+      "value": "体重管理展区",
+      "status": "拟定",
+      "source": "项目方资料（未公开）；展区划分以展馆图为准"
+    },
+    {
+      "key": "expo.conference",
+      "label": "同期",
+      "value": "2026减肥产业大会",
+      "status": "拟定",
+      "source": "官网同期论坛列表，标注拟定；日期、会场、议程未公布"
+    }
+  ],
+  "modules": {
+    "tabs": [
+      "home",
+      "plans",
+      "card",
+      "me"
+    ],
+    "home": [
+      "carton-front",
+      "side-contents",
+      "back-usage",
+      "sample-sachet",
+      "expo-facts",
+      "carton-bottom"
+    ]
+  },
+  "images": {
+    "window": {
+      "alt": "护肤静物示意：玻璃瓶与乳霜肌理，窗光",
+      "credit": "示意 · 生成图像，非实拍",
+      "license": "generated-preview"
+    },
+    "hall": {
+      "alt": "展馆通道示意：开展前的清晨，两侧空白展位，地面映着冷色天光",
+      "credit": "示意 · 生成图像，非实拍",
+      "license": "generated-preview"
+    }
+  }
+}

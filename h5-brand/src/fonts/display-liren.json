@@ -1,0 +1,364 @@
+{
+  "note": "由 scripts/subset-display.mjs 生成，勿手改；新增或改动展示字面后重跑该脚本",
+  "brand": "liren",
+  "family": "Brand Display SC",
+  "source": {
+    "name": "Noto Sans SC",
+    "file": "NotoSansSC[wght].ttf",
+    "repo": "google/fonts",
+    "path": "ofl/notosanssc",
+    "commit": "a85815a42757630ce188fdad368c2dfc444d4773",
+    "upstream": "notofonts/noto-cjk Sans2.004（523d033d）",
+    "sha256": "a3041811a78c361b1de50f953c805e0244951c21c5bd412f7232ef0d899af0da",
+    "license": "OFL-1.1",
+    "licenseFile": "OFL-NotoSansSC.txt"
+  },
+  "faces": [
+    {
+      "weight": 200,
+      "file": "display-liren-200.woff2",
+      "bytes": 20300,
+      "glyphs": 171,
+      "sha256": "03f92fee9eca064398d8c66771978f6280276fe06bb33bc2cabf89c9cacb19e9"
+    },
+    {
+      "weight": 400,
+      "file": "display-liren-400.woff2",
+      "bytes": 20744,
+      "glyphs": 171,
+      "sha256": "0424c1ef1da0ea847239dd47d8932741efa4e529349d0fa555069e25a13b0ffc"
+    }
+  ],
+  "count": 155,
+  "chars": " -.0123456789–—、。「」【】一与个丽么享人从会位体你使信入公六内决准初到前务单博卡后含员周品四回备复季安定客容尊小展工带年店度开张录怎息情我所把拉排教新方明暂服期本权样格案楚次正沟法流清特班理用甲界的益盒盘目着睫礼社程管篇级给美群营装规讲访证试详说课购赠辑边进选通逛采重长门问附项顾验！（），：？",
+  "delegated": {
+    "font": "Archivo Brand",
+    "chars": "·"
+  },
+  "strings": [
+    {
+      "text": "丽人公社",
+      "from": "brand.json name"
+    },
+    {
+      "text": "暂定",
+      "from": "brand.json nameNote"
+    },
+    {
+      "text": "本期",
+      "from": "router.ts ROUTES.title"
+    },
+    {
+      "text": "会员方案",
+      "from": "router.ts ROUTES.title"
+    },
+    {
+      "text": "会员证样张",
+      "from": "router.ts ROUTES.title"
+    },
+    {
+      "text": "我的",
+      "from": "router.ts ROUTES.title"
+    },
+    {
+      "text": "课程详情",
+      "from": "router.ts ROUTES.title"
+    },
+    {
+      "text": "权益",
+      "from": "router.ts ROUTES.title"
+    },
+    {
+      "text": "入群说明",
+      "from": "router.ts ROUTES.title"
+    },
+    {
+      "text": "权益",
+      "from": "src/screens/Benefits.tsx:74 <Panel title>"
+    },
+    {
+      "text": "会员证样张",
+      "from": "src/screens/Card.tsx:33 <PanelHead title>"
+    },
+    {
+      "text": "丽人公社",
+      "from": "src/screens/Card.tsx:54 .mcard__word {identity.name}"
+    },
+    {
+      "text": "展前",
+      "from": "src/screens/CourseDetail.tsx:96 .lf-art__line {l}"
+    },
+    {
+      "text": "清单",
+      "from": "src/screens/CourseDetail.tsx:96 .lf-art__line {l}"
+    },
+    {
+      "text": "服务",
+      "from": "src/screens/CourseDetail.tsx:96 .lf-art__line {l}"
+    },
+    {
+      "text": "边界",
+      "from": "src/screens/CourseDetail.tsx:96 .lf-art__line {l}"
+    },
+    {
+      "text": "服务",
+      "from": "src/screens/CourseDetail.tsx:96 .lf-art__line {l}"
+    },
+    {
+      "text": "流程",
+      "from": "src/screens/CourseDetail.tsx:96 .lf-art__line {l}"
+    },
+    {
+      "text": "顾客",
+      "from": "src/screens/CourseDetail.tsx:96 .lf-art__line {l}"
+    },
+    {
+      "text": "沟通",
+      "from": "src/screens/CourseDetail.tsx:96 .lf-art__line {l}"
+    },
+    {
+      "text": "展后",
+      "from": "src/screens/CourseDetail.tsx:96 .lf-art__line {l}"
+    },
+    {
+      "text": "复盘",
+      "from": "src/screens/CourseDetail.tsx:96 .lf-art__line {l}"
+    },
+    {
+      "text": "复购",
+      "from": "src/screens/CourseDetail.tsx:96 .lf-art__line {l}"
+    },
+    {
+      "text": "六讲",
+      "from": "src/screens/CourseDetail.tsx:96 .lf-art__line {l}"
+    },
+    {
+      "text": "排班",
+      "from": "src/screens/CourseDetail.tsx:96 .lf-art__line {l}"
+    },
+    {
+      "text": "工位",
+      "from": "src/screens/CourseDetail.tsx:96 .lf-art__line {l}"
+    },
+    {
+      "text": "店长",
+      "from": "src/screens/CourseDetail.tsx:96 .lf-art__line {l}"
+    },
+    {
+      "text": "带教营",
+      "from": "src/screens/CourseDetail.tsx:96 .lf-art__line {l}"
+    },
+    {
+      "text": "展前准备：带着清单逛美博会",
+      "from": "src/screens/CourseDetail.tsx:104 <h1> {c.title}"
+    },
+    {
+      "text": "体重管理特辑 · 开篇：门店的服务边界",
+      "from": "src/screens/CourseDetail.tsx:104 <h1> {c.title}"
+    },
+    {
+      "text": "体重管理特辑 · 服务流程：从初次到店到回访",
+      "from": "src/screens/CourseDetail.tsx:104 <h1> {c.title}"
+    },
+    {
+      "text": "体重管理特辑 · 顾客沟通：把服务内容讲清楚",
+      "from": "src/screens/CourseDetail.tsx:104 <h1> {c.title}"
+    },
+    {
+      "text": "展后复盘：样品试用与采购决定",
+      "from": "src/screens/CourseDetail.tsx:104 <h1> {c.title}"
+    },
+    {
+      "text": "会员复购六讲：从体验项目到年卡",
+      "from": "src/screens/CourseDetail.tsx:104 <h1> {c.title}"
+    },
+    {
+      "text": "美甲美睫门店的排班与工位安排",
+      "from": "src/screens/CourseDetail.tsx:104 <h1> {c.title}"
+    },
+    {
+      "text": "店长带教营：四周把服务流程带给新店员",
+      "from": "src/screens/CourseDetail.tsx:104 <h1> {c.title}"
+    },
+    {
+      "text": "（",
+      "from": "src/screens/Home.tsx:105 <h1>"
+    },
+    {
+      "text": "）",
+      "from": "src/screens/Home.tsx:105 <h1>"
+    },
+    {
+      "text": "丽人公社",
+      "from": "src/screens/Home.tsx:105 <h1> {identity.name}"
+    },
+    {
+      "text": "暂定",
+      "from": "src/screens/Home.tsx:105 <h1> {identity.nameNote}"
+    },
+    {
+      "text": "丽人公社",
+      "from": "src/screens/Home.tsx:106 .cf-wordmark__foil {identity.name}"
+    },
+    {
+      "text": "本期所含",
+      "from": "src/screens/Home.tsx:141 <Panel title>"
+    },
+    {
+      "text": "使用方法",
+      "from": "src/screens/Home.tsx:190 <Panel title>"
+    },
+    {
+      "text": "附赠小样",
+      "from": "src/screens/Home.tsx:225 <Panel title>"
+    },
+    {
+      "text": "展会信息",
+      "from": "src/screens/Home.tsx:234 <Panel title>"
+    },
+    {
+      "text": "选一个方案，开通后顾问拉你进班级群。",
+      "from": "src/screens/Home.tsx:246 .cb-line"
+    },
+    {
+      "text": "丽人公社",
+      "from": "src/screens/Home.tsx:270 .cb-mark {identity.name}"
+    },
+    {
+      "text": "开通后，怎么进班级群",
+      "from": "src/screens/JoinGuide.tsx:45 <Panel title> {g.title}"
+    },
+    {
+      "text": "我的",
+      "from": "src/screens/Me.tsx:75 <h1>"
+    },
+    {
+      "text": "本盒目录",
+      "from": "src/screens/Me.tsx:104 <Panel title>"
+    },
+    {
+      "text": "会员方案",
+      "from": "src/screens/Plans.tsx:122 <h1>"
+    },
+    {
+      "text": "规格说明",
+      "from": "src/screens/Plans.tsx:135 <Panel title>"
+    },
+    {
+      "text": "丽人公社",
+      "from": "src/screens/Plans.tsx:156 .pl-box__mark {identity.name}"
+    },
+    {
+      "text": "展前准备：带着清单逛美博会",
+      "from": "preview.json courses[3401].title"
+    },
+    {
+      "text": "体重管理特辑 · 开篇：门店的服务边界",
+      "from": "preview.json courses[3402].title"
+    },
+    {
+      "text": "体重管理特辑 · 服务流程：从初次到店到回访",
+      "from": "preview.json courses[3403].title"
+    },
+    {
+      "text": "体重管理特辑 · 顾客沟通：把服务内容讲清楚",
+      "from": "preview.json courses[3404].title"
+    },
+    {
+      "text": "展后复盘：样品试用与采购决定",
+      "from": "preview.json courses[3405].title"
+    },
+    {
+      "text": "会员复购六讲：从体验项目到年卡",
+      "from": "preview.json courses[3406].title"
+    },
+    {
+      "text": "美甲美睫门店的排班与工位安排",
+      "from": "preview.json courses[3407].title"
+    },
+    {
+      "text": "店长带教营：四周把服务流程带给新店员",
+      "from": "preview.json courses[3408].title"
+    },
+    {
+      "text": "展前",
+      "from": "preview.json courses[].cover_text"
+    },
+    {
+      "text": "清单",
+      "from": "preview.json courses[].cover_text"
+    },
+    {
+      "text": "服务",
+      "from": "preview.json courses[].cover_text"
+    },
+    {
+      "text": "边界",
+      "from": "preview.json courses[].cover_text"
+    },
+    {
+      "text": "服务",
+      "from": "preview.json courses[].cover_text"
+    },
+    {
+      "text": "流程",
+      "from": "preview.json courses[].cover_text"
+    },
+    {
+      "text": "顾客",
+      "from": "preview.json courses[].cover_text"
+    },
+    {
+      "text": "沟通",
+      "from": "preview.json courses[].cover_text"
+    },
+    {
+      "text": "展后",
+      "from": "preview.json courses[].cover_text"
+    },
+    {
+      "text": "复盘",
+      "from": "preview.json courses[].cover_text"
+    },
+    {
+      "text": "复购",
+      "from": "preview.json courses[].cover_text"
+    },
+    {
+      "text": "六讲",
+      "from": "preview.json courses[].cover_text"
+    },
+    {
+      "text": "排班",
+      "from": "preview.json courses[].cover_text"
+    },
+    {
+      "text": "工位",
+      "from": "preview.json courses[].cover_text"
+    },
+    {
+      "text": "店长",
+      "from": "preview.json courses[].cover_text"
+    },
+    {
+      "text": "带教营",
+      "from": "preview.json courses[].cover_text"
+    },
+    {
+      "text": "体验装 · 季度",
+      "from": "preview.json plans[].name"
+    },
+    {
+      "text": "正装 · 年度",
+      "from": "preview.json plans[].name"
+    },
+    {
+      "text": "尊享礼盒 · 年度",
+      "from": "preview.json plans[].name"
+    },
+    {
+      "text": "开通后，怎么进班级群",
+      "from": "extras.json joinGuide.title"
+    }
+  ]
+}

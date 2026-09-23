@@ -1,0 +1,539 @@
+/* 本期：盒正面 / 侧板 / 背面 / 小样 / 展会信息 / 盒底 */
+
+.screen--home {
+  background: var(--c-carton);
+}
+
+/* —— 盒正面：上 62svh —— */
+.carton-front {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 62vh;
+  height: 62svh;
+  min-height: 440px;
+  max-height: 680px;
+  padding-top: env(safe-area-inset-top);
+  /* 一盏柔光打在开窗上方，盒面其余部分沉下去 */
+  background-image: radial-gradient(120% 70% at 50% 34%, rgba(36, 48, 72, 0.9) 0%, rgba(17, 26, 44, 0) 62%),
+    var(--m-grain-img);
+  background-size: auto, 160px 160px;
+}
+
+.cf-face {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: var(--s6) calc(var(--gutter) + 10px) 0;
+  padding: 0 0 var(--s3);
+}
+
+.cf-top {
+  align-self: stretch;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--s3);
+}
+.cf-batch {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  font-family: var(--font-zh);
+  font-size: var(--fs-micro);
+  line-height: var(--lh-micro);
+  letter-spacing: 0.12em;
+  color: var(--c-on-carton-dim);
+}
+.cf-batch__no {
+  color: var(--c-on-carton);
+  letter-spacing: 0.18em;
+}
+.cf-stamp {
+  flex: none;
+}
+
+/* 开窗：刀版拱形窗，外侧一圈铂色压痕线 */
+.cf-window {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 120px;
+  width: min(58%, 232px);
+  margin-top: var(--s4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.cf-window__cut {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+  border-radius: 999px 999px 3px 3px;
+  overflow: hidden;
+  background: var(--c-carton-raised);
+  box-shadow: inset 0 10px 18px -8px rgba(7, 11, 20, 0.85), inset 0 0 0 1px rgba(7, 11, 20, 0.6);
+}
+.cf-window__cut::after {
+  /* 开窗内侧的覆膜反光：一道极淡的斜光，不压住画面 */
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 38%);
+  pointer-events: none;
+}
+.cf-window__cut.is-empty {
+  background: radial-gradient(90% 70% at 50% 30%, var(--c-carton-raised) 0%, var(--c-carton-deep) 100%);
+}
+.cf-window::before {
+  content: '';
+  position: absolute;
+  left: -6px;
+  right: -6px;
+  top: -6px;
+  bottom: calc(var(--lh-micro) + var(--s2) - 6px);
+  border: var(--hair) solid rgba(205, 209, 216, 0.55);
+  border-radius: 999px 999px 6px 6px;
+  pointer-events: none;
+}
+.cf-window__cut img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 40%;
+}
+.cf-window__caption {
+  flex: none;
+  margin-top: var(--s2);
+  font-size: var(--fs-micro);
+  line-height: var(--lh-micro);
+  color: var(--c-on-carton-dim);
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+/* 字标：超细、宽字距、铂色烫印 */
+.cf-wordmark {
+  flex: none;
+  margin-top: var(--s5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* 展示字体（自托管子集，200 档）：安卓微信没有超细系统字，交给系统字体字标会退成常规体 */
+  font-family: var(--font-display);
+  font-weight: 200;
+  color: var(--c-foil);
+  text-wrap: nowrap;
+}
+.cf-wordmark__foil {
+  position: relative;
+  display: block;
+  font-size: var(--fs-wordmark);
+  line-height: var(--lh-wordmark);
+  letter-spacing: var(--tr-wordmark);
+  /* 抵消末字后的字距，让字标视觉居中 */
+  margin-right: calc(var(--tr-wordmark) * -1);
+  font-weight: 200;
+}
+.cf-wordmark__note {
+  margin-top: var(--s1);
+  font-size: var(--fs-micro);
+  line-height: var(--lh-micro);
+  font-weight: 400;
+  letter-spacing: 0.3em;
+  color: var(--c-on-carton-dim);
+}
+.cf-audience {
+  flex: none;
+  margin-top: var(--s2);
+  font-family: var(--font-zh);
+  font-size: var(--fs-meta);
+  line-height: var(--lh-meta);
+  letter-spacing: 0.08em;
+  color: var(--c-on-carton-dim);
+}
+
+.cf-fold {
+  flex: none;
+  margin-top: var(--s3);
+}
+
+/* 盒舌：折线下垂的插舌刀版（两肩锁位 + 插舌折线 + 底边圆弧），胭脂印刷标签贴在插舌上。
+   高度 = 肩带 15/88 + 标签上下各 12px + 标签 44px ≈ 88px，与刀版画布同比 */
+.cf-tongue {
+  flex: none;
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  height: 88px;
+  padding: 28px 0 0;
+}
+.cf-flap {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: min(76%, 300px);
+  height: 100%;
+  transform: translateX(-50%);
+  overflow: visible;
+}
+.cf-flap__body {
+  fill: var(--c-carton-raised);
+}
+.cf-flap__cut,
+.cf-flap__fold {
+  fill: none;
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+/* 裁切边：实线铂色压痕 */
+.cf-flap__cut {
+  stroke: rgba(205, 209, 216, 0.5);
+}
+/* 插舌折线：与盒面折线同一种虚线 */
+.cf-flap__fold {
+  stroke: rgba(205, 209, 216, 0.4);
+  stroke-dasharray: 6 4;
+}
+
+/* 胭脂标签：模切的印刷标签——四角切斜、两端各一道 V 口，上下两道印刷细线。
+   平印，不做凸起、斜面或投影。形状画在 ::before 上而不是按钮本身：
+   clip-path 会连焦点框一起裁掉，放在底层就不碰焦点框 */
+.cf-cta {
+  position: relative;
+  isolation: isolate;
+  min-height: 44px;
+  padding: 0 var(--s5) 0 calc(var(--s5) + 4px);
+  background: transparent;
+  box-shadow: none;
+  border-radius: 0;
+}
+.cf-cta::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--c-action);
+  clip-path: polygon(
+    6px 0,
+    calc(100% - 6px) 0,
+    100% 6px,
+    100% calc(50% - 6px),
+    calc(100% - 7px) 50%,
+    100% calc(50% + 6px),
+    100% calc(100% - 6px),
+    calc(100% - 6px) 100%,
+    6px 100%,
+    0 calc(100% - 6px),
+    0 calc(50% + 6px),
+    7px 50%,
+    0 calc(50% - 6px),
+    0 6px
+  );
+}
+.cf-cta::after {
+  /* 印刷细线：只画上下两道，左右让给 V 口 */
+  content: '';
+  position: absolute;
+  inset: 4px 14px;
+  z-index: -1;
+  border-top: 1px solid rgba(251, 245, 241, 0.42);
+  border-bottom: 1px solid rgba(251, 245, 241, 0.42);
+  pointer-events: none;
+}
+
+/* —— 开盒仪式（本会话第一次，且未要求减少动态） —— */
+.is-intro .cf-fold {
+  transform-origin: 0 50%;
+  animation: cf-draw 700ms var(--ease-out) 120ms backwards;
+}
+.is-intro .crops {
+  animation: cf-fade 500ms var(--ease-out) 420ms backwards;
+}
+.is-intro .cf-window__cut img {
+  animation: cf-settle 1400ms var(--ease-out) backwards;
+}
+.is-intro .cf-cta {
+  animation: cf-press 560ms var(--ease-out) 760ms backwards;
+}
+.cf-wordmark__foil.is-sweep::after {
+  /* 铂箔过光：一次，1.4s，文字本身始终可见 */
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  color: transparent;
+  background: var(--m-foil-sheen) no-repeat;
+  background-size: 60% 100%;
+  background-position: -80% 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: cf-sweep 1400ms var(--ease-out) 380ms both;
+  pointer-events: none;
+}
+@keyframes cf-draw {
+  from {
+    transform: scaleX(0);
+  }
+}
+@keyframes cf-fade {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes cf-settle {
+  from {
+    transform: scale(1.06);
+    filter: blur(4px);
+  }
+}
+@keyframes cf-press {
+  from {
+    transform: translateY(8px);
+    filter: brightness(1.2);
+  }
+}
+@keyframes cf-sweep {
+  to {
+    background-position: 200% 0;
+  }
+}
+
+/* —— 侧板：本期所含 —— */
+.panel--side {
+  border-radius: 0;
+}
+.home-module[data-module='side-contents'] .panel {
+  padding-top: var(--s6);
+}
+.side-inci {
+  margin-top: var(--s5);
+}
+.side-sub {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s3);
+  margin-top: var(--s7);
+  padding-bottom: var(--s2);
+  border-bottom: var(--hair) solid var(--line);
+  font-family: var(--font-zh);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  font-weight: 600;
+  scroll-margin-top: var(--s4);
+}
+.side-sub .caps {
+  font-weight: 400;
+  color: var(--text-dim);
+}
+.schedule li {
+  border-bottom: var(--hair) solid var(--line-soft);
+}
+.schedule__row {
+  display: grid;
+  grid-template-columns: 3.4em 1fr auto;
+  align-items: baseline;
+  column-gap: var(--s3);
+  min-height: 56px;
+  padding: var(--s3) 0;
+  text-decoration: none;
+  color: inherit;
+}
+.schedule__row:active {
+  background-color: rgba(17, 26, 44, 0.05);
+}
+.schedule__date {
+  font-weight: 500;
+  color: var(--c-ink);
+}
+.schedule__body {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: var(--s2);
+  min-width: 0;
+}
+.schedule__body b {
+  font-family: var(--font-zh);
+  font-weight: 600;
+}
+.schedule__meta {
+  flex-basis: 100%;
+  color: var(--text-dim);
+}
+.schedule .inci__go {
+  align-self: center;
+}
+.schedule__empty {
+  padding: var(--s4) 0;
+  color: var(--text-dim);
+}
+.side-foot {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: var(--s4);
+  font-size: var(--fs-meta);
+  line-height: var(--lh-meta);
+  color: var(--text-dim);
+}
+.side-foot .stamp {
+  margin: 0;
+}
+
+/* —— 背面：使用方法 —— */
+.usage {
+  display: grid;
+  gap: 0;
+}
+.usage__step {
+  display: grid;
+  grid-template-columns: 44px 1fr;
+  column-gap: var(--s3);
+  padding: var(--s4) 0 var(--s5);
+  border-top: var(--hair) solid var(--line-soft);
+}
+.usage__step:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+.usage__no {
+  font-size: var(--fs-display);
+  line-height: 1;
+  font-weight: 200;
+  font-stretch: 125%;
+  color: var(--c-foil);
+}
+.usage__title {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  font-family: var(--font-zh);
+  font-size: var(--fs-lead);
+  line-height: var(--lh-lead);
+  font-weight: 600;
+  color: var(--c-on-carton);
+}
+.usage__title .icon {
+  color: var(--c-on-carton-dim);
+}
+.usage__text {
+  margin-top: var(--s1);
+  color: var(--c-on-carton-dim);
+}
+.usage__go {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  margin-top: var(--s1);
+  color: var(--c-on-carton);
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-color: rgba(205, 209, 216, 0.5);
+  text-underline-offset: 5px;
+}
+
+/* —— 小样 —— */
+.sachet-panel {
+  padding-bottom: var(--s7);
+}
+
+/* —— 展会信息 —— */
+.facts-panel {
+  padding-top: var(--s5);
+}
+/* 展馆示意图：印在侧板上的一张图，直角、一圈墨色细线框，图注与开窗同一句 */
+.expo-photo {
+  margin-bottom: var(--s5);
+}
+.expo-photo__print {
+  position: relative;
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  background: var(--c-carton-raised);
+}
+.expo-photo__print::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 0 0 0 var(--hair) var(--c-ink);
+  pointer-events: none;
+}
+.expo-photo__print img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.expo-photo__caption {
+  margin-top: var(--s2);
+  font-size: var(--fs-micro);
+  line-height: var(--lh-micro);
+  letter-spacing: 0.04em;
+  color: var(--c-ink-mute);
+}
+
+/* —— 盒底 —— */
+.carton-bottom {
+  position: relative;
+  padding: var(--s7) var(--gutter) var(--s8);
+}
+.cb-fold {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+}
+.cb-line {
+  font-family: var(--font-display);
+  font-size: var(--fs-title);
+  line-height: var(--lh-title);
+  font-weight: 200;
+  color: var(--c-on-carton);
+  text-wrap: balance;
+}
+.cb-cta {
+  margin-top: var(--s5);
+  width: 100%;
+  justify-content: space-between;
+}
+.cb-print {
+  margin-top: var(--s7);
+  border-top: var(--hair) solid rgba(205, 209, 216, 0.3);
+  font-size: var(--fs-meta);
+  line-height: var(--lh-meta);
+  color: var(--c-on-carton-dim);
+}
+.cb-print > div {
+  display: grid;
+  grid-template-columns: 3em 1fr;
+  column-gap: var(--s3);
+  padding: var(--s2) 0;
+  border-bottom: var(--hair) solid rgba(205, 209, 216, 0.16);
+}
+.cb-print dd {
+  color: var(--c-on-carton);
+}
+.cb-ph {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 0 4px;
+  border: var(--hair) dashed currentColor;
+  font-size: var(--fs-micro);
+  line-height: 16px;
+  color: var(--c-on-carton-dim);
+}
+.cb-mark {
+  margin-top: var(--s7);
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: var(--fs-title);
+  font-weight: 200;
+  letter-spacing: 0.5em;
+  margin-right: -0.5em;
+  color: var(--c-on-carton-dim);
+}

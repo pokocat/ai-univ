@@ -1,0 +1,150 @@
+/* 我的：黛蓝盒面上挂一枚礼盒吊牌（持有人留空），下接珠光白目录侧板 */
+
+/* —— 吊牌 —— */
+.me-tag {
+  padding: calc(var(--s8) + env(safe-area-inset-top)) calc(var(--gutter) + 10px) var(--s7);
+  /* 盖住外层盒面的颗粒，只留自己这一层（见 world.css） */
+  background-color: var(--c-carton-ground);
+  background-image: radial-gradient(120% 60% at 50% 20%, rgba(36, 48, 72, 0.85) 0%, rgba(17, 26, 44, 0) 65%),
+    var(--m-grain-img);
+  background-size: auto, 160px 160px;
+}
+.me-tag__card {
+  position: relative;
+  padding: var(--s5) var(--s4) var(--s4);
+  border: var(--hair) solid rgba(205, 209, 216, 0.55);
+  background: var(--c-carton-raised);
+}
+/* 吊牌穿孔：一个压出来的圆孔，孔边一圈铂色细线 */
+.me-tag__card::before {
+  content: '';
+  position: absolute;
+  top: var(--s4);
+  right: var(--s4);
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--c-carton-deep);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(205, 209, 216, 0.5);
+}
+.me-tag__title {
+  font-family: var(--font-display);
+  font-size: var(--fs-title);
+  line-height: var(--lh-title);
+  font-weight: 200;
+  letter-spacing: 0.3em;
+  color: var(--c-foil);
+}
+
+.me-tag__fields {
+  margin-top: var(--s4);
+  border-top: var(--hair) solid rgba(205, 209, 216, 0.35);
+}
+.me-tag__field {
+  display: grid;
+  grid-template-columns: 4em 1fr;
+  align-items: end;
+  column-gap: var(--s3);
+  padding: var(--s3) 0 var(--s2);
+}
+.me-tag__field dt {
+  font-family: var(--font-zh);
+  color: var(--c-on-carton-dim);
+}
+/* 填写栏：一条留空的书写线，下面小字写明为什么空着 */
+.me-tag__field dd {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.me-tag__blank {
+  display: block;
+  height: 22px;
+  border-bottom: var(--hair) solid var(--c-foil);
+}
+.me-tag__hint {
+  font-size: var(--fs-micro);
+  line-height: var(--lh-micro);
+  letter-spacing: 0.06em;
+  color: var(--c-on-carton-dim);
+}
+
+.me-tag__text {
+  margin-top: var(--s4);
+  color: var(--c-on-carton-dim);
+}
+.me-tag__cta {
+  width: 100%;
+  margin-top: var(--s5);
+  justify-content: space-between;
+}
+
+/* —— 目录侧板 —— */
+.me-index .inci__hit {
+  min-height: 64px;
+}
+.me-caret {
+  transition: transform var(--dur-move) var(--ease-out);
+}
+.me-caret.is-open {
+  transform: rotate(180deg);
+}
+.me-count .num {
+  font-weight: 600;
+  color: var(--c-ink);
+}
+
+/* 关于本演示：展开在行内，同一块侧板，不另起弹层 */
+.me-about {
+  padding: 0 0 var(--s4);
+}
+.me-about__list > div {
+  display: grid;
+  grid-template-columns: 4em 1fr;
+  column-gap: var(--s3);
+  padding: var(--s2) 0;
+  border-top: var(--hair) solid var(--line-soft);
+}
+.me-about__list dt {
+  font-family: var(--font-zh);
+  font-weight: 600;
+  color: var(--c-ink);
+}
+.me-about__list dd {
+  color: var(--c-ink-soft);
+}
+.me-about__list .stamp--sample {
+  margin: 0 2px;
+}
+.me-about__list .stamp--proposed {
+  margin: 0 2px;
+}
+
+.me-reset {
+  padding: 0 0 var(--s4);
+}
+.me-reset__text {
+  color: var(--c-ink-soft);
+}
+.me-reset__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s3);
+  margin-top: var(--s3);
+}
+.me-reset__go {
+  min-height: 44px;
+}
+.me-reset__actions .btn--quiet {
+  min-height: 44px;
+  padding: 0 var(--s3);
+}
+
+.me-foot {
+  margin-top: var(--s5);
+  font-size: var(--fs-meta);
+  line-height: var(--lh-meta);
+  color: var(--text-dim);
+}

@@ -1,0 +1,160 @@
+/* 入群说明：盒背面的使用方法。黛蓝盒面、铂色细线，步骤编号是超细宽体数字 */
+
+.screen[data-screen='join'] {
+  background-image: radial-gradient(110% 40% at 50% 0%, rgba(36, 48, 72, 0.7) 0%, rgba(17, 26, 44, 0) 70%),
+    var(--m-grain-img);
+  background-size: auto, 160px 160px;
+}
+
+.jg-panel {
+  padding-bottom: var(--s8);
+}
+
+/* 样张说明：章在左，一行说清这是示意 */
+.jg-legend {
+  padding: var(--s3) 0;
+  border-top: var(--hair) solid var(--line-soft);
+  border-bottom: var(--hair) solid var(--line-soft);
+  font-size: var(--fs-meta);
+  line-height: var(--lh-meta);
+  color: var(--c-on-carton-dim);
+}
+.jg-steps {
+  margin-top: var(--s5);
+}
+.jg-step {
+  display: grid;
+  grid-template-columns: 44px 1fr;
+  column-gap: var(--s3);
+  padding: var(--s5) 0;
+  border-top: var(--hair) solid var(--line-soft);
+}
+.jg-step:first-child {
+  border-top: 0;
+  padding-top: var(--s2);
+}
+.jg-step__no {
+  font-size: var(--fs-display);
+  line-height: 1;
+  font-weight: 200;
+  font-stretch: 125%;
+  color: var(--c-foil);
+}
+.jg-step--done .jg-step__no {
+  padding-top: 2px;
+}
+.jg-step__body {
+  min-width: 0;
+}
+.jg-step__title {
+  font-family: var(--font-zh);
+  font-size: var(--fs-lead);
+  line-height: var(--lh-lead);
+  font-weight: 600;
+  color: var(--c-on-carton);
+}
+.jg-step__text {
+  margin-top: var(--s1);
+  max-width: 34em;
+  color: var(--c-on-carton-dim);
+}
+
+/* 进度条样张：刀版上的一排压痕格 */
+.jg-strip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: var(--s3);
+  row-gap: var(--s2);
+  margin-top: var(--s3);
+}
+.jg-strip__cells {
+  display: inline-flex;
+  gap: 3px;
+}
+.jg-strip__cell {
+  width: 22px;
+  height: 6px;
+  border: var(--hair) solid rgba(205, 209, 216, 0.45);
+}
+.jg-strip__cell.is-done {
+  background: var(--c-foil);
+  border-color: var(--c-foil);
+}
+.jg-strip__cell.is-now {
+  border-color: var(--c-foil);
+  background-image: repeating-linear-gradient(
+    -45deg,
+    var(--c-foil) 0 1px,
+    transparent 1px 3px
+  );
+}
+/* 状态字样：印上去的一枚框，不是提示气泡 */
+.jg-strip__mark {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 0 var(--s2);
+  border: var(--hair) solid rgba(205, 209, 216, 0.6);
+  font-family: var(--font-zh);
+  font-size: var(--fs-meta);
+  line-height: var(--lh-meta);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--c-on-carton);
+}
+
+/* 入群码样张：纯白底，四周留白，不压纹理 */
+.jg-code {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--s3);
+  margin-top: var(--s5);
+}
+.jg-code__qr {
+  padding: 12px;
+  background: var(--c-qr-ground);
+  border-radius: var(--r-tag);
+  box-shadow: 0 0 0 1px rgba(205, 209, 216, 0.35), 0 16px 30px -22px rgba(0, 0, 0, 0.9);
+}
+.jg-code__qr .qr {
+  width: 176px;
+  height: 176px;
+}
+.jg-code__cap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--fs-meta);
+  line-height: var(--lh-meta);
+  color: var(--c-on-carton-dim);
+}
+.jg-code__cap .stamp {
+  margin: 0;
+}
+
+.jg-notice {
+  margin-top: var(--s2);
+  padding-top: var(--s4);
+  border-top: var(--hair) solid var(--line-soft);
+  font-size: var(--fs-meta);
+  line-height: var(--lh-meta);
+  color: var(--c-on-carton-dim);
+}
+
+.jg-cta {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--s2);
+  margin-top: var(--s6);
+}
+.jg-cta__action {
+  width: 100%;
+  justify-content: space-between;
+}
+.jg-cta__quiet {
+  align-self: center;
+  min-height: 44px;
+}

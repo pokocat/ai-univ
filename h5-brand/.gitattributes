@@ -1,0 +1,2 @@
+# 字体许可证必须与上游原文逐字节一致（test/fonts.test.mjs 按哈希校验），原文带行尾空格，这里只对它们关闭空白检查
+src/fonts/OFL*.txt -whitespace

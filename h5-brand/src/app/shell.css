@@ -1,0 +1,150 @@
+/* 外壳：机身列、底栏、返回栏。桌面宽屏时 430 列居中，四周是更深的展台色 */
+
+.app {
+  position: relative;
+  width: 100%;
+  max-width: 430px;
+  min-height: 100vh;
+  min-height: 100svh;
+  margin: 0 auto;
+  overflow-x: clip;
+}
+
+/* 底栏让位：内容高度 + 安全区 */
+.app--tab .screen {
+  padding-bottom: calc(56px + env(safe-area-inset-bottom));
+}
+
+@media (min-width: 521px) {
+  html,
+  body {
+    background: var(--c-stage);
+  }
+  .app {
+    box-shadow: 0 0 0 1px rgba(205, 209, 216, 0.08), 0 30px 80px -40px rgba(0, 0, 0, 0.9);
+  }
+}
+
+/* —— 底栏：盒底四格压印 —— */
+.tabbar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 40;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}
+.tabbar__list {
+  pointer-events: auto;
+  width: 100%;
+  max-width: 430px;
+  display: grid;
+  grid-template-columns: repeat(var(--tabs, 4), 1fr);
+  padding-bottom: env(safe-area-inset-bottom);
+  background-color: var(--c-carton-deep);
+  background-image: var(--m-grain-img);
+  background-size: 160px 160px;
+  border-top: var(--hair) solid rgba(205, 209, 216, 0.4);
+  box-shadow: 0 -14px 28px -22px rgba(7, 11, 20, 0.9);
+}
+.tabbar__item {
+  position: relative;
+}
+/* 分格：刀版虚线 */
+.tabbar__item + .tabbar__item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 12px;
+  bottom: 12px;
+  width: 1px;
+  background-image: linear-gradient(180deg, rgba(205, 209, 216, 0.28) 0 3px, transparent 3px 6px);
+  background-size: 1px 6px;
+}
+.tabbar__link {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  height: 56px;
+  color: var(--c-on-carton-dim);
+  text-decoration: none;
+  transition: color var(--dur-press) var(--ease-out);
+}
+.tabbar__label {
+  font-family: var(--font-zh);
+  font-size: var(--fs-micro);
+  line-height: 16px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+}
+/* 选中：铂色，顶边压出一枚插舌 */
+.tabbar__link.is-on {
+  color: var(--c-foil);
+}
+.tabbar__link.is-on .tabbar__label {
+  font-weight: 600;
+}
+.tabbar__link::after {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: 50%;
+  width: 28px;
+  height: 4px;
+  background: var(--c-foil);
+  clip-path: polygon(0 0, 100% 0, 84% 100%, 16% 100%);
+  transform: translateX(-50%) scaleX(0);
+  transition: transform var(--dur-move) var(--ease-out);
+}
+.tabbar__link.is-on::after {
+  transform: translateX(-50%) scaleX(1);
+}
+.tabbar__link:active {
+  filter: brightness(1.15);
+}
+.tabbar__link:focus-visible {
+  outline-offset: -4px;
+}
+
+/* —— 返回栏：仅非微信环境 —— */
+.backbar {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  display: grid;
+  grid-template-columns: 88px 1fr 88px;
+  align-items: center;
+  height: calc(48px + env(safe-area-inset-top));
+  padding-top: env(safe-area-inset-top);
+  color: var(--c-on-carton);
+  background-color: var(--c-glass-dark);
+  -webkit-backdrop-filter: blur(var(--m-glass-blur)) saturate(1.2);
+  backdrop-filter: blur(var(--m-glass-blur)) saturate(1.2);
+  border-bottom: var(--hair) solid rgba(205, 209, 216, 0.3);
+}
+.backbar__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  height: 44px;
+  padding: 0 var(--s3) 0 var(--s2);
+  font-size: var(--fs-body);
+  color: var(--c-on-carton);
+}
+.backbar__title {
+  text-align: center;
+  font-family: var(--font-zh);
+  font-size: var(--fs-body);
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.backbar :focus-visible {
+  outline-color: var(--c-foil);
+}

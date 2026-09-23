@@ -1,0 +1,7 @@
+文件：window.jpg
+标注：示意 · 生成图像，非实拍
+工具：Codex CLI imagegen（session_id=01a0cd99-de14-7de3-88b8-4f42633cebf7），2026-09-23；原图 PNG 经 sips 缩放并转 JPEG
+用途：丽人公社（暂定）品牌 H5 演示，仅供演示；正式使用前替换为授权实拍或正版图库
+
+生成提示词（原文）：
+Photographic still life, finish level of a luxury skincare campaign — calm, specific, restrained, never generic stock. A beauty professional's treatment room at early morning: a small group of frosted glass bottles and jars with NO labels, a neatly folded white cotton towel, a brushed-platinum tray; soft raking window light entering from the upper right; shallow depth of field with gentle falloff. Palette must harmonise with a deep near-black blue carton (#141A2B): cool blue-black shadows, pearl-white highlights, and exactly one small note of carmine red (#A8283C) — a single carmine glass dropper cap on one bottle. Portrait composition, 4:5. The lower-left 30% of the frame is calm, dark, uncluttered negative space (deep blue-black shadow) suitable for small overlaid type. Absolutely no text, letters, numbers, labels, logos or brand marks anywhere; no people, no faces, no hands. Objects physically plausible, not warped.

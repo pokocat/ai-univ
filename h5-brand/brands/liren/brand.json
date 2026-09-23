@@ -1,0 +1,31 @@
+{
+  "id": "liren",
+  "name": "丽人公社",
+  "nameNote": "暂定",
+  "nameLatin": "LIREN",
+  "audienceLabel": "美业门店老板与店长",
+  "audienceDetail": "美容 · 护肤 · 美甲 · 体重管理工作室",
+  "operator": {
+    "name": "运营主体待定",
+    "placeholder": true,
+    "note": "占位 · 签约后替换为正式运营主体"
+  },
+  "issue": {
+    "no": "34",
+    "latin": "No.34",
+    "label": "美博会特刊",
+    "batch": "LR-34-BBE"
+  },
+  "tabLabels": {
+    "home": "本期",
+    "plans": "方案",
+    "card": "会员证",
+    "me": "我的"
+  },
+  "handoff": {
+    "title": "下转小程序 · 开通",
+    "qrPayload": "丽人公社（暂定）会员小程序筹备中。本码为样张，扫码不会跳转、不收集信息。",
+    "note": "登录与支付在小程序内完成（筹备中），本页不收集信息"
+  },
+  "demoRibbon": "品牌演示 · 演示内容，不连接真实账户"
+}

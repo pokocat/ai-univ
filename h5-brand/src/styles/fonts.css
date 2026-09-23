@@ -1,0 +1,32 @@
+/* 中文展示字体：Noto Sans SC（OFL-1.1，简体字形）按品牌裁出的子集，只含展示位真的会出现的字。
+   由 scripts/subset-display.mjs 生成（清单 src/fonts/display-<品牌>.json，许可证 src/fonts/OFL-NotoSansSC.txt）；
+   新增或改动字标、页面标题、课程标题与封面字之后重跑它，test/fonts.test.mjs 会拦下漏跑。
+   族名刻意不叫 Noto：裁过的版本不沿用原名，也免得与系统里装着的完整版互相顶替。
+
+   只有两档字重，用的时候写明其中一档：
+   · 200：字标、课程封面字、超细标题。写 300 的规则会就近落到 200（浏览器按字重匹配规则向下找）。
+   · 400：课程标题这类需要常规字重的展示位。
+   写 600 及以上会被浏览器拿 400 伪粗，展示位不要这么写。
+
+   当前只有 liren 一个品牌，文件名写死在这里；第二个品牌上线前要把这两条 @font-face 挪进
+   scripts/brand.mjs 按 BRAND 生成，否则别的品牌会拿到 liren 的子集、缺的字静默回落系统字体（测试会先红）。 */
+@font-face {
+  font-family: 'Brand Display SC';
+  src: url('../fonts/display-liren-200.woff2') format('woff2');
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Brand Display SC';
+  src: url('../fonts/display-liren-400.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  /* 展示字体在前；间隔号「·」刻意不进子集（Noto 的是全角），由紧随其后的 Archivo 出，与全页其余的「·」一致；
+     最后是品牌令牌里的系统中文字体栈（--font-zh），子集之外的字从这里回落 */
+  --font-display: 'Brand Display SC', 'Archivo Brand', var(--font-zh);
+}

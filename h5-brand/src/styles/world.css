@@ -1,0 +1,48 @@
+/* 世界层：黛蓝盒面、珠光白面板、铂色细线的材质。颗粒图由品牌令牌构建期生成（--m-grain-img*） */
+
+:root {
+  --hair: 1px;
+  --gutter: 20px;
+}
+
+@media (min-resolution: 2dppx) {
+  :root {
+    --hair: 0.5px;
+  }
+}
+
+@media (max-width: 374px) {
+  :root {
+    --gutter: 16px;
+  }
+}
+
+/* 黛蓝盒面：主色大面积铺开，颗粒压进底色，随内容滚动。
+   颗粒是白色噪点，叠上去只会把底色整体提亮（grain 0.06 时实测 #111A2C 被抬到 #1F2839，读成石板灰）。
+   所以颗粒底下铺的是预先压暗的 carton-ground：底色 + 颗粒的平均值落回 carton（#111A2C），
+   与 html / body 那片不带颗粒的 carton 无缝衔接。改 grain 强度必须同步重算 carton-ground 并截图取样复核。
+   子元素要自带光晕 + 颗粒时，同样先铺 carton-ground 把父级的颗粒盖住，否则两层颗粒叠加再抬一倍 */
+.on-carton {
+  --line: var(--c-foil);
+  --line-soft: rgba(205, 209, 216, 0.3);
+  --text: var(--c-on-carton);
+  --text-dim: var(--c-on-carton-dim);
+  --stamp: var(--c-foil);
+  color: var(--c-on-carton);
+  background-color: var(--c-carton-ground);
+  background-image: var(--m-grain-img);
+  background-size: 160px 160px;
+}
+
+/* 珠光白面板：极淡的珠光走向 + 墨色颗粒 */
+.on-pearl {
+  --line: var(--c-ink);
+  --line-soft: var(--c-foil-on-panel);
+  --text: var(--c-ink);
+  --text-dim: var(--c-ink-mute);
+  --stamp: var(--c-ink-mute);
+  color: var(--c-ink);
+  background-color: var(--c-panel);
+  background-image: var(--m-grain-img-ink), var(--m-pearl-sheen);
+  background-size: 160px 160px, auto;
+}

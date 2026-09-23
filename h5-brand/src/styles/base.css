@@ -1,0 +1,211 @@
+/* 基础层：字体、重置、浏览器自带表面（选区、光标、焦点、滚动条、数字） */
+
+/* 拉丁与数字：Archivo（OFL），自托管子集，含 wdth 100–125 与 wght 200–700 两轴。许可证见同目录 OFL.txt */
+@font-face {
+  font-family: 'Archivo Brand';
+  src: url('../fonts/archivo-latin.woff2') format('woff2');
+  font-weight: 200 700;
+  font-stretch: 100% 125%;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0020-007E, U+00A5, U+00B7, U+00B0, U+00D7, U+2013-2014, U+2018-2019, U+201C-201D, U+2026, U+2116, U+2192;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  background: var(--c-carton);
+  color-scheme: light;
+  scroll-padding-top: 56px;
+  scrollbar-color: var(--c-on-carton-dim) var(--c-carton-deep);
+  scrollbar-width: thin;
+}
+
+html.is-locked {
+  overflow: hidden;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  min-height: 100svh;
+  background: var(--c-carton);
+  color: var(--c-ink);
+  font-family: var(--font-latin);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  font-kerning: normal;
+  font-variant-numeric: lining-nums;
+  line-break: strict;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-tap-highlight-color: transparent;
+  caret-color: var(--c-action);
+}
+
+::selection {
+  background: var(--c-ink);
+  color: var(--c-panel);
+}
+
+.on-carton ::selection,
+.on-carton::selection {
+  background: var(--c-foil);
+  color: var(--c-carton);
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--c-carton-deep);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--c-on-carton-dim);
+  border-radius: 3px;
+}
+
+h1,
+h2,
+h3,
+h4,
+p,
+ul,
+ol,
+dl,
+dd,
+figure {
+  margin: 0;
+}
+
+ul,
+ol {
+  padding: 0;
+  list-style: none;
+}
+
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+  font-weight: 600;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+:focus {
+  outline: none;
+}
+
+/* 焦点框是方角：这套盒面全是直角刀版，焦点框不另加圆角。
+   也不在这里改元素自身的 border-radius——框跟着元素原本的轮廓走，聚焦时元素不变形 */
+:focus-visible {
+  outline: 2px solid var(--c-ink);
+  outline-offset: 2px;
+}
+
+.on-carton :focus-visible {
+  outline-color: var(--c-foil);
+}
+
+/* —— 工具类 —— */
+
+/* 拉丁大写：包装上的宽体字距。只给拉丁串用，中文不加字距 */
+.caps {
+  font-family: var(--font-latin);
+  font-stretch: 125%;
+  font-weight: 500;
+  font-size: var(--fs-micro);
+  line-height: var(--lh-micro);
+  letter-spacing: var(--tr-caps);
+  text-transform: uppercase;
+}
+
+/* 拉丁宽体但保留原大小写（例：批号式期号 No.34） */
+.latin-wide {
+  font-family: var(--font-latin);
+  font-stretch: 125%;
+  font-weight: 500;
+  font-size: var(--fs-micro);
+  line-height: var(--lh-micro);
+  letter-spacing: var(--tr-caps);
+}
+
+/* 数字：等宽制表列 */
+.num {
+  font-family: var(--font-latin);
+  font-variant-numeric: tabular-nums lining-nums;
+  font-feature-settings: 'tnum' 1, 'lnum' 1;
+  font-stretch: 112%;
+}
+
+.sr-only {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip {
+  position: absolute;
+  left: var(--s4);
+  top: -48px;
+  z-index: 50;
+  padding: var(--s2) var(--s3);
+  background: var(--c-panel);
+  color: var(--c-ink);
+  font-size: var(--fs-meta);
+  transition: top var(--dur-press) var(--ease-out);
+}
+.skip:focus-visible {
+  top: var(--s2);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+    scroll-behavior: auto !important;
+  }
+}

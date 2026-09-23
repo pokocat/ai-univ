@@ -1,0 +1,313 @@
+{
+  "projectId": "liren-expo34",
+  "announcements": {
+    "items": [
+      {
+        "ann_no": "MSG20260922001",
+        "category": "活动",
+        "importance": "重要",
+        "title": "第34期 · 美博会特刊：展期三天怎么安排",
+        "summary": "本期围绕美博会编排：展前一场直播帮你列考察清单，展期内是体重管理特辑的同行日程，展后一场复盘课。特辑日程目前为拟定，有调整会先在这里更新。",
+        "source_name": "会务组",
+        "publish_at": "2026-09-22T10:00:00+08:00",
+        "pinned": true,
+        "read_count": 0
+      },
+      {
+        "ann_no": "MSG20260919001",
+        "category": "课程",
+        "importance": "普通",
+        "title": "十月课表已排定",
+        "summary": "十月的直播课、录播课和训练营，按门店经营、顾客沟通、服务设计三个方向排课。回放与课件在小程序内开通会员后查看。",
+        "source_name": "教务组",
+        "publish_at": "2026-09-19T18:00:00+08:00",
+        "pinned": false,
+        "read_count": 0
+      },
+      {
+        "ann_no": "MSG20260916001",
+        "category": "权益",
+        "importance": "普通",
+        "title": "权益目录更新：闭门分享与经营诊断",
+        "summary": "权益目录按会员档位写明可用范围。闭门分享按场次预约；经营诊断由服务老师一对一撰写，每月一次。",
+        "source_name": "会员服务组",
+        "publish_at": "2026-09-16T12:00:00+08:00",
+        "pinned": false,
+        "read_count": 0
+      },
+      {
+        "ann_no": "MSG20260912001",
+        "category": "系统",
+        "importance": "普通",
+        "title": "关于体重管理相关内容的发布原则",
+        "summary": "特辑只讨论门店服务流程、顾客沟通与合规边界，不涉及任何效果承诺，不展示个人身体信息；课程里的门店案例均已去除可识别信息。",
+        "source_name": "内容组",
+        "publish_at": "2026-09-12T09:30:00+08:00",
+        "pinned": false,
+        "read_count": 0
+      }
+    ],
+    "truncated": false
+  },
+  "courses": [
+    {
+      "id": 3401,
+      "title": "展前准备：带着清单逛美博会",
+      "speaker": "沈知秋",
+      "speaker_title": "连锁美容机构运营总监",
+      "summary": "列一张自己的考察清单：哪些品类只看不订、样品怎么带回门店试用、和供应商洽谈时先问哪几件事。",
+      "cover_text": "展前\n清单",
+      "course_type": "直播课",
+      "scheduled_at": "2026-10-08T20:00:00+08:00",
+      "ends_at": "2026-10-08T21:00:00+08:00",
+      "status": "已排期",
+      "total_minutes": 60,
+      "tags": ["展前准备", "门店经营"],
+      "replay_ready": false,
+      "enrolled_count": 0,
+      "chapter_count": 0
+    },
+    {
+      "id": 3402,
+      "title": "体重管理特辑 · 开篇：门店的服务边界",
+      "speaker": "韩素",
+      "speaker_title": "美业广告与消费合规顾问",
+      "summary": "从服务边界讲起：哪些话不能对顾客说、哪些承诺不能写进宣传物料，门店的体重管理服务应当落在饮食与作息习惯的陪伴上。",
+      "cover_text": "服务\n边界",
+      "course_type": "直播课",
+      "scheduled_at": "2026-10-09T20:00:00+08:00",
+      "ends_at": "2026-10-09T21:00:00+08:00",
+      "status": "已排期",
+      "total_minutes": 60,
+      "tags": ["体重管理特辑", "合规"],
+      "replay_ready": false,
+      "enrolled_count": 0,
+      "chapter_count": 0
+    },
+    {
+      "id": 3403,
+      "title": "体重管理特辑 · 服务流程：从初次到店到回访",
+      "speaker": "周启明",
+      "speaker_title": "体重管理工作室服务设计顾问",
+      "summary": "把一次服务拆成接待、需求沟通、方案说明、回访四步，每一步写清谁来做、说什么、交付什么，新店员也能照着做。",
+      "cover_text": "服务\n流程",
+      "course_type": "直播课",
+      "scheduled_at": "2026-10-10T20:30:00+08:00",
+      "ends_at": "2026-10-10T21:30:00+08:00",
+      "status": "已排期",
+      "total_minutes": 60,
+      "tags": ["体重管理特辑", "服务设计"],
+      "replay_ready": false,
+      "enrolled_count": 0,
+      "chapter_count": 0
+    },
+    {
+      "id": 3404,
+      "title": "体重管理特辑 · 顾客沟通：把服务内容讲清楚",
+      "speaker": "陈嘉禾",
+      "speaker_title": "区域连锁体重管理门店店长",
+      "summary": "用服务内容、到店频次和陪伴方式介绍项目，不做任何效果承诺；顾客问到身体情况时，如何建议对方先咨询专业医疗机构。",
+      "cover_text": "顾客\n沟通",
+      "course_type": "直播课",
+      "scheduled_at": "2026-10-11T20:30:00+08:00",
+      "ends_at": "2026-10-11T21:30:00+08:00",
+      "status": "已排期",
+      "total_minutes": 60,
+      "tags": ["体重管理特辑", "顾客沟通"],
+      "replay_ready": false,
+      "enrolled_count": 0,
+      "chapter_count": 0
+    },
+    {
+      "id": 3405,
+      "title": "展后复盘：样品试用与采购决定",
+      "speaker": "许曼",
+      "speaker_title": "护肤工作室创始人",
+      "summary": "把展会带回的样品放进门店试用两周，用一张表记下顾客反馈与成本，再决定进不进货、进多少。",
+      "cover_text": "展后\n复盘",
+      "course_type": "直播课",
+      "scheduled_at": "2026-10-13T20:00:00+08:00",
+      "ends_at": "2026-10-13T21:00:00+08:00",
+      "status": "已排期",
+      "total_minutes": 60,
+      "tags": ["展后复盘", "采购"],
+      "replay_ready": false,
+      "enrolled_count": 0,
+      "chapter_count": 0
+    },
+    {
+      "id": 3406,
+      "title": "会员复购六讲：从体验项目到年卡",
+      "speaker": "顾一帆",
+      "speaker_title": "美业门店经营顾问",
+      "summary": "体验项目怎么定价、第几次到店适合提出续卡、老顾客转介绍怎么致谢而不靠打折；附一份门店可直接改用的沟通话术。",
+      "cover_text": "复购\n六讲",
+      "course_type": "录播课",
+      "scheduled_at": "2026-10-14T12:00:00+08:00",
+      "ends_at": "2026-10-14T13:36:00+08:00",
+      "status": "已排期",
+      "total_minutes": 96,
+      "tags": ["复购", "门店经营"],
+      "replay_ready": false,
+      "enrolled_count": 0,
+      "chapter_count": 6
+    },
+    {
+      "id": 3407,
+      "title": "美甲美睫门店的排班与工位安排",
+      "speaker": "林映雪",
+      "speaker_title": "美甲连锁培训负责人",
+      "summary": "从预约表出发重排班次：高峰时段怎么分配技师，空档时间怎么安排培训与新品试色，减少顾客等位。",
+      "cover_text": "排班\n工位",
+      "course_type": "录播课",
+      "scheduled_at": "2026-10-16T12:00:00+08:00",
+      "ends_at": "2026-10-16T13:20:00+08:00",
+      "status": "已排期",
+      "total_minutes": 80,
+      "tags": ["美甲美睫", "门店经营"],
+      "replay_ready": false,
+      "enrolled_count": 0,
+      "chapter_count": 5
+    },
+    {
+      "id": 3408,
+      "title": "店长带教营：四周把服务流程带给新店员",
+      "speaker": "何岚",
+      "speaker_title": "连锁护肤品牌培训经理",
+      "summary": "每周一次线上课，加一次门店作业：接待话术、护理前沟通、护理后回访、投诉处理，作业由服务老师逐份点评。",
+      "cover_text": "店长\n带教营",
+      "course_type": "训练营",
+      "scheduled_at": "2026-10-19T20:00:00+08:00",
+      "ends_at": "2026-11-13T21:30:00+08:00",
+      "status": "已排期",
+      "total_minutes": 90,
+      "tags": ["训练营", "店长带教"],
+      "replay_ready": false,
+      "enrolled_count": 0,
+      "chapter_count": 4
+    }
+  ],
+  "courseTypes": [
+    { "type": "直播课", "sort_order": 1 },
+    { "type": "录播课", "sort_order": 2 },
+    { "type": "训练营", "sort_order": 3 }
+  ],
+  "plans": [
+    {
+      "plan_code": "MPLAN-LR34-TRIAL",
+      "name": "体验装 · 季度",
+      "plan_type": "membership",
+      "grant_identity": "PRO会员",
+      "duration_days": 90,
+      "price_cents": 39900,
+      "ios_price_cents": null,
+      "list_price_cents": null,
+      "summary": "三个月，先把直播课、班级群和服务老师用起来，看看是否适合自己的门店。",
+      "badge": null,
+      "recommended": false,
+      "sort_order": 1
+    },
+    {
+      "plan_code": "MPLAN-LR34-FULL",
+      "name": "正装 · 年度",
+      "plan_type": "membership",
+      "grant_identity": "PRO会员",
+      "duration_days": 365,
+      "price_cents": 128000,
+      "ios_price_cents": null,
+      "list_price_cents": null,
+      "summary": "一整年的课表、录播课件、门店资料库与训练营优先报名，适合打算带着店员长期学的门店。",
+      "badge": "本期推荐",
+      "recommended": true,
+      "sort_order": 2
+    },
+    {
+      "plan_code": "MPLAN-LR34-GIFT",
+      "name": "尊享礼盒 · 年度",
+      "plan_type": "membership",
+      "grant_identity": "尊享官",
+      "duration_days": 365,
+      "price_cents": 398000,
+      "ios_price_cents": null,
+      "list_price_cents": null,
+      "summary": "在年度会员之上，增加闭门分享预约与每月一次经营诊断。",
+      "badge": null,
+      "recommended": false,
+      "sort_order": 3
+    }
+  ],
+  "benefits": [
+    {
+      "code": "live_courses",
+      "name": "本期直播课",
+      "summary": "月度课表里的直播课随时进入，错过的场次可看回放",
+      "icon": "play",
+      "min_identity": "PRO会员",
+      "quota_per_month": null,
+      "sort_order": 1
+    },
+    {
+      "code": "replay_library",
+      "name": "录播课与课件",
+      "summary": "录播课程按讲次整理，配套课件可下载",
+      "icon": "book",
+      "min_identity": "PRO会员",
+      "quota_per_month": null,
+      "sort_order": 2
+    },
+    {
+      "code": "cohort_group",
+      "name": "班级群",
+      "summary": "按门店类型与所在城市分班，服务老师在群里组织答疑与作业",
+      "icon": "members",
+      "min_identity": "PRO会员",
+      "quota_per_month": null,
+      "sort_order": 3
+    },
+    {
+      "code": "advisor",
+      "name": "服务老师一对一",
+      "summary": "开通后添加专属服务老师的企业微信，课程与权益问题直接问",
+      "icon": "headset",
+      "min_identity": "PRO会员",
+      "quota_per_month": null,
+      "sort_order": 4
+    },
+    {
+      "code": "template_library",
+      "name": "门店资料库",
+      "summary": "接待、护理前沟通、回访等常用表单与流程模板，下载后按自家门店改用",
+      "icon": "folder",
+      "min_identity": "PRO会员",
+      "quota_per_month": null,
+      "sort_order": 5
+    },
+    {
+      "code": "camp_priority",
+      "name": "训练营优先报名",
+      "summary": "训练营开放报名时，会员优先选期",
+      "icon": "cap",
+      "min_identity": "PRO会员",
+      "quota_per_month": null,
+      "sort_order": 6
+    },
+    {
+      "code": "closed_door",
+      "name": "闭门分享",
+      "summary": "展期与城市站的小范围闭门分享，按场次预约",
+      "icon": "lock",
+      "min_identity": "尊享官",
+      "quota_per_month": null,
+      "sort_order": 7
+    },
+    {
+      "code": "store_diagnosis",
+      "name": "经营诊断",
+      "summary": "服务老师结合门店经营情况，一对一撰写诊断建议",
+      "icon": "doc",
+      "min_identity": "尊享官",
+      "quota_per_month": 1,
+      "sort_order": 8
+    }
+  ]
+}
