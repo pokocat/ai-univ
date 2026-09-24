@@ -133,7 +133,7 @@ components:
 
 # Design System: 品牌 H5 演示套件
 
-> 适用范围：仅 `h5-brand`。仓库根目录的 `DESIGN.md` 属于会员小程序（暖色世界），两套互不继承。
+> 适用范围：仅 `h5-brand`。本仓库其他目录（`主理人/` 会员小程序、`h5-liren/` 等）各有自己的视觉，与本套互不继承。
 > 令牌的唯一事实源是 `brands/<id>/h5.json`，由 `scripts/brand.mjs` 在构建期编译成 `--c-* / --fs-* / --lh-* / --tr-* / --s* / --r-* / --m-* / --dur-* / --ease-*`；本文件的 frontmatter 记录的是首个品牌 liren 的取值。
 
 ## Overview
